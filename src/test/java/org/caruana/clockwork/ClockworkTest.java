@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 
-public class EngineTest {
+public class ClockworkTest {
     
-    private static Logger logger = LoggerFactory.getLogger(EngineTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ClockworkTest.class);
 
     private String repo = "mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
