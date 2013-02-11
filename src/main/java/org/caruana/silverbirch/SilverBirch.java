@@ -1,7 +1,7 @@
-package org.caruana.clockwork;
+package org.caruana.silverbirch;
 
 
-public interface Clockwork {
+public interface SilverBirch {
     
     boolean createRepo(String repo);
     

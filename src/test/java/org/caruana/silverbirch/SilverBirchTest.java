@@ -1,10 +1,11 @@
-package org.caruana.clockwork;
+package org.caruana.silverbirch;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.caruana.clockwork.ClockworkException.ClockworkConnectionException;
-import org.caruana.clockwork.datomic.ClockworkImpl;
+import org.caruana.silverbirch.SilverBirch;
+import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
+import org.caruana.silverbirch.datomic.SilverBirchImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -12,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 
-public class ClockworkTest {
+public class SilverBirchTest {
     
-    private static Logger logger = LoggerFactory.getLogger(ClockworkTest.class);
+    private static Logger logger = LoggerFactory.getLogger(SilverBirchTest.class);
 
     private String repo = "mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -27,14 +28,14 @@ public class ClockworkTest {
     }
     
     
-    @Test(expected = ClockworkConnectionException.class)
+    @Test(expected = SilverBirchConnectionException.class)
     public void connectFailure()
     {
         profiler.start("connect");
-        Clockwork clockwork = new ClockworkImpl();
+        SilverBirch silverbirch = new SilverBirchImpl();
         try
         {
-            clockwork.connect(repo);
+            silverbirch.connect(repo);
         }
         finally
         {
@@ -45,15 +46,15 @@ public class ClockworkTest {
     @Test
     public void createRepo()
     {
-        Clockwork clockwork = new ClockworkImpl();
+        SilverBirch silverbirch = new SilverBirchImpl();
         
         profiler.start("create");
-        boolean created = clockwork.createRepo(repo);
+        boolean created = silverbirch.createRepo(repo);
         assertTrue(created);
         profiler.start("connect");;
-        clockwork.connect(repo);
+        silverbirch.connect(repo);
         profiler.start("createagain");
-        created = clockwork.createRepo(repo);
+        created = silverbirch.createRepo(repo);
         assertFalse(created);
         profiler.stop().log();
     }

@@ -1,4 +1,4 @@
-package org.caruana.clockwork;
+package org.caruana.silverbirch;
 
 public interface Connection {
 

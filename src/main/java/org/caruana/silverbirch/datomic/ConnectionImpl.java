@@ -1,6 +1,6 @@
-package org.caruana.clockwork.datomic;
+package org.caruana.silverbirch.datomic;
 
-import org.caruana.clockwork.Connection;
+import org.caruana.silverbirch.Connection;
 
 public class ConnectionImpl implements Connection {
     

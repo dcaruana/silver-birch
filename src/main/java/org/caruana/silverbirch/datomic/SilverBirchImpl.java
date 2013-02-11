@@ -1,16 +1,16 @@
-package org.caruana.clockwork.datomic;
+package org.caruana.silverbirch.datomic;
 
-import org.caruana.clockwork.Clockwork;
-import org.caruana.clockwork.ClockworkException.ClockworkConnectionException;
-import org.caruana.clockwork.Connection;
+import org.caruana.silverbirch.SilverBirch;
+import org.caruana.silverbirch.Connection;
+import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import datomic.Peer;
 
-public class ClockworkImpl implements Clockwork {
+public class SilverBirchImpl implements SilverBirch {
 
-    final Logger logger = LoggerFactory.getLogger(ClockworkImpl.class);
+    final Logger logger = LoggerFactory.getLogger(SilverBirchImpl.class);
     
     private static String PROTOCOL = "datomic:";
 
@@ -34,7 +34,7 @@ public class ClockworkImpl implements Clockwork {
     }
     
     public Connection connect(String repo)
-        throws ClockworkConnectionException
+        throws SilverBirchConnectionException
     {
         datomic.Connection conn;
 
@@ -52,7 +52,7 @@ public class ClockworkImpl implements Clockwork {
         }
         catch(clojure.lang.ExceptionInfo e)
         {
-            throw new ClockworkConnectionException(e);
+            throw new SilverBirchConnectionException(e);
         }
     }
 
