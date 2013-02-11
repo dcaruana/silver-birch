@@ -1,9 +1,9 @@
-package org.caruana.silverbirch.datomic;
+package org.caruana.silverbirch.server;
 
 import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
-import org.caruana.silverbirch.datomic.util.Datomic;
+import org.caruana.silverbirch.util.DatomicImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +24,8 @@ public class SilverBirchImpl implements SilverBirch {
         boolean created = Peer.createDatabase(PROTOCOL + repo);
         if (created)
         {
-            datomic.Connection conn = Peer.connect(PROTOCOL + repo);
-            Datomic.transact(conn, BOOTSTRAP_EDN + "storage_schema.edn");
+            ConnectionImpl conn = internalConnect(repo);
+            DatomicImpl.transact(conn.getConnection(), BOOTSTRAP_EDN + "storage_schema.edn");
             
             if (logger.isDebugEnabled())
                 logger.debug("Created repository {}", repo);
@@ -42,13 +42,18 @@ public class SilverBirchImpl implements SilverBirch {
     public Connection connect(String repo)
         throws SilverBirchConnectionException
     {
+        return internalConnect(repo);
+    }
+    
+    /*package*/ ConnectionImpl internalConnect(String repo)
+    {
         datomic.Connection conn;
-
-        if (logger.isDebugEnabled())
-            logger.debug("Connecting to repository {}", repo);
 
         try
         {
+            if (logger.isDebugEnabled())
+                logger.debug("Connected to repository {}", repo);
+            
             conn = Peer.connect(PROTOCOL + repo);
         
             if (logger.isDebugEnabled())

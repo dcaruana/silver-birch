@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.datomic.util;
+package org.caruana.silverbirch.util;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,8 +10,12 @@ import datomic.ListenableFuture;
 import datomic.Peer;
 
 
-public class Datomic {
-
+public class DatomicImpl
+{
+    public final static String DB_ID = ":db/id";
+    public final static String DB_PARTITION_USER = ":db.part/user";
+    
+    
     public static void transact(Connection conn, String txFile)
     {
         List tx = (List)Data.read(txFile).get(0);

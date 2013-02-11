@@ -1,12 +1,11 @@
-package org.caruana.silverbirch.datomic;
+package org.caruana.silverbirch.server;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.caruana.silverbirch.SilverBirch;
-import org.caruana.silverbirch.SilverBirchException;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
-import org.caruana.silverbirch.datomic.SilverBirchImpl;
+import org.caruana.silverbirch.server.SilverBirchImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -24,7 +23,7 @@ public class SilverBirchImplTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("EngineTest");
+        profiler = new Profiler("SilverBirchImplTest");
         profiler.setLogger(logger);
     }
     
