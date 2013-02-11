@@ -1,9 +1,10 @@
-package org.caruana.silverbirch;
+package org.caruana.silverbirch.datomic;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.caruana.silverbirch.SilverBirch;
+import org.caruana.silverbirch.SilverBirchException;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
 import org.caruana.silverbirch.datomic.SilverBirchImpl;
 import org.junit.Before;
@@ -13,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 
-public class SilverBirchTest {
+public class SilverBirchImplTest {
     
-    private static Logger logger = LoggerFactory.getLogger(SilverBirchTest.class);
+    private static Logger logger = LoggerFactory.getLogger(SilverBirchImplTest.class);
 
     private String repo = "mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;

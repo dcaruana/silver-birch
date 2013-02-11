@@ -3,6 +3,7 @@ package org.caruana.silverbirch.datomic;
 import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
+import org.caruana.silverbirch.datomic.util.Datomic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ public class SilverBirchImpl implements SilverBirch {
     final Logger logger = LoggerFactory.getLogger(SilverBirchImpl.class);
     
     private static String PROTOCOL = "datomic:";
-
+    private static String BOOTSTRAP_EDN = "/bootstrap/";
 
     public boolean createRepo(String repo)
     {
@@ -21,12 +22,17 @@ public class SilverBirchImpl implements SilverBirch {
             logger.debug("Creating repository {}", repo);
         
         boolean created = Peer.createDatabase(PROTOCOL + repo);
-        
-        if (logger.isDebugEnabled())
+        if (created)
         {
-            if (created)
+            datomic.Connection conn = Peer.connect(PROTOCOL + repo);
+            Datomic.transact(conn, BOOTSTRAP_EDN + "storage_schema.edn");
+            
+            if (logger.isDebugEnabled())
                 logger.debug("Created repository {}", repo);
-            else
+        }
+        else
+        {            
+            if (logger.isDebugEnabled())
                 logger.debug("Repository {} already exists", repo);
         }
         
