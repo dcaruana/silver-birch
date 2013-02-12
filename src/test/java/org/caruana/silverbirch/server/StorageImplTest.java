@@ -55,9 +55,9 @@ public class StorageImplTest {
         assertEquals(drive.getRootId(), drive.getId());
         assertEquals("test", drive.getName());
         profiler.start("hasChanges");
-        assertTrue(conn.hasChanges());
+        assertTrue(conn.transaction().hasChanges());
         profiler.start("apply");
-        conn.applyChanges();
+        conn.transaction().applyChanges();
         profiler.stop().log();
     }
     

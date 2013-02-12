@@ -1,23 +1,24 @@
 package org.caruana.silverbirch.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.Storage;
-import org.caruana.silverbirch.util.DatomicImpl;
+import org.caruana.silverbirch.Transaction;
 
 
 public class ConnectionImpl implements Connection {
     
     private datomic.Connection conn;
-    private List<Statement> statements;
-    
+    private TransactionImpl transaction;
+    private TransactionWrapper transactionWrapper;
+    private StorageImpl storage;
+
 
     public ConnectionImpl(datomic.Connection conn)
     {
         this.conn = conn;
-        this.statements = new ArrayList<Statement>();
+        this.transaction = new TransactionImpl();
+        this.transactionWrapper = new TransactionWrapper(transaction);
+        this.storage = new StorageImpl(this);
     }
     
     public datomic.Connection getConnection()
@@ -25,33 +26,50 @@ public class ConnectionImpl implements Connection {
         return conn;
     }
     
-    public void addStatement(Statement statement)
+    public TransactionImpl getTransaction()
     {
-        statements.add(statement);
+        return transaction;
     }
 
     @Override
-    public boolean hasChanges()
+    public Transaction transaction()
     {
-        return statements.size() > 0;
+        return transactionWrapper;
     }
-
+    
     @Override
-    public void applyChanges()
-    {
-        List transaction = new ArrayList();
-        for (Statement statement : statements)
-        {
-            List data = statement.data();
-            transaction.addAll(data);
-        }
-        DatomicImpl.transact(conn, transaction);
-        statements.clear();
-    }
-
     public Storage storage()
     {
-        return new StorageImpl(this);
+        return storage;
+    }
+    
+    
+    private class TransactionWrapper implements Transaction
+    {
+        private TransactionImpl transaction;
+        
+        private TransactionWrapper(TransactionImpl transaction)
+        {
+            this.transaction = transaction;
+        }
+
+        @Override
+        public boolean hasChanges()
+        {
+            return transaction.hasChanges();
+        }
+
+        @Override
+        public void clearChanges()
+        {
+            transaction.clearChanges();
+        }
+
+        @Override
+        public void applyChanges()
+        {
+            transaction.applyChanges(ConnectionImpl.this);
+        }
     }
     
 }

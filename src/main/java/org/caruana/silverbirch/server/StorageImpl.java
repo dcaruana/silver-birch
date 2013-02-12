@@ -22,7 +22,7 @@ public class StorageImpl implements Storage
     {
         CreateDrive cmd = new CreateDrive(conn.getConnection(), name);
         NodeImpl node = cmd.init();
-        conn.addStatement(cmd);
+        conn.getTransaction().addStatement(cmd);
         return node;
     }
 
