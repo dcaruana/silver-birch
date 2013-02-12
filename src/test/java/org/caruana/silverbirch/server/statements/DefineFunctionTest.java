@@ -48,8 +48,13 @@ public class DefineFunctionTest {
         profiler.start("createFunction");
         DefineFunction fn = new DefineFunction("test", new String[] {"db", "name"}, "/statements/test_fn.edn");
         transaction.addStatement(fn);
+        profiler.start("applyChanges");
+        transaction.applyChanges(conn);
         profiler.start("createInvoke");
         EDN invoke = new EDN("/statements/test_fn_invoke.edn");
+        transaction.addStatement(invoke);
+        profiler.start("applyChanges");
+        transaction.applyChanges(conn);
         transaction.addStatement(invoke);
         profiler.start("applyChanges");
         transaction.applyChanges(conn);
