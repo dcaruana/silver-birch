@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.caruana.silverbirch.statements.Statement;
 import org.caruana.silverbirch.util.DatomicImpl;
 import org.junit.Before;
 import org.junit.Test;

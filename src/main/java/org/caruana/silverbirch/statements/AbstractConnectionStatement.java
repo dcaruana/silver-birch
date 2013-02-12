@@ -1,8 +1,7 @@
 package org.caruana.silverbirch.statements;
 
-import org.caruana.silverbirch.server.Statement;
 
-/*protected*/ abstract class AbstractConnectionStatement implements Statement
+public abstract class AbstractConnectionStatement implements Statement
 {
     protected datomic.Connection conn;
     

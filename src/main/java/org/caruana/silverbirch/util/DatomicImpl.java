@@ -16,12 +16,6 @@ public class DatomicImpl
     public final static String DB_PARTITION_USER = ":db.part/user";
     
     
-    public static void transact(Connection conn, String txFile)
-    {
-        List tx = (List)Data.read(txFile).get(0);
-        transact(conn, tx);
-    }
-        
     public static void transact(Connection conn, List data)
     {
         ListenableFuture<Map> future = conn.transact(data);

@@ -1,10 +1,11 @@
-package org.caruana.silverbirch.statements;
+package org.caruana.silverbirch.statements.storage;
 
 import java.util.List;
 import java.util.Map;
 
 import org.caruana.silverbirch.data.NodeImpl;
 import org.caruana.silverbirch.server.StorageImpl;
+import org.caruana.silverbirch.statements.AbstractConnectionStatement;
 import org.caruana.silverbirch.util.DatomicImpl;
 
 import datomic.Peer;

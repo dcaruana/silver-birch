@@ -3,7 +3,7 @@ package org.caruana.silverbirch.server;
 import org.caruana.silverbirch.Node;
 import org.caruana.silverbirch.Storage;
 import org.caruana.silverbirch.data.NodeImpl;
-import org.caruana.silverbirch.statements.CreateDrive;
+import org.caruana.silverbirch.statements.storage.CreateDrive;
 
 public class StorageImpl implements Storage
 {

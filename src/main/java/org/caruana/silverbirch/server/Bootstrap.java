@@ -1,6 +1,6 @@
 package org.caruana.silverbirch.server;
 
-import org.caruana.silverbirch.util.DatomicImpl;
+import org.caruana.silverbirch.statements.util.EDN;
 
 public class Bootstrap 
 {
@@ -15,6 +15,11 @@ public class Bootstrap
     
     public void bootsrap()
     {
-        DatomicImpl.transact(conn.getConnection(), BOOTSTRAP_EDN + "storage_schema.edn");
+        TransactionImpl transaction = conn.getTransaction();
+        
+        EDN storageSchema = new EDN(BOOTSTRAP_EDN + "storage_schema.edn");
+        transaction.addStatement(storageSchema);
+
+        transaction.applyChanges(conn);
     }
 }
