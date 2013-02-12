@@ -24,7 +24,7 @@ public class SilverBirchImpl implements SilverBirch {
         {
             ConnectionImpl conn = internalConnect(repo);
             Bootstrap bootstrap = new Bootstrap(conn);
-            bootstrap.bootsrap();
+            bootstrap.bootstrap();
             
             if (logger.isDebugEnabled())
                 logger.debug("Created repository {}", repo);
@@ -44,7 +44,7 @@ public class SilverBirchImpl implements SilverBirch {
         return internalConnect(repo);
     }
     
-    /*package*/ ConnectionImpl internalConnect(String repo)
+    public ConnectionImpl internalConnect(String repo)
     {
         datomic.Connection conn;
 

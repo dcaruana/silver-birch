@@ -50,9 +50,9 @@ public class StorageImplTest {
         profiler.start("createDrive");
         Node drive = storage.createDrive("test");
         assertNotNull(drive);
-        assertNotNull(drive.getRootId());
+        assertNotNull(drive.getDriveId());
         assertNotNull(drive.getId());
-        assertEquals(drive.getRootId(), drive.getId());
+        assertEquals(drive.getDriveId(), drive.getId());
         assertEquals("test", drive.getName());
         profiler.start("hasChanges");
         assertTrue(conn.transaction().hasChanges());

@@ -6,5 +6,5 @@ public interface Node {
     
     String getName();
     
-    Object getRootId();
+    Object getDriveId();
 }

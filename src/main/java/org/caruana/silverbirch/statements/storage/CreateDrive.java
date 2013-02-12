@@ -36,7 +36,7 @@ public class CreateDrive extends AbstractConnectionStatement
         Map m = Util.map(
                     DatomicImpl.DB_ID, node.getId(),
                     StorageImpl.NODE_NAME, node.getName(), 
-                    StorageImpl.NODE_ROOT, node.getRootId()
+                    StorageImpl.NODE_ROOT, true
                 );
         List d = Util.list(m);
         return d;

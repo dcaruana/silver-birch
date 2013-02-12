@@ -1,12 +1,13 @@
 package org.caruana.silverbirch.server;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
 
+import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import org.caruana.silverbirch.statements.Statement;
 import org.caruana.silverbirch.util.DatomicImpl;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class TransactionImplTest {
     
     private static Logger logger = LoggerFactory.getLogger(TransactionImplTest.class);
 
-    private String repo = "mem://repo_" + System.currentTimeMillis();
+    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private ConnectionImpl conn;
     private TransactionImpl transaction;
@@ -38,11 +39,9 @@ public class TransactionImplTest {
     @Before
     public void initTransaction()
     {
-        SilverBirchImpl silverbirch = new SilverBirchImpl();
-        boolean created = silverbirch.createRepo(repo);
-        assertTrue(created);
-        conn = silverbirch.internalConnect(repo);
-        assertNotNull(conn);
+        Peer.createDatabase(repo);
+        datomic.Connection datomic = Peer.connect(repo);
+        conn = new ConnectionImpl(datomic);
         transaction = new TransactionImpl();
     }
     
@@ -55,6 +54,29 @@ public class TransactionImplTest {
         transaction.applyChanges(conn);
         profiler.start("hasChanges");
         assertFalse(transaction.hasChanges());
+        profiler.stop().log();
+    }
+
+    @Test
+    public void applyFailure()
+    {
+        profiler.start("hasChanges");
+        assertFalse(transaction.hasChanges());
+        profiler.start("addCommand");
+        transaction.addStatement(new BadCommand());
+        profiler.start("hasChanges");
+        assertTrue(transaction.hasChanges());
+        profiler.start("applyChanges");
+        try
+        {
+            transaction.applyChanges(conn);
+            fail("Failed to throw transaction exception");
+        }
+        catch(SilverBirchTransactionException e)
+        {
+        }
+        profiler.start("hasChanges");
+        assertTrue(transaction.hasChanges());
         profiler.stop().log();
     }
 
@@ -80,10 +102,18 @@ public class TransactionImplTest {
         public List data()
         {
             Map m = Util.map(
-                        DatomicImpl.DB_ID, Peer.tempid(DatomicImpl.DB_PARTITION_USER),
-                        StorageImpl.NODE_NAME, "test" + System.currentTimeMillis()
+                        DatomicImpl.DB_ID, Peer.tempid(DatomicImpl.DB_PARTITION_USER)
                     );
             return Util.list(m);
+        }
+    }
+
+    private static class BadCommand implements Statement
+    {
+        @Override
+        public List data()
+        {
+            return Util.list(Util.map(":test/invalid", "test"));
         }
     }
 

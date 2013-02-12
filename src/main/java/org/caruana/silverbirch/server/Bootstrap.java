@@ -13,7 +13,7 @@ public class Bootstrap
         this.conn = conn;
     }
     
-    public void bootsrap()
+    public void bootstrap()
     {
         TransactionImpl transaction = conn.getTransaction();
         

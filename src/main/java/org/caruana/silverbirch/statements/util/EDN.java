@@ -11,7 +11,7 @@ public class EDN implements Statement
     
     public EDN(String ednResource)
     {
-        data = Data.read(ednResource);
+        data = (List)Data.read(ednResource).get(0);
     }
     
     @Override

@@ -2,9 +2,15 @@ package org.caruana.silverbirch.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
+import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import org.caruana.silverbirch.statements.Statement;
+import org.caruana.silverbirch.util.Data;
 import org.caruana.silverbirch.util.DatomicImpl;
+
+import datomic.ListenableFuture;
 
 
 public class TransactionImpl {
@@ -40,8 +46,21 @@ public class TransactionImpl {
             List data = statement.data();
             transaction.addAll(data);
         }
-        DatomicImpl.transact(conn.getConnection(), transaction);
-
+        ListenableFuture<Map> future = DatomicImpl.transact(conn.getConnection(), transaction);
+        try
+        {
+            Map m = future.get();
+            //Data.print(future);
+        }
+        catch(ExecutionException e)
+        {
+            throw new SilverBirchTransactionException("Error executing transaction", e.getCause());
+        }
+        catch(InterruptedException e)
+        {
+            throw new SilverBirchTransactionException("Timeout during transaction", e);
+        }
+        
         clearChanges();
     }
 

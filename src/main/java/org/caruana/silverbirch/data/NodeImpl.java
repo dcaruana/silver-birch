@@ -5,27 +5,30 @@ import org.caruana.silverbirch.Node;
 
 public class NodeImpl implements Node
 {
-    private Object rootId;
+    private Object driveId;
     private Object id;
     private String name;
 
-    public NodeImpl(Object rootId, Object id, String name)
+    public NodeImpl(Object driveId, Object id, String name)
     {
-        this.rootId = rootId;
+        this.driveId = driveId;
         this.id = id;
         this.name = name;
     }
 
-    public Object getRootId()
+    @Override
+    public Object getDriveId()
     {
-        return rootId;
+        return driveId;
     }
     
+    @Override
     public Object getId()
     {
         return id;
     }
     
+    @Override
     public String getName()
     {
         return name;
