@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.commands;
+package org.caruana.silverbirch.statements;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import datomic.Peer;
 import datomic.Util;
 
 
-public class CreateDrive extends AbstractConnectionCommand
+public class CreateDrive extends AbstractConnectionStatement
 {
     private String name;
     private NodeImpl node;
@@ -24,7 +24,8 @@ public class CreateDrive extends AbstractConnectionCommand
 
     public NodeImpl init()
     {
-        node = new NodeImpl(Peer.tempid(DatomicImpl.DB_PARTITION_USER), name);
+        Object id = Peer.tempid(DatomicImpl.DB_PARTITION_USER);
+        node = new NodeImpl(id, id, name);
         return node;
     }
     
@@ -34,7 +35,7 @@ public class CreateDrive extends AbstractConnectionCommand
         Map m = Util.map(
                     DatomicImpl.DB_ID, node.getId(),
                     StorageImpl.NODE_NAME, node.getName(), 
-                    StorageImpl.NODE_ROOT, node.getId()
+                    StorageImpl.NODE_ROOT, node.getRootId()
                 );
         List d = Util.list(m);
         return d;

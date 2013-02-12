@@ -5,4 +5,6 @@ public interface Node {
     Object getId();
     
     String getName();
+    
+    Object getRootId();
 }

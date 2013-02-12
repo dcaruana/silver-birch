@@ -11,13 +11,13 @@ import org.caruana.silverbirch.util.DatomicImpl;
 public class ConnectionImpl implements Connection {
     
     private datomic.Connection conn;
-    private List<Command> commands;
+    private List<Statement> statements;
     
 
     public ConnectionImpl(datomic.Connection conn)
     {
         this.conn = conn;
-        this.commands = new ArrayList<Command>();
+        this.statements = new ArrayList<Statement>();
     }
     
     public datomic.Connection getConnection()
@@ -25,28 +25,28 @@ public class ConnectionImpl implements Connection {
         return conn;
     }
     
-    public void addCommand(Command cmd)
+    public void addStatement(Statement statement)
     {
-        commands.add(cmd);
+        statements.add(statement);
     }
 
     @Override
     public boolean hasChanges()
     {
-        return commands.size() > 0;
+        return statements.size() > 0;
     }
 
     @Override
     public void applyChanges()
     {
         List transaction = new ArrayList();
-        for (Command cmd : commands)
+        for (Statement statement : statements)
         {
-            List data = cmd.data();
+            List data = statement.data();
             transaction.addAll(data);
         }
         DatomicImpl.transact(conn, transaction);
-        commands.clear();
+        statements.clear();
     }
 
     public Storage storage()

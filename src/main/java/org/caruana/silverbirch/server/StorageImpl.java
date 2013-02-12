@@ -2,8 +2,8 @@ package org.caruana.silverbirch.server;
 
 import org.caruana.silverbirch.Node;
 import org.caruana.silverbirch.Storage;
-import org.caruana.silverbirch.commands.CreateDrive;
 import org.caruana.silverbirch.data.NodeImpl;
+import org.caruana.silverbirch.statements.CreateDrive;
 
 public class StorageImpl implements Storage
 {
@@ -22,7 +22,7 @@ public class StorageImpl implements Storage
     {
         CreateDrive cmd = new CreateDrive(conn.getConnection(), name);
         NodeImpl node = cmd.init();
-        conn.addCommand(cmd);
+        conn.addStatement(cmd);
         return node;
     }
 

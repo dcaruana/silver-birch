@@ -61,7 +61,7 @@ public class ConnectionImplTest {
         profiler.start("hasChanges");
         assertFalse(conn.hasChanges());
         profiler.start("addCommand");
-        conn.addCommand(new TestCommand());
+        conn.addStatement(new TestCommand());
         profiler.start("hasChanges");
         assertTrue(conn.hasChanges());
         profiler.start("applyChanges");
@@ -71,7 +71,7 @@ public class ConnectionImplTest {
         profiler.stop().log();
     }
 
-    private static class TestCommand implements Command
+    private static class TestCommand implements Statement
     {
         @Override
         public List data()

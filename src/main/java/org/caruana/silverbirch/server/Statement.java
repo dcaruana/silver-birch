@@ -2,7 +2,7 @@ package org.caruana.silverbirch.server;
 
 import java.util.List;
 
-public interface Command
+public interface Statement
 {
     public List data();
 }
