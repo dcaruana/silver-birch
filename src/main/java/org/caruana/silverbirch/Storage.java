@@ -16,7 +16,7 @@ public interface Storage {
 //
 //    Node[] getChildren(Node node);
 //
-//    Node createNode(Node parent, String name);
+    Node createNode(Node parent, String name);
 //
 //    void move(Node node, Node parent);
 //    void rename(Node node, String name);

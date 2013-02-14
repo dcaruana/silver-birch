@@ -7,4 +7,6 @@ public interface Node {
     String getName();
     
     Object getDriveId();
+    
+    Object getRootId();
 }

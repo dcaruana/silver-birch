@@ -60,5 +60,25 @@ public class StorageImplTest {
         conn.transaction().applyChanges();
         profiler.stop().log();
     }
+
+    @Test
+    public void createNode()
+    {
+        profiler.start("createDrive");
+        Node drive = storage.createDrive("test");
+        assertNotNull(drive);
+        profiler.start("createNode");
+        Node node = storage.createNode(drive, "node1");
+        assertNotNull(node);
+        assertNotNull(node.getId());
+        assertEquals(drive.getDriveId(), node.getDriveId());
+        assertEquals(drive.getRootId(), node.getRootId());
+        assertEquals("node1", node.getName());
+        profiler.start("hasChanges");
+        assertTrue(conn.transaction().hasChanges());
+        profiler.start("apply");
+        conn.transaction().applyChanges();
+        profiler.stop().log();
+    }
     
 }

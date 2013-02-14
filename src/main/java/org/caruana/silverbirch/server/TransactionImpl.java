@@ -50,7 +50,7 @@ public class TransactionImpl {
         try
         {
             Map m = future.get();
-            //Data.print(future);
+            Data.print(future);
         }
         catch(ExecutionException e)
         {

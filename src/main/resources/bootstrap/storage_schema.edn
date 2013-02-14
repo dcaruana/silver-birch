@@ -12,6 +12,15 @@
 
     {
         :db/id #db/id[:db.part/db]
+        :db/ident :node/root
+        :db/valueType :db.type/ref
+        :db/cardinality :db.cardinality/one
+        :db/doc "Root (owner) of node"
+        :db.install/_attribute :db.part/db
+    }
+
+    {
+        :db/id #db/id[:db.part/db]
         :db/ident :node/parents
         :db/valueType :db.type/ref
         :db/cardinality :db.cardinality/many
@@ -19,13 +28,4 @@
         :db.install/_attribute :db.part/db
     }
     
-    {
-        :db/id #db/id[:db.part/db]
-        :db/ident :node/root
-        :db/valueType :db.type/boolean
-        :db/cardinality :db.cardinality/one
-        :db/doc "Root of node"
-        :db.install/_attribute :db.part/db
-    }
-
 ]
