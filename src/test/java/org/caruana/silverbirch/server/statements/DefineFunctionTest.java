@@ -3,6 +3,7 @@ package org.caruana.silverbirch.server.statements;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.caruana.silverbirch.SilverBirchException.SilverBirchFunctionException;
 import org.caruana.silverbirch.server.ConnectionImpl;
 import org.caruana.silverbirch.server.SilverBirchImpl;
 import org.caruana.silverbirch.server.TransactionImpl;
@@ -59,6 +60,23 @@ public class DefineFunctionTest {
         profiler.start("applyChanges");
         transaction.applyChanges(conn);
         profiler.stop().log();
+    }
+
+    @Test(expected = SilverBirchFunctionException.class)
+    public void compileError()
+    {
+        try
+        {
+            profiler.start("createFunction");
+            DefineFunction fn = new DefineFunction("test", new String[] {"db", "name"}, "/statements/test_invalid_fn.edn");
+            transaction.addStatement(fn);
+            profiler.start("applyChanges");
+            transaction.applyChanges(conn);
+        }
+        finally
+        {
+            profiler.stop().log();
+        }
     }
 
 }

@@ -1,1 +1,1 @@
-return list(map(":db/id", tempid(":db.part/user")));
+return list(map(":db/id", tempid(":db.part/user"), ":db/ident", name));
