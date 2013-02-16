@@ -1,19 +1,15 @@
 package org.caruana.silverbirch.server;
 
+import org.caruana.silverbirch.server.connection.ConnectionImpl;
+import org.caruana.silverbirch.server.connection.TransactionImpl;
 import org.caruana.silverbirch.statements.util.EDN;
 
 public class Bootstrap 
 {
     private static String BOOTSTRAP_EDN = "/bootstrap/";
 
-    private ConnectionImpl conn;
-
-    Bootstrap(ConnectionImpl conn)
-    {
-        this.conn = conn;
-    }
     
-    public void bootstrap()
+    public void bootstrap(ConnectionImpl conn)
     {
         TransactionImpl transaction = conn.getTransaction();
         

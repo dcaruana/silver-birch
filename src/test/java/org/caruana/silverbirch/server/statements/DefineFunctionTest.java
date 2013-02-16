@@ -4,9 +4,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchFunctionException;
-import org.caruana.silverbirch.server.ConnectionImpl;
 import org.caruana.silverbirch.server.SilverBirchImpl;
-import org.caruana.silverbirch.server.TransactionImpl;
+import org.caruana.silverbirch.server.SilverBirchModule;
+import org.caruana.silverbirch.server.connection.ConnectionImpl;
+import org.caruana.silverbirch.server.connection.TransactionImpl;
 import org.caruana.silverbirch.statements.util.DefineFunction;
 import org.caruana.silverbirch.statements.util.EDN;
 import org.junit.Before;
@@ -14,6 +15,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class DefineFunctionTest {
 
@@ -34,7 +38,8 @@ public class DefineFunctionTest {
     @Before
     public void initTransaction()
     {
-        SilverBirchImpl silverbirch = new SilverBirchImpl();
+        Injector injector = Guice.createInjector(new SilverBirchModule());
+        SilverBirchImpl silverbirch = injector.getInstance(SilverBirchImpl.class);
         boolean created = silverbirch.createRepo(repo);
         assertTrue(created);
         conn = silverbirch.internalConnect(repo);

@@ -5,12 +5,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
-import org.caruana.silverbirch.server.SilverBirchImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 
 public class SilverBirchImplTest {
@@ -19,7 +21,8 @@ public class SilverBirchImplTest {
 
     private String repo = "mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
-
+    private SilverBirch silverbirch;
+    
     @Before
     public void initProfiler()
     {
@@ -27,12 +30,18 @@ public class SilverBirchImplTest {
         profiler.setLogger(logger);
     }
     
+    @Before
+    public void initServices()
+    {
+        Injector injector = Guice.createInjector(new SilverBirchModule());
+        silverbirch = injector.getInstance(SilverBirch.class);
+    }
+    
     
     @Test(expected = SilverBirchConnectionException.class)
     public void connectFailure()
     {
         profiler.start("connect");
-        SilverBirch silverbirch = new SilverBirchImpl();
         try
         {
             silverbirch.connect(repo);
@@ -46,8 +55,6 @@ public class SilverBirchImplTest {
     @Test
     public void createRepo()
     {
-        SilverBirch silverbirch = new SilverBirchImpl();
-        
         profiler.start("create");
         boolean created = silverbirch.createRepo(repo);
         assertTrue(created);

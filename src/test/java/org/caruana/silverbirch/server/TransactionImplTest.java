@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
+import org.caruana.silverbirch.server.connection.ConnectionImpl;
+import org.caruana.silverbirch.server.connection.TransactionImpl;
 import org.caruana.silverbirch.statements.Statement;
 import org.caruana.silverbirch.util.DatomicImpl;
 import org.junit.Before;
@@ -41,7 +43,7 @@ public class TransactionImplTest {
     {
         Peer.createDatabase(repo);
         datomic.Connection datomic = Peer.connect(repo);
-        conn = new ConnectionImpl(datomic);
+        conn = new ConnectionImpl(new SilverBirchImpl(), datomic);
         transaction = new TransactionImpl();
     }
     

@@ -1,19 +1,21 @@
 package org.caruana.silverbirch.server;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.Node;
 import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.Storage;
-import org.caruana.silverbirch.server.SilverBirchImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 
 public class StorageImplTest {
@@ -35,7 +37,8 @@ public class StorageImplTest {
     @Before
     public void initStorage()
     {
-        SilverBirch silverbirch = new SilverBirchImpl();
+        Injector injector = Guice.createInjector(new SilverBirchModule());
+        SilverBirch silverbirch = injector.getInstance(SilverBirch.class);
         boolean created = silverbirch.createRepo(repo);
         assertTrue(created);
         conn = silverbirch.connect(repo);
@@ -61,6 +64,13 @@ public class StorageImplTest {
         profiler.stop().log();
     }
 
+    @Test
+    public void getDrive()
+    {
+        Node node = storage.getDrive("fred");
+        assertEquals(node.getName(), "fred");
+    }
+    
     @Test
     public void createNode()
     {

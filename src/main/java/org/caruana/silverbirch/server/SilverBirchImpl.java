@@ -3,8 +3,11 @@ package org.caruana.silverbirch.server;
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
+import org.caruana.silverbirch.server.connection.ConnectionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
 
 import datomic.Peer;
 
@@ -14,6 +17,15 @@ public class SilverBirchImpl implements SilverBirch {
     
     private static String PROTOCOL = "datomic:";
 
+    @Inject private Bootstrap bootstrap;
+    @Inject private StorageImpl storage;
+    
+    public StorageImpl getStorage()
+    {
+        return storage;
+    }
+
+    @Override
     public boolean createRepo(String repo)
     {
         if (logger.isDebugEnabled())
@@ -23,8 +35,7 @@ public class SilverBirchImpl implements SilverBirch {
         if (created)
         {
             ConnectionImpl conn = internalConnect(repo);
-            Bootstrap bootstrap = new Bootstrap(conn);
-            bootstrap.bootstrap();
+            bootstrap.bootstrap(conn);
             
             if (logger.isDebugEnabled())
                 logger.debug("Created repository {}", repo);
@@ -37,7 +48,8 @@ public class SilverBirchImpl implements SilverBirch {
         
         return created;
     }
-    
+
+    @Override
     public Connection connect(String repo)
         throws SilverBirchConnectionException
     {
@@ -58,7 +70,7 @@ public class SilverBirchImpl implements SilverBirch {
             if (logger.isDebugEnabled())
                 logger.debug("Connected to repository {}", repo);
             
-            return new ConnectionImpl(conn);
+            return new ConnectionImpl(this, conn);
         }
         catch(clojure.lang.ExceptionInfo e)
         {

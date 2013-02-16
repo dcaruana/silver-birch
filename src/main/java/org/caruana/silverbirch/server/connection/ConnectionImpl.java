@@ -1,24 +1,38 @@
-package org.caruana.silverbirch.server;
+package org.caruana.silverbirch.server.connection;
 
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.Storage;
 import org.caruana.silverbirch.Transaction;
+import org.caruana.silverbirch.server.SilverBirchImpl;
 
 
 public class ConnectionImpl implements Connection {
     
     private datomic.Connection conn;
+    private SilverBirchImpl server;
+    
     private TransactionImpl transaction;
-    private TransactionWrapper transactionWrapper;
-    private StorageImpl storage;
+    private ConnectionTransaction connectionTransaction;
+    private ConnectionStorage connectionStorage;
+    
 
-
-    public ConnectionImpl(datomic.Connection conn)
+    public ConnectionImpl(SilverBirchImpl server, datomic.Connection conn)
     {
         this.conn = conn;
+        this.server = server;
         this.transaction = new TransactionImpl();
-        this.transactionWrapper = new TransactionWrapper(transaction);
-        this.storage = new StorageImpl(this);
+        this.connectionTransaction = new ConnectionTransaction(transaction);
+        this.connectionStorage = new ConnectionStorage(this);
+    }
+    
+    public SilverBirchImpl getServer()
+    {
+        return server;
+    }
+    
+    public TransactionImpl getTransaction()
+    {
+        return transaction;
     }
     
     public datomic.Connection getConnection()
@@ -26,33 +40,29 @@ public class ConnectionImpl implements Connection {
         return conn;
     }
     
-    public TransactionImpl getTransaction()
-    {
-        return transaction;
-    }
-
     @Override
     public Transaction transaction()
     {
-        return transactionWrapper;
+        return connectionTransaction;
     }
     
     @Override
     public Storage storage()
     {
-        return storage;
+        return connectionStorage;
     }
     
     
-    private class TransactionWrapper implements Transaction
+    private class ConnectionTransaction implements Transaction
     {
-        private TransactionImpl transaction;
-        
-        private TransactionWrapper(TransactionImpl transaction)
+        private TransactionImpl transaction = new TransactionImpl();
+
+        /*package*/ ConnectionTransaction(TransactionImpl transaction)
         {
             this.transaction = transaction;
+  
         }
-
+        
         @Override
         public boolean hasChanges()
         {

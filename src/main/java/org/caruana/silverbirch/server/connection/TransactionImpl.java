@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.server;
+package org.caruana.silverbirch.server.connection;
 
 import java.util.ArrayList;
 import java.util.List;

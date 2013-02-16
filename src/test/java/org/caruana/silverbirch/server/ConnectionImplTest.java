@@ -3,11 +3,15 @@ package org.caruana.silverbirch.server;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.caruana.silverbirch.server.connection.ConnectionImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 
 public class ConnectionImplTest {
@@ -28,7 +32,8 @@ public class ConnectionImplTest {
     @Before
     public void initConnection()
     {
-        SilverBirchImpl silverbirch = new SilverBirchImpl();
+        Injector injector = Guice.createInjector(new SilverBirchModule());
+        SilverBirchImpl silverbirch = injector.getInstance(SilverBirchImpl.class);
         boolean created = silverbirch.createRepo(repo);
         assertTrue(created);
         conn = silverbirch.internalConnect(repo);
