@@ -48,6 +48,7 @@ public class DatomicImpl
         inputs[0] = source;
         System.arraycopy(args, 0, inputs, 1, args.length);
         Collection<List<Object>> results = Peer.q(query, inputs);
+        Data.print(results);
         return results;
     }
 

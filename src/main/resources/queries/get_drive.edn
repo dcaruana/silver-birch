@@ -1,9 +1,5 @@
 [ 
- :find ?folder ?f ?ancestorname :in $ % [[?name ?parent_name]] :where
-    [?folder :folder/name ?name]
-    [?folder :folder/parent ?parent]
-    [?parent :folder/name ?parent_name]
-    (ancestor ?folder ?ancestor)
-    [?ancestor :folder/name ?ancestorname]
-    [(org.caruana.folder.CreateStaticFolderHierarchy/addDave ?ancestorname) ?f]
+ :find ?d ?name :in $ ?name :where
+    [?d :node/name ?name]
+    [?d :node/root ?d]
 ]

@@ -28,7 +28,7 @@ public class StorageImpl
 
     public Node getDrive(ConnectionImpl conn, String name)
     {
-        return getDrive.execute(name);
+        return getDrive.execute(conn, name);
     }
 
     public Node createNode(ConnectionImpl conn, Node parent, String name)

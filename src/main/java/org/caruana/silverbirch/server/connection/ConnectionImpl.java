@@ -76,9 +76,9 @@ public class ConnectionImpl implements Connection {
         }
 
         @Override
-        public void applyChanges()
+        public Result applyChanges()
         {
-            transaction.applyChanges(ConnectionImpl.this);
+            return transaction.applyChanges(ConnectionImpl.this);
         }
     }
     

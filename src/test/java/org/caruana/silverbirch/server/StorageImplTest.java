@@ -2,12 +2,13 @@ package org.caruana.silverbirch.server;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.Node;
-import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.Storage;
+import org.caruana.silverbirch.Transaction;
+import org.caruana.silverbirch.server.connection.ConnectionImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class StorageImplTest {
 
     private String repo = "mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
-    private Connection conn;
+    private ConnectionImpl conn;
     private Storage storage;
 
     @Before
@@ -38,10 +39,10 @@ public class StorageImplTest {
     public void initStorage()
     {
         Injector injector = Guice.createInjector(new SilverBirchModule());
-        SilverBirch silverbirch = injector.getInstance(SilverBirch.class);
+        SilverBirchImpl silverbirch = injector.getInstance(SilverBirchImpl.class);
         boolean created = silverbirch.createRepo(repo);
         assertTrue(created);
-        conn = silverbirch.connect(repo);
+        conn = silverbirch.internalConnect(repo);
         assertNotNull(conn);
         storage = conn.storage();
         assertNotNull(storage);
@@ -67,8 +68,25 @@ public class StorageImplTest {
     @Test
     public void getDrive()
     {
-        Node node = storage.getDrive("fred");
-        assertEquals(node.getName(), "fred");
+        profiler.start("getDrive");
+        Node drive1 = storage.getDrive("test");
+        assertNull(drive1);
+        profiler.start("createDrive");
+        Node drive2 = storage.createDrive("test");
+        assertNotNull(drive2);
+        Node drive3 = storage.getDrive("test");
+        assertNull(drive3);
+        Transaction.Result r = conn.transaction().applyChanges();
+        Object drive2id = r.resolveId(drive2.getId());
+        assertNotNull(drive2id);
+        profiler.start("getDrive");
+        Node drive4 = storage.getDrive("test");
+        assertNotNull(drive4);
+        assertEquals(drive2id, drive4.getId());
+        assertEquals(drive2.getName(), drive4.getName());
+        assertEquals(drive4.getDriveId(), drive4.getId());
+        assertEquals(drive4.getRootId(), drive4.getId());
+        profiler.stop().log();
     }
     
     @Test

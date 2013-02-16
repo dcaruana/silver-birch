@@ -6,11 +6,15 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
+import org.caruana.silverbirch.Transaction.Result;
 import org.caruana.silverbirch.statements.Statement;
 import org.caruana.silverbirch.util.Data;
 import org.caruana.silverbirch.util.DatomicImpl;
 
+import datomic.Connection;
+import datomic.Database;
 import datomic.ListenableFuture;
+import datomic.Peer;
 
 
 public class TransactionImpl {
@@ -38,7 +42,7 @@ public class TransactionImpl {
         statements.clear();
     }
     
-    public void applyChanges(ConnectionImpl conn)
+    public ResultImpl applyChanges(ConnectionImpl conn)
     {
         List transaction = new ArrayList();
         for (Statement statement : statements)
@@ -46,11 +50,14 @@ public class TransactionImpl {
             List data = statement.data();
             transaction.addAll(data);
         }
-        ListenableFuture<Map> future = DatomicImpl.transact(conn.getConnection(), transaction);
         try
         {
+            ListenableFuture<Map> future = DatomicImpl.transact(conn.getConnection(), transaction);
             Map m = future.get();
             Data.print(future);
+            
+            clearChanges();
+            return new ResultImpl(conn.getConnection().db(), m);
         }
         catch(ExecutionException e)
         {
@@ -60,8 +67,24 @@ public class TransactionImpl {
         {
             throw new SilverBirchTransactionException("Timeout during transaction", e);
         }
-        
-        clearChanges();
     }
 
+    public static class ResultImpl implements Result
+    {
+        private Database db;
+        private Map result;
+        
+        public ResultImpl(Database db, Map result)
+        {
+            this.db = db;
+            this.result = result;
+        }
+        
+        @Override
+        public Object resolveId(Object tempId)
+        {
+            return Peer.resolveTempid(db, result.get(Connection.TEMPIDS), tempId);
+        }
+        
+    }
 }

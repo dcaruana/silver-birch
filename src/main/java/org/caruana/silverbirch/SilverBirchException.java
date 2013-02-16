@@ -71,4 +71,22 @@ public class SilverBirchException extends RuntimeException {
         
     }
 
+    public static class SilverBirchInternalException extends SilverBirchException {
+
+        private static final long serialVersionUID = 8001753233101943441L;
+
+        public SilverBirchInternalException(String arg0, Throwable arg1) {
+            super(arg0, arg1);
+        }
+
+        public SilverBirchInternalException(String arg0) {
+            super(arg0);
+        }
+
+        public SilverBirchInternalException(Throwable arg0) {
+            super(arg0);
+        }
+        
+    }
+
 }

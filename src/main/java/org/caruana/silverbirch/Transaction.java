@@ -8,7 +8,12 @@ public interface Transaction {
     
     void clearChanges();
     
-    void applyChanges()
+    Result applyChanges()
         throws SilverBirchTransactionException;
     
+    
+    public interface Result
+    {
+        Object resolveId(Object tempId);
+    }
 }
