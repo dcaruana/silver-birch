@@ -2,6 +2,7 @@ package org.caruana.silverbirch.server.statements;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchFunctionException;
 import org.caruana.silverbirch.server.SilverBirchImpl;
@@ -67,7 +68,7 @@ public class DefineFunctionTest {
         profiler.stop().log();
     }
 
-    @Test(expected = SilverBirchFunctionException.class)
+    @Test
     public void compileError()
     {
         try
@@ -77,6 +78,10 @@ public class DefineFunctionTest {
             transaction.addStatement(fn);
             profiler.start("applyChanges");
             transaction.applyChanges(conn);
+            fail("Failed to throw SilverBirchFunctionException");
+        }
+        catch(SilverBirchFunctionException e)
+        {
         }
         finally
         {
