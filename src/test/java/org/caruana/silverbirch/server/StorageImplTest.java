@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.caruana.silverbirch.Node;
 import org.caruana.silverbirch.Storage;
 import org.caruana.silverbirch.Transaction;
+import org.caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
 import org.caruana.silverbirch.server.connection.ConnectionImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +48,23 @@ public class StorageImplTest {
         assertNotNull(conn);
         storage = conn.storage();
         assertNotNull(storage);
+    }
+
+    @Test
+    public void invalidDriveName()
+    {
+        profiler.start("createDrive");
+        storage.createDrive("a");
+        profiler.start("createInvalidDrive");
+        try
+        {
+            storage.createDrive("/");
+            fail("Failed to catch invalid drive name");
+        }
+        catch(SilverBirchValidatorException e)
+        {
+        }
+        profiler.stop().log();
     }
     
     @Test
@@ -86,6 +105,25 @@ public class StorageImplTest {
         assertEquals(drive2.getName(), drive4.getName());
         assertEquals(drive4.getDriveId(), drive4.getId());
         assertEquals(drive4.getRootId(), drive4.getId());
+        profiler.stop().log();
+    }
+
+    @Test
+    public void invalidNodeName()
+    {
+        profiler.start("createDrive");
+        Node drive = storage.createDrive("test");
+        profiler.start("createNode");
+        storage.createNode(drive, "a");
+        profiler.start("createInvalidNode");
+        try
+        {
+            storage.createNode(drive, "/");
+            fail("Failed to catch invalid node name");
+        }
+        catch(SilverBirchValidatorException e)
+        {
+        }
         profiler.stop().log();
     }
     

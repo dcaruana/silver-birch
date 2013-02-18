@@ -7,6 +7,7 @@ import org.caruana.silverbirch.data.NodeImpl;
 import org.caruana.silverbirch.server.StorageImpl;
 import org.caruana.silverbirch.statements.AbstractConnectionStatement;
 import org.caruana.silverbirch.util.DatomicImpl;
+import org.caruana.silverbirch.validators.NodeNameValidator;
 
 import datomic.Peer;
 import datomic.Util;
@@ -17,9 +18,13 @@ public class CreateDrive extends AbstractConnectionStatement
     private String name;
     private NodeImpl node;
     
+    private static NodeNameValidator nameValidator = new NodeNameValidator();
+
+    
     public CreateDrive(datomic.Connection conn, String name)
     {
         super(conn);
+        nameValidator.checkValid(name);
         this.name = name;
     }
 

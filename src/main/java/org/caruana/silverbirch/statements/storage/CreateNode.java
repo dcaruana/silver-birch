@@ -8,6 +8,7 @@ import org.caruana.silverbirch.data.NodeImpl;
 import org.caruana.silverbirch.server.StorageImpl;
 import org.caruana.silverbirch.statements.AbstractConnectionStatement;
 import org.caruana.silverbirch.util.DatomicImpl;
+import org.caruana.silverbirch.validators.NodeNameValidator;
 
 import datomic.Peer;
 import datomic.Util;
@@ -15,6 +16,8 @@ import datomic.Util;
 
 public class CreateNode extends AbstractConnectionStatement
 {
+    private static NodeNameValidator nameValidator = new NodeNameValidator();
+    
     private String name;
     private NodeImpl node;
     private Node parent;     // TODO: consider NodeImpl
@@ -22,6 +25,7 @@ public class CreateNode extends AbstractConnectionStatement
     public CreateNode(datomic.Connection conn, Node parent, String name)
     {
         super(conn);
+        nameValidator.checkValid(name);
         this.name = name;
         this.parent = parent;
     }
