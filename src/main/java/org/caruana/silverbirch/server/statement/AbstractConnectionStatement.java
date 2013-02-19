@@ -1,4 +1,5 @@
-package org.caruana.silverbirch.statements;
+package org.caruana.silverbirch.server.statement;
+
 
 
 public abstract class AbstractConnectionStatement implements Statement

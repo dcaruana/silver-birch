@@ -1,11 +1,11 @@
-package org.caruana.silverbirch.server.validators;
+package org.caruana.silverbirch.server.storage;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import org.caruana.silverbirch.validators.NodeNameValidator;
+import org.caruana.silverbirch.server.storage.NodeNameValidator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +35,7 @@ public class NodeNameValidatorTest
     private NodeNameValidator v;
     
     @Before
-    public void initValidator()
+    public void init()
     {
         v = new NodeNameValidator();
     }

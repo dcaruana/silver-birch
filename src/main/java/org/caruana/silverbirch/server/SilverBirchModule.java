@@ -1,7 +1,8 @@
 package org.caruana.silverbirch.server;
 
 import org.caruana.silverbirch.SilverBirch;
-import org.caruana.silverbirch.queries.GetDrive;
+import org.caruana.silverbirch.server.storage.GetDrive;
+import org.caruana.silverbirch.server.storage.StorageImpl;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;

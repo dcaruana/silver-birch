@@ -1,21 +1,19 @@
 package org.caruana.silverbirch.server;
 
-import org.caruana.silverbirch.server.connection.ConnectionImpl;
-import org.caruana.silverbirch.server.connection.TransactionImpl;
-import org.caruana.silverbirch.statements.util.EDN;
+import org.caruana.silverbirch.server.schema.EDN;
 
 public class Bootstrap 
 {
     private static String BOOTSTRAP_EDN = "/bootstrap/";
 
     
-    public void bootstrap(ConnectionImpl conn)
+    public void bootstrap(datomic.Connection conn)
     {
-        TransactionImpl transaction = conn.getTransaction();
+        TransactionImpl transaction = new TransactionImpl(conn);
         
         EDN storageSchema = new EDN(BOOTSTRAP_EDN + "storage_schema.edn");
         transaction.addStatement(storageSchema);
 
-        transaction.applyChanges(conn);
+        transaction.applyChanges();
     }
 }

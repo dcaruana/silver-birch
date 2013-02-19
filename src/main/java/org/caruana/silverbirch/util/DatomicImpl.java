@@ -12,11 +12,6 @@ import datomic.Peer;
 
 public class DatomicImpl
 {
-    public final static String DB_ID = ":db/id";
-    public final static String DB_IDENT = ":db/ident";
-    public final static String DB_FN = ":db/fn";
-    public final static String DB_PARTITION_USER = ":db.part/user";
-    
     
     public static ListenableFuture<Map> transact(Connection conn, List data)
     {

@@ -1,16 +1,16 @@
-package org.caruana.silverbirch.data;
+package org.caruana.silverbirch.server.storage;
 
 import org.caruana.silverbirch.Node;
 
 
-public class NodeImpl implements Node
+public class NodeData implements Node
 {
     private Object rootId;
     private Object driveId;
     private Object id;
     private String name;
 
-    public NodeImpl(Object rootId, Object driveId, Object id, String name)
+    public NodeData(Object rootId, Object driveId, Object id, String name)
     {
         this.rootId = rootId;
         this.driveId = driveId;

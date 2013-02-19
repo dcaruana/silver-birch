@@ -31,7 +31,7 @@ public class SilverBirchImplTest {
     }
     
     @Before
-    public void initServices()
+    public void init()
     {
         Injector injector = Guice.createInjector(new SilverBirchModule());
         silverbirch = injector.getInstance(SilverBirch.class);

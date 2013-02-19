@@ -11,10 +11,9 @@ import java.util.Map;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import org.caruana.silverbirch.Transaction;
-import org.caruana.silverbirch.server.connection.ConnectionImpl;
-import org.caruana.silverbirch.server.connection.TransactionImpl;
-import org.caruana.silverbirch.statements.Statement;
-import org.caruana.silverbirch.util.DatomicImpl;
+import org.caruana.silverbirch.server.schema.Schema;
+import org.caruana.silverbirch.server.schema.TestData;
+import org.caruana.silverbirch.server.statement.Statement;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -31,7 +30,6 @@ public class TransactionImplTest {
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
-    private ConnectionImpl conn;
     private TransactionImpl transaction;
 
     @Before
@@ -45,11 +43,10 @@ public class TransactionImplTest {
     public void initTransaction()
     {
         Peer.createDatabase(repo);
-        datomic.Connection datomic = Peer.connect(repo);
-        conn = new ConnectionImpl(new SilverBirchImpl(), datomic);
-        transaction = new TransactionImpl();
-        TestBootstrap bootstrap = new TestBootstrap();
+        datomic.Connection conn = Peer.connect(repo);
+        TestData bootstrap = new TestData();
         bootstrap.bootstrap(conn);
+        transaction = new TransactionImpl(conn);
     }
     
     @Test
@@ -58,7 +55,7 @@ public class TransactionImplTest {
         profiler.start("hasChanges");
         assertFalse(transaction.hasChanges());
         profiler.start("applyChanges");
-        transaction.applyChanges(conn);
+        transaction.applyChanges();
         profiler.start("hasChanges");
         assertFalse(transaction.hasChanges());
         profiler.stop().log();
@@ -76,7 +73,7 @@ public class TransactionImplTest {
         profiler.start("applyChanges");
         try
         {
-            transaction.applyChanges(conn);
+            transaction.applyChanges();
             fail("Failed to throw transaction exception");
         }
         catch(SilverBirchTransactionException e)
@@ -97,7 +94,7 @@ public class TransactionImplTest {
         profiler.start("hasChanges");
         assertTrue(transaction.hasChanges());
         profiler.start("applyChanges");
-        transaction.applyChanges(conn);
+        transaction.applyChanges();
         profiler.start("hasChanges");
         assertFalse(transaction.hasChanges());
         profiler.stop().log();
@@ -110,10 +107,10 @@ public class TransactionImplTest {
         NewCommand cmd = new NewCommand();
         Object tempId = cmd.getId();
         transaction.addStatement(cmd);
-        Transaction.Result r = transaction.applyChanges(conn);
-        assertNotNull(r);
+        Transaction.Result r = transaction.applyChanges();
         profiler.start("resolveTempId");
-        Object id1 = r.resolveId(Peer.tempid(DatomicImpl.DB_PARTITION_USER));
+        Object id1 = r.resolveId(Peer.tempid(Schema.DB_PARTITION_USER));
+        assertNotNull(r);
         assertNull(id1);
         Object id2 = r.resolveId(tempId);
         assertNotNull(id2);
@@ -126,7 +123,7 @@ public class TransactionImplTest {
         
         public NewCommand()
         {
-            id = Peer.tempid(DatomicImpl.DB_PARTITION_USER);
+            id = Peer.tempid(Schema.DB_PARTITION_USER);
         }
         
         public Object getId()
@@ -137,7 +134,7 @@ public class TransactionImplTest {
         @Override
         public List data()
         {
-            Map m = Util.map(DatomicImpl.DB_ID, id, TestBootstrap.TEST_NAME, "test");
+            Map m = Util.map(Schema.DB_ID, id, TestData.TEST_NAME, "test");
             return Util.list(m);
         }
     }

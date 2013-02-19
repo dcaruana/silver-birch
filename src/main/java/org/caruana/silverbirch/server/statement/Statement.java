@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.statements;
+package org.caruana.silverbirch.server.statement;
 
 import java.util.List;
 

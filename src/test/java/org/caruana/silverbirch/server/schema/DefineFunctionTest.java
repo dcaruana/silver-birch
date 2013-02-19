@@ -1,32 +1,25 @@
-package org.caruana.silverbirch.server.statements;
+package org.caruana.silverbirch.server.schema;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchFunctionException;
-import org.caruana.silverbirch.server.SilverBirchImpl;
-import org.caruana.silverbirch.server.SilverBirchModule;
-import org.caruana.silverbirch.server.connection.ConnectionImpl;
-import org.caruana.silverbirch.server.connection.TransactionImpl;
-import org.caruana.silverbirch.statements.util.DefineFunction;
-import org.caruana.silverbirch.statements.util.EDN;
+import org.caruana.silverbirch.server.TransactionImpl;
+import org.caruana.silverbirch.server.schema.DefineFunction;
+import org.caruana.silverbirch.server.schema.EDN;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import datomic.Peer;
 
 public class DefineFunctionTest {
 
     private static Logger logger = LoggerFactory.getLogger(DefineFunctionTest.class);
 
-    private String repo = "mem://repo_" + System.currentTimeMillis();
+    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
-    private ConnectionImpl conn;
     private TransactionImpl transaction;
 
     @Before
@@ -39,14 +32,11 @@ public class DefineFunctionTest {
     @Before
     public void initTransaction()
     {
-        Injector injector = Guice.createInjector(new SilverBirchModule());
-        SilverBirchImpl silverbirch = injector.getInstance(SilverBirchImpl.class);
-        boolean created = silverbirch.createRepo(repo);
-        assertTrue(created);
-        conn = silverbirch.internalConnect(repo);
-        assertNotNull(conn);
-        transaction = conn.getTransaction();
-        assertNotNull(transaction);
+        Peer.createDatabase(repo);
+        datomic.Connection conn = Peer.connect(repo);
+        TestData bootstrap = new TestData();
+        bootstrap.bootstrap(conn);
+        transaction = new TransactionImpl(conn);
     }
     
     @Test
@@ -56,15 +46,15 @@ public class DefineFunctionTest {
         DefineFunction fn = new DefineFunction("test", new String[] {"db", "name"}, "/statements/test_fn.edn");
         transaction.addStatement(fn);
         profiler.start("applyChanges");
-        transaction.applyChanges(conn);
+        transaction.applyChanges();
         profiler.start("createInvoke");
         EDN invoke = new EDN("/statements/test_fn_invoke.edn");
         transaction.addStatement(invoke);
         profiler.start("applyChanges");
-        transaction.applyChanges(conn);
+        transaction.applyChanges();
         transaction.addStatement(invoke);
         profiler.start("applyChanges");
-        transaction.applyChanges(conn);
+        transaction.applyChanges();
         profiler.stop().log();
     }
 
@@ -77,7 +67,7 @@ public class DefineFunctionTest {
             DefineFunction fn = new DefineFunction("test", new String[] {"db", "name"}, "/statements/test_invalid_fn.edn");
             transaction.addStatement(fn);
             profiler.start("applyChanges");
-            transaction.applyChanges(conn);
+            transaction.applyChanges();
             fail("Failed to throw SilverBirchFunctionException");
         }
         catch(SilverBirchFunctionException e)

@@ -1,8 +1,8 @@
-package org.caruana.silverbirch.statements.util;
+package org.caruana.silverbirch.server.schema;
 
 import java.util.List;
 
-import org.caruana.silverbirch.statements.Statement;
+import org.caruana.silverbirch.server.statement.Statement;
 import org.caruana.silverbirch.util.Data;
 
 public class EDN implements Statement

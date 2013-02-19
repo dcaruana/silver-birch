@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.server.connection;
+package org.caruana.silverbirch.server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
-import org.caruana.silverbirch.Transaction.Result;
-import org.caruana.silverbirch.statements.Statement;
+import org.caruana.silverbirch.Transaction;
+import org.caruana.silverbirch.server.statement.Statement;
 import org.caruana.silverbirch.util.Data;
 import org.caruana.silverbirch.util.DatomicImpl;
 
@@ -17,14 +17,22 @@ import datomic.ListenableFuture;
 import datomic.Peer;
 
 
-public class TransactionImpl {
+public class TransactionImpl implements Transaction 
+{
     
+    private datomic.Connection conn;
     private List<Statement> statements;
     
 
-    public TransactionImpl()
+    public TransactionImpl(datomic.Connection conn)
     {
+        this.conn = conn;
         this.statements = new ArrayList<Statement>();
+    }
+    
+    public datomic.Connection getConnection()
+    {
+        return conn;
     }
     
     public void addStatement(Statement statement)
@@ -42,7 +50,7 @@ public class TransactionImpl {
         statements.clear();
     }
     
-    public ResultImpl applyChanges(ConnectionImpl conn)
+    public ResultImpl applyChanges()
     {
         List transaction = new ArrayList();
         for (Statement statement : statements)
@@ -52,12 +60,12 @@ public class TransactionImpl {
         }
         try
         {
-            ListenableFuture<Map> future = DatomicImpl.transact(conn.getConnection(), transaction);
+            ListenableFuture<Map> future = DatomicImpl.transact(conn, transaction);
             Map m = future.get();
             Data.print(future);
             
             clearChanges();
-            return new ResultImpl(conn.getConnection().db(), m);
+            return new ResultImpl(conn.db(), m);
         }
         catch(ExecutionException e)
         {

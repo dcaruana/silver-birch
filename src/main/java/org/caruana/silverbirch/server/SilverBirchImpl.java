@@ -3,7 +3,7 @@ package org.caruana.silverbirch.server;
 import org.caruana.silverbirch.Connection;
 import org.caruana.silverbirch.SilverBirch;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
-import org.caruana.silverbirch.server.connection.ConnectionImpl;
+import org.caruana.silverbirch.server.storage.StorageImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class SilverBirchImpl implements SilverBirch {
         boolean created = Peer.createDatabase(PROTOCOL + repo);
         if (created)
         {
-            ConnectionImpl conn = internalConnect(repo);
+            datomic.Connection conn = Peer.connect(PROTOCOL + repo);
             bootstrap.bootstrap(conn);
             
             if (logger.isDebugEnabled())
@@ -53,24 +53,39 @@ public class SilverBirchImpl implements SilverBirch {
     public Connection connect(String repo)
         throws SilverBirchConnectionException
     {
-        return internalConnect(repo);
+        return createConnection(repo);
     }
     
-    public ConnectionImpl internalConnect(String repo)
+    public TransactionImpl createTransaction(String repo)
     {
         datomic.Connection conn;
 
         try
         {
             if (logger.isDebugEnabled())
-                logger.debug("Connected to repository {}", repo);
+                logger.debug("Creating transaction for {}", repo);
             
             conn = Peer.connect(PROTOCOL + repo);
+            TransactionImpl transaction = new TransactionImpl(conn);
         
             if (logger.isDebugEnabled())
-                logger.debug("Connected to repository {}", repo);
+                logger.debug("Transaction created for {}", repo);
             
-            return new ConnectionImpl(this, conn);
+            return transaction;
+        }
+        catch(clojure.lang.ExceptionInfo e)
+        {
+            throw new SilverBirchConnectionException(e);
+        }
+    }
+    
+    public ConnectionImpl createConnection(String repo)
+    {
+        try
+        {
+            TransactionImpl transaction = createTransaction(repo);
+            TransactionalStorage connectionStorage = new TransactionalStorage(storage, transaction);
+            return new ConnectionImpl(connectionStorage, transaction);
         }
         catch(clojure.lang.ExceptionInfo e)
         {

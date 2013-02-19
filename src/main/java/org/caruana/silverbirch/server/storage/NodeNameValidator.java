@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.validators;
+package org.caruana.silverbirch.server.storage;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,8 +8,11 @@ import org.caruana.silverbirch.SilverBirchException.SilverBirchValidatorExceptio
 
 public class NodeNameValidator
 {
+    public static NodeNameValidator instance = new NodeNameValidator();
+    
     // todo: expand on this list of invalid chars
     private static final Pattern p = Pattern.compile("[\\\\/:*?\"<>|]");
+    
     
     public boolean isValid(String name)
     {

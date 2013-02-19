@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.statements.util;
+package org.caruana.silverbirch.server.schema;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +8,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.caruana.silverbirch.SilverBirchException;
 import org.caruana.silverbirch.SilverBirchException.SilverBirchFunctionException;
-import org.caruana.silverbirch.statements.Statement;
-import org.caruana.silverbirch.util.DatomicImpl;
+import org.caruana.silverbirch.server.statement.Statement;
 import org.codehaus.commons.compiler.CompileException;
 
 import datomic.Peer;
@@ -76,9 +75,9 @@ public class DefineFunction implements Statement
         }
         
         Map m = Util.map(
-                    DatomicImpl.DB_ID, Peer.tempid(DatomicImpl.DB_PARTITION_USER),
-                    DatomicImpl.DB_IDENT, name,
-                    DatomicImpl.DB_FN, func);
+                    Schema.DB_ID, Peer.tempid(Schema.DB_PARTITION_USER),
+                    Schema.DB_IDENT, name,
+                    Schema.DB_FN, func);
         
         return Util.list(m);
     }
