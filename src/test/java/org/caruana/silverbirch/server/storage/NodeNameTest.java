@@ -5,12 +5,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import org.caruana.silverbirch.server.storage.NodeNameValidator;
+import org.caruana.silverbirch.server.storage.NodeName.Validator;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class NodeNameValidatorTest
+public class NodeNameTest
 {
     private static final String[] valid = new String[]
             {
@@ -32,12 +32,12 @@ public class NodeNameValidatorTest
                 "|"
             };
 
-    private NodeNameValidator v;
+    private Validator v;
     
     @Before
     public void init()
     {
-        v = new NodeNameValidator();
+        v = new Validator();
     }
     
     @Test

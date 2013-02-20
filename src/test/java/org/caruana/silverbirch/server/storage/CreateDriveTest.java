@@ -58,6 +58,7 @@ public class CreateDriveTest {
         CreateDrive statement = new CreateDrive(conn, "test");
         Node drive = statement.getDrive();
         assertNotNull(drive);
+        assertNotNull(drive.getUniqueId());
         assertNotNull(drive.getDriveId());
         assertNotNull(drive.getId());
         assertEquals(drive.getDriveId(), drive.getId());

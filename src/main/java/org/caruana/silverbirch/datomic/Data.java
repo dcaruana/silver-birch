@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.util;
+package org.caruana.silverbirch.datomic;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

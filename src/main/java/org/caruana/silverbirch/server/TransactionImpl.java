@@ -7,9 +7,9 @@ import java.util.concurrent.ExecutionException;
 
 import org.caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import org.caruana.silverbirch.Transaction;
+import org.caruana.silverbirch.datomic.Data;
+import org.caruana.silverbirch.datomic.Datomic;
 import org.caruana.silverbirch.server.statement.Statement;
-import org.caruana.silverbirch.util.Data;
-import org.caruana.silverbirch.util.DatomicImpl;
 
 import datomic.Connection;
 import datomic.Database;
@@ -60,7 +60,7 @@ public class TransactionImpl implements Transaction
         }
         try
         {
-            ListenableFuture<Map> future = DatomicImpl.transact(conn, transaction);
+            ListenableFuture<Map> future = Datomic.transact(conn, transaction);
             Map m = future.get();
             Data.print(future);
             

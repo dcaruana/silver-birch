@@ -2,6 +2,7 @@ package org.caruana.silverbirch.server.storage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.caruana.silverbirch.Node;
 import org.caruana.silverbirch.server.schema.Schema;
@@ -20,9 +21,10 @@ public class CreateNode extends AbstractConnectionStatement
     {
         super(conn);
         this.parent = parent;
-        NodeNameValidator.instance.checkValid(name);
+        NodeName.validator.checkValid(name);
+        UUID uuid = Peer.squuid();
         Object id = Peer.tempid(Schema.DB_PARTITION_USER);
-        node = new NodeData(parent.getRootId(), parent.getDriveId(), id, name);
+        node = new NodeData(uuid, parent.getRootId(), parent.getDriveId(), id, name);
     }
 
     public NodeData getNode()
@@ -35,6 +37,8 @@ public class CreateNode extends AbstractConnectionStatement
     {
         Map m = Util.map(
                 Schema.DB_ID, node.getId(),
+                Schema.SYSTEM_UUID, node.getUniqueId(),
+                Schema.SYSTEM_UNIQUE_NAME, node.getName() + NodeName.separator + parent.getUniqueId(),
                 Schema.NODE_NAME, node.getName(), 
                 Schema.NODE_ROOT, node.getRootId(),
                 Schema.NODE_PARENTS, parent.getId()

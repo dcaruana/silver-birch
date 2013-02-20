@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.UUID;
+
 import org.caruana.silverbirch.Node;
 import org.caruana.silverbirch.server.Bootstrap;
 import org.caruana.silverbirch.server.schema.TestData;
@@ -59,6 +61,7 @@ public class GetDriveTest {
         Node drive = getDrive.execute(conn, "test");
         assertNotNull(drive);
         assertNotNull(drive.getId());
+        assertEquals(drive.getUniqueId(), UUID.fromString("f81d4fae-7dec-11d0-a765-00a0c91e6bf6"));
         assertEquals(drive.getName(), "test");
         assertEquals(drive.getDriveId(), drive.getId());
         assertEquals(drive.getRootId(), drive.getId());

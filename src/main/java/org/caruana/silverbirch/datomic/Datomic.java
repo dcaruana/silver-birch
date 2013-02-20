@@ -1,4 +1,4 @@
-package org.caruana.silverbirch.util;
+package org.caruana.silverbirch.datomic;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,7 +10,7 @@ import datomic.ListenableFuture;
 import datomic.Peer;
 
 
-public class DatomicImpl
+public class Datomic
 {
     
     public static ListenableFuture<Map> transact(Connection conn, List data)

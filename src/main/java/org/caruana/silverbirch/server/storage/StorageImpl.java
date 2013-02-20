@@ -6,10 +6,6 @@ import com.google.inject.Inject;
 
 public class StorageImpl
 {
-    public static final String NODE_NAME = ":node/name";
-    public static final String NODE_ROOT = ":node/root";
-    public static final String NODE_PARENTS = ":node/parents";
-
     private GetDrive getDrive;
     
     @Inject public void setGetDrive(GetDrive getDrive)

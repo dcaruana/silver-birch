@@ -65,6 +65,7 @@ public class CreateNodeTest {
         assertNotNull(nodeStatement);
         Node node = nodeStatement.getNode();
         assertNotNull(node);
+        assertNotNull(node.getUniqueId());
         assertNotNull(node.getId());
         assertEquals(drive.getDriveId(), node.getDriveId());
         assertEquals(drive.getRootId(), node.getRootId());
