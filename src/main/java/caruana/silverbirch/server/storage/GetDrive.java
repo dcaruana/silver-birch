@@ -26,10 +26,6 @@ public class GetDrive {
         {
             return null;
         }
-        if (results.size() > 1)
-        {
-            throw new SilverBirchInternalException("Found " + results.size() + " drives named " + name);
-        }
         List<Object> drive = results.iterator().next();
         return new NodeData((UUID)drive.get(1), drive.get(0), drive.get(0), drive.get(0), (String)drive.get(2));
     }

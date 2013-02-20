@@ -1,0 +1,4 @@
+[ 
+ :find (count ?d) :in $ :where
+    [?d :node/root ?d]
+]
