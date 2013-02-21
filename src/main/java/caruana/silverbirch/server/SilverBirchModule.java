@@ -3,6 +3,7 @@ package caruana.silverbirch.server;
 
 import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.server.storage.GetDrive;
+import caruana.silverbirch.server.storage.ListDrives;
 import caruana.silverbirch.server.storage.StorageImpl;
 
 import com.google.inject.AbstractModule;
@@ -20,6 +21,7 @@ public class SilverBirchModule extends AbstractModule
         
         // queries
         bind(GetDrive.class).in(Singleton.class);
+        bind(ListDrives.class).in(Singleton.class);
     }
     
 }

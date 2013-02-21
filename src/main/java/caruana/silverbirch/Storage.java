@@ -1,5 +1,7 @@
 package caruana.silverbirch;
 
+import java.util.List;
+
 public interface Storage {
 
     Node createDrive(String name);
@@ -8,7 +10,7 @@ public interface Storage {
     
 //    Node getDrive(Node node);
 //
-//    Node[] listDrives();
+    List<Node> listDrives();
 //
 //    Node getNode(Node drive, String path);
 //    Node getNode(long id);

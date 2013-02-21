@@ -2,6 +2,9 @@ package caruana.silverbirch.server.storage;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Node;
-import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
-import caruana.silverbirch.server.storage.CreateDrive;
-import caruana.silverbirch.server.storage.CreateNode;
-import caruana.silverbirch.server.storage.StorageImpl;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -73,5 +72,13 @@ public class StorageImplTest {
         Node drive = storage.getDrive(conn, "test");
         assertNull(drive);
     }
-   
+
+    @Test
+    public void listDrives()
+    {
+        List<Node> drives = storage.listDrives(conn);
+        assertNotNull(drives);
+        assertTrue(drives.isEmpty());
+    }
+
 }

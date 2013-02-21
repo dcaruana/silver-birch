@@ -1,6 +1,8 @@
 package caruana.silverbirch.server;
 
 
+import java.util.List;
+
 import caruana.silverbirch.Node;
 import caruana.silverbirch.Storage;
 import caruana.silverbirch.server.storage.CreateDrive;
@@ -25,7 +27,13 @@ public class TransactionalStorage implements Storage
         transaction.addStatement(statement);
         return statement.getDrive();
     }
-
+    
+    @Override
+    public List<Node> listDrives()
+    {
+        return storage.listDrives(transaction.getConnection());
+    }
+    
     @Override
     public Node getDrive(String name)
     {
@@ -39,5 +47,5 @@ public class TransactionalStorage implements Storage
         transaction.addStatement(statement);
         return statement.getNode();
     }
-    
+
 }

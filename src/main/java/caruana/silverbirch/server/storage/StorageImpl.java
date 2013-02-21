@@ -1,6 +1,8 @@
 package caruana.silverbirch.server.storage;
 
 
+import java.util.List;
+
 import caruana.silverbirch.Node;
 
 import com.google.inject.Inject;
@@ -8,12 +10,17 @@ import com.google.inject.Inject;
 public class StorageImpl
 {
     private GetDrive getDrive;
+    private ListDrives listDrives;
     
-    @Inject public void setGetDrive(GetDrive getDrive)
+    @Inject public void setGetDrive(GetDrive query)
     {
-        this.getDrive = getDrive;
+        this.getDrive = query;
     }
-    
+
+    @Inject public void setListDrives(ListDrives query)
+    {
+        this.listDrives = query;
+    }
 
     public CreateDrive createDrive(datomic.Connection conn, String name)
     {
@@ -24,6 +31,11 @@ public class StorageImpl
     public Node getDrive(datomic.Connection conn, String name)
     {
         return getDrive.execute(conn, name);
+    }
+    
+    public List<Node> listDrives(datomic.Connection conn)
+    {
+        return (List)listDrives.execute(conn);
     }
 
     public CreateNode createNode(datomic.Connection conn, Node parent, String name)

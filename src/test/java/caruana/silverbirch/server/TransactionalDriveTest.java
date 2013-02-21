@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,14 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Node;
-import caruana.silverbirch.Transaction;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
-import caruana.silverbirch.server.Bootstrap;
-import caruana.silverbirch.server.TransactionImpl;
-import caruana.silverbirch.server.TransactionalStorage;
+import caruana.silverbirch.Transaction;
 import caruana.silverbirch.server.storage.GetDrive;
+import caruana.silverbirch.server.storage.ListDrives;
 import caruana.silverbirch.server.storage.StorageImpl;
-
 import datomic.Peer;
 
 
@@ -51,6 +50,7 @@ public class TransactionalDriveTest {
         bootstrap.bootstrap(conn);
         StorageImpl storage = new StorageImpl();
         storage.setGetDrive(new GetDrive());
+        storage.setListDrives(new ListDrives());
         transaction = new TransactionImpl(conn);
         transactionalStorage = new TransactionalStorage(storage, transaction);
     }
@@ -158,6 +158,27 @@ public class TransactionalDriveTest {
         assertEquals(drive2.getName(), drive4.getName());
         assertEquals(drive4.getDriveId(), drive4.getId());
         assertEquals(drive4.getRootId(), drive4.getId());
+        profiler.stop().log();
+    }
+
+    @Test
+    public void listDrives()
+    {
+        profiler.start("listDrives");
+        List<Node> drives1 = transactionalStorage.listDrives();
+        assertNotNull(drives1);
+        assertTrue(drives1.isEmpty());
+        profiler.start("createDrives");
+        Node drive1 = transactionalStorage.createDrive("test1");
+        assertNotNull(drive1);
+        Node drive2 = transactionalStorage.createDrive("test2");
+        assertNotNull(drive2);
+        profiler.start("apply");
+        transaction.applyChanges();
+        profiler.start("listDrives");
+        List<Node> drives2 = transactionalStorage.listDrives();
+        assertNotNull(drives2);
+        assertEquals(2, drives2.size());
         profiler.stop().log();
     }
 
