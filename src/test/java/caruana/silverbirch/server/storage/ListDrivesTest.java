@@ -57,7 +57,7 @@ public class ListDrivesTest {
     {
         profiler.start("createDrives");
         TestData data = new TestData();
-        data.data(conn, "list_drives.edn");
+        data.data(conn, "list_drives_data.edn");
         profiler.start("listDrives");
         List<NodeData> drives = listDrives.execute(conn);
         assertNotNull(drives);

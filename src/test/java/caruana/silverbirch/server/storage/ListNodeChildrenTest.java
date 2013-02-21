@@ -59,7 +59,7 @@ public class ListNodeChildrenTest {
     {
         profiler.start("createNodes");
         TestData data = new TestData();
-        data.data(conn, "list_node_children.edn");
+        data.data(conn, "list_node_children_data.edn");
         profiler.start("listNodes");
         NodeData drive1 = getDrive.execute(conn, "drive2");
         assertNotNull(drive1);
@@ -74,7 +74,7 @@ public class ListNodeChildrenTest {
     {
         profiler.start("createNodes");
         TestData data = new TestData();
-        data.data(conn, "list_node_children.edn");
+        data.data(conn, "list_node_children_data.edn");
         profiler.start("listNodes");
         NodeData drive1 = getDrive.execute(conn, "drive1");
         assertNotNull(drive1);

@@ -43,7 +43,7 @@ public class GetDriveTest {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         TestData data = new TestData();
-        data.data(conn, "get_drive.edn");
+        data.data(conn, "get_drive_data.edn");
         getDrive = new GetDrive();
     }
 
