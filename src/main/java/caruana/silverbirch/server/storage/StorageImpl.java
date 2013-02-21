@@ -11,6 +11,7 @@ public class StorageImpl
 {
     private GetDrive getDrive;
     private ListDrives listDrives;
+    private ListNodeChildren listNodeChildren;
     
     @Inject public void setGetDrive(GetDrive query)
     {
@@ -20,6 +21,11 @@ public class StorageImpl
     @Inject public void setListDrives(ListDrives query)
     {
         this.listDrives = query;
+    }
+
+    @Inject public void setListNodeChildren(ListNodeChildren query)
+    {
+        this.listNodeChildren = query;
     }
 
     public CreateDrive createDrive(datomic.Connection conn, String name)
@@ -42,6 +48,11 @@ public class StorageImpl
     {
         CreateNode statement = new CreateNode(conn, parent, name);
         return statement;
+    }
+
+    public List<Node> listNodeChildren(datomic.Connection conn, Node parent)
+    {
+        return (List)listNodeChildren.execute(conn, parent);
     }
 
 }

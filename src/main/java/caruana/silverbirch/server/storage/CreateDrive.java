@@ -38,8 +38,7 @@ public class CreateDrive extends AbstractConnectionStatement
                     Schema.SYSTEM_UUID, node.getUniqueId(),
                     Schema.SYSTEM_UNIQUE_NAME, node.getName(),
                     Schema.NODE_NAME, node.getName(), 
-                    Schema.NODE_ROOT, node.getRootId(),
-                    Schema.NODE_PARENTS, node.getId()
+                    Schema.NODE_ROOT, node.getRootId()
                 );
         List d = Util.list(m);
         return d;

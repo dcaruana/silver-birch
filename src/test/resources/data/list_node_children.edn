@@ -1,0 +1,48 @@
+[
+
+    {
+        :db/id #db/id[:db.part/user -1]
+        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf1"
+        :node/name "drive1"
+        :node/root #db/id[:db.part/user -1]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -2]
+        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf2"
+        :node/name "node1"
+        :node/root #db/id[:db.part/user -1]
+        :node/parents #db/id[:db.part/user -1]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -3]
+        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf3"
+        :node/name "node2"
+        :node/root #db/id[:db.part/user -1]
+        :node/parents #db/id[:db.part/user -1]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -4]
+        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf4"
+        :node/name "drive2"
+        :node/root #db/id[:db.part/user -4]
+    }
+    
+    {
+        :db/id #db/id[:db.part/user -5]
+        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf5"
+        :node/name "drive3"
+        :node/root #db/id[:db.part/user -5]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -6]
+        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
+        :node/name "node1"
+        :node/root #db/id[:db.part/user -5]
+        :node/parents #db/id[:db.part/user -5]
+    }
+
+]

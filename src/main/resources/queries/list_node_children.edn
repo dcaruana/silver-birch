@@ -1,0 +1,7 @@
+[ 
+ :find ?d ?uuid ?rootId ?name :in $ ?parentId :where
+    [?d :node/parents ?parentId]
+    [?d :system/uuid ?uuid]
+    [?d :node/root ?rootId]
+    [?d :node/name ?name]
+]

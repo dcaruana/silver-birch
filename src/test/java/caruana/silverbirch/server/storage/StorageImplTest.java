@@ -56,16 +56,7 @@ public class StorageImplTest {
         CreateDrive statement = storage.createDrive(conn, "test");
         assertNotNull(statement);
     }
-    
-    @Test
-    public void createNode()
-    {
-        CreateDrive driveStatement = storage.createDrive(conn, "test");
-        assertNotNull(driveStatement);
-        CreateNode statement = storage.createNode(conn, driveStatement.getDrive(), "test");
-        assertNotNull(statement);
-    }
-    
+
     @Test
     public void getDrive()
     {
@@ -80,5 +71,23 @@ public class StorageImplTest {
         assertNotNull(drives);
         assertTrue(drives.isEmpty());
     }
+
+    @Test
+    public void createNode()
+    {
+        CreateDrive driveStatement = storage.createDrive(conn, "test");
+        assertNotNull(driveStatement);
+        CreateNode statement = storage.createNode(conn, driveStatement.getDrive(), "test");
+        assertNotNull(statement);
+    }
+    
+    @Test
+    public void listNodeChildren()
+    {
+        List<Node> nodes = storage.listNodeChildren(conn, new NodeData(null, null, null, 1234l, null));
+        assertNotNull(nodes);
+        assertTrue(nodes.isEmpty());
+    }
+
 
 }

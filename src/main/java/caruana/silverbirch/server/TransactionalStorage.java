@@ -48,4 +48,10 @@ public class TransactionalStorage implements Storage
         return statement.getNode();
     }
 
+    @Override
+    public List<Node> listChildren(Node node)
+    {
+        return storage.listNodeChildren(transaction.getConnection(), node);
+    }
+
 }

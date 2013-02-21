@@ -16,7 +16,7 @@ public interface Storage {
 //    Node getNode(long id);
 //    Node[] getParents(Node node);
 //
-//    Node[] getChildren(Node node);
+    List<Node> listChildren(Node node);
 //
     Node createNode(Node parent, String name);
 //
