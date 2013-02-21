@@ -11,3 +11,4 @@ Experimenting with:
 * Maven
 * Git (and GitHub)
 * EclEmma (Code Coverage)
+* CodePro Analytics (Structural Analysis)
