@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import java.util.Collection;
 import java.util.List;

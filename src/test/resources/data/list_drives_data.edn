@@ -3,22 +3,22 @@
     {
         :db/id #db/id[:db.part/user -1]
         :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
-        :node/name "test1"
-        :node/root #db/id[:db.part/user -1]
+        :item/name "test1"
+        :item/root #db/id[:db.part/user -1]
     }
 
     {
         :db/id #db/id[:db.part/user -2]
         :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf7"
-        :node/name "test2"
-        :node/root #db/id[:db.part/user -2]
+        :item/name "test2"
+        :item/root #db/id[:db.part/user -2]
     }
 
     {
         :db/id #db/id[:db.part/user -3]
         :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf8"
-        :node/name "test3"
-        :node/root #db/id[:db.part/user -3]
+        :item/name "test3"
+        :item/root #db/id[:db.part/user -3]
     }
     
 ]

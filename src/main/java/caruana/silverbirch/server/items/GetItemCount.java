@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,13 +7,13 @@ import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 
 
-public class GetNodeCount {
+public class GetItemCount {
 
     private List query;
     
-    public GetNodeCount()
+    public GetItemCount()
     {
-        query = (List)Data.read("/queries/get_node_count.edn").get(0);
+        query = (List)Data.read("/queries/get_item_count.edn").get(0);
     }
     
     public int execute(datomic.Connection connection)

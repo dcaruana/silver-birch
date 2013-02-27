@@ -1,19 +1,19 @@
 package caruana.silverbirch.server;
 
 import caruana.silverbirch.Connection;
-import caruana.silverbirch.Storage;
+import caruana.silverbirch.Items;
 import caruana.silverbirch.Transaction;
 
 
 public class ConnectionImpl implements Connection {
     
     private TransactionImpl transaction;
-    private TransactionalStorage storage;
+    private TransactionalItems items;
     
 
-    public ConnectionImpl(TransactionalStorage storage, TransactionImpl transaction)
+    public ConnectionImpl(TransactionalItems items, TransactionImpl transaction)
     {
-        this.storage = storage;
+        this.items = items;
         this.transaction = transaction;
     }
     
@@ -24,9 +24,9 @@ public class ConnectionImpl implements Connection {
     }
     
     @Override
-    public Storage storage()
+    public Items items()
     {
-        return storage;
+        return items;
     }
     
 }

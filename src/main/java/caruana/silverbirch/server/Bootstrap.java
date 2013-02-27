@@ -11,8 +11,8 @@ public class Bootstrap
     {
         TransactionImpl transaction = new TransactionImpl(conn);
         
-        EDN storageSchema = new EDN(BOOTSTRAP_EDN + "storage_schema.edn");
-        transaction.addStatement(storageSchema);
+        EDN itemsSchema = new EDN(BOOTSTRAP_EDN + "items_schema.edn");
+        transaction.addStatement(itemsSchema);
 
         transaction.applyChanges();
     }

@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import caruana.silverbirch.server.storage.NodeName.Validator;
+import caruana.silverbirch.server.items.ItemName.Validator;
 
 
-public class NodeNameTest
+public class ItemNameTest
 {
     private static final String[] valid = new String[]
             {

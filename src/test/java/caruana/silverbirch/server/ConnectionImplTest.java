@@ -1,7 +1,6 @@
 package caruana.silverbirch.server;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,12 +10,9 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.server.ConnectionImpl;
 import caruana.silverbirch.server.TransactionImpl;
-import caruana.silverbirch.server.TransactionalStorage;
-import caruana.silverbirch.server.storage.GetDrive;
-import caruana.silverbirch.server.storage.StorageImpl;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import caruana.silverbirch.server.TransactionalItems;
+import caruana.silverbirch.server.items.GetDrive;
+import caruana.silverbirch.server.items.ItemsImpl;
 
 import datomic.Peer;
 
@@ -29,7 +25,7 @@ public class ConnectionImplTest {
     private Profiler profiler;
     private ConnectionImpl connection;
     private TransactionImpl transaction;
-    private TransactionalStorage transactionalStorage;
+    private TransactionalItems transactionalItems;
 
     @Before
     public void initProfiler()
@@ -43,11 +39,11 @@ public class ConnectionImplTest {
     {
         Peer.createDatabase(repo);
         datomic.Connection conn = Peer.connect(repo);
-        StorageImpl storage = new StorageImpl();
-        storage.setGetDrive(new GetDrive());
+        ItemsImpl items = new ItemsImpl();
+        items.setGetDrive(new GetDrive());
         transaction = new TransactionImpl(conn);
-        transactionalStorage = new TransactionalStorage(storage, transaction);
-        connection = new ConnectionImpl(transactionalStorage, transaction);
+        transactionalItems = new TransactionalItems(items, transaction);
+        connection = new ConnectionImpl(transactionalItems, transaction);
     }
     
     @Test
@@ -55,8 +51,8 @@ public class ConnectionImplTest {
     {
         profiler.start("transaction()");
         assertNotNull(connection.transaction());
-        profiler.start("storage()");
-        assertNotNull(connection.storage());
+        profiler.start("items()");
+        assertNotNull(connection.items());
         profiler.stop().log();
     }
 

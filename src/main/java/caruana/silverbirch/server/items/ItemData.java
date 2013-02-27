@@ -1,11 +1,11 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import java.util.UUID;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 
 
-public class NodeData implements Node
+public class ItemData implements Item
 {
     private UUID uniqueId;
     private Object rootId;
@@ -13,7 +13,7 @@ public class NodeData implements Node
     private Object id;
     private String name;
 
-    public NodeData(UUID uniqueId, Object rootId, Object driveId, Object id, String name)
+    public ItemData(UUID uniqueId, Object rootId, Object driveId, Object id, String name)
     {
         this.uniqueId = uniqueId;
         this.rootId = rootId;

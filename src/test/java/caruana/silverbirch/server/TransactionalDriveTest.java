@@ -15,12 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import caruana.silverbirch.Transaction;
-import caruana.silverbirch.server.storage.GetDrive;
-import caruana.silverbirch.server.storage.ListDrives;
-import caruana.silverbirch.server.storage.StorageImpl;
+import caruana.silverbirch.server.items.GetDrive;
+import caruana.silverbirch.server.items.ListDrives;
+import caruana.silverbirch.server.items.ItemsImpl;
 import datomic.Peer;
 
 
@@ -32,12 +32,12 @@ public class TransactionalDriveTest {
     private Profiler profiler;
     private datomic.Connection conn;
     private TransactionImpl transaction;
-    private TransactionalStorage transactionalStorage;
+    private TransactionalItems transactionalItems;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("TransactionalStorageTest");
+        profiler = new Profiler("TransactionalDriveTest");
         profiler.setLogger(logger);
     }
     
@@ -48,18 +48,18 @@ public class TransactionalDriveTest {
         conn = Peer.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
-        StorageImpl storage = new StorageImpl();
-        storage.setGetDrive(new GetDrive());
-        storage.setListDrives(new ListDrives());
+        ItemsImpl items = new ItemsImpl();
+        items.setGetDrive(new GetDrive());
+        items.setListDrives(new ListDrives());
         transaction = new TransactionImpl(conn);
-        transactionalStorage = new TransactionalStorage(storage, transaction);
+        transactionalItems = new TransactionalItems(items, transaction);
     }
 
     @Test
     public void createDrive()
     {
         profiler.start("createDrive");
-        Node drive = transactionalStorage.createDrive("test");
+        Item drive = transactionalItems.createDrive("test");
         assertNotNull(drive);
         profiler.start("hasChanges");
         assertTrue(transaction.hasChanges());
@@ -72,12 +72,12 @@ public class TransactionalDriveTest {
     public void uniqueAcrossTransaction()
     {
         profiler.start("createDrive");
-        Node drive1 = transactionalStorage.createDrive("test");
+        Item drive1 = transactionalItems.createDrive("test");
         assertNotNull(drive1);
         profiler.start("apply");
         transaction.applyChanges();
         profiler.start("createDuplicateDrive");
-        Node drive2 = transactionalStorage.createDrive("test");
+        Item drive2 = transactionalItems.createDrive("test");
         assertNotNull(drive2);
         profiler.start("apply");
         try
@@ -95,10 +95,10 @@ public class TransactionalDriveTest {
     public void uniqueWithinTransaction()
     {
         profiler.start("createDrive");
-        Node drive1 = transactionalStorage.createDrive("test");
+        Item drive1 = transactionalItems.createDrive("test");
         assertNotNull(drive1);
         profiler.start("createDuplicateDrive");
-        Node drive2 = transactionalStorage.createDrive("test");
+        Item drive2 = transactionalItems.createDrive("test");
         assertNotNull(drive2);
         profiler.start("apply");
         try
@@ -116,14 +116,14 @@ public class TransactionalDriveTest {
     public void uniqueWithinAndAcrossTransaction()
     {
         profiler.start("createDrive");
-        Node drive1 = transactionalStorage.createDrive("test");
+        Item drive1 = transactionalItems.createDrive("test");
         assertNotNull(drive1);
         profiler.start("apply");
         transaction.applyChanges();
         profiler.start("createDuplicateDrives");
-        Node drive2 = transactionalStorage.createDrive("test");
+        Item drive2 = transactionalItems.createDrive("test");
         assertNotNull(drive2);
-        Node drive3 = transactionalStorage.createDrive("test");
+        Item drive3 = transactionalItems.createDrive("test");
         assertNotNull(drive3);
         profiler.start("apply");
         try
@@ -141,18 +141,18 @@ public class TransactionalDriveTest {
     public void getDrive()
     {
         profiler.start("getDrive");
-        Node drive1 = transactionalStorage.getDrive("test");
+        Item drive1 = transactionalItems.getDrive("test");
         assertNull(drive1);
         profiler.start("createDrive");
-        Node drive2 = transactionalStorage.createDrive("test");
+        Item drive2 = transactionalItems.createDrive("test");
         assertNotNull(drive2);
-        Node drive3 = transactionalStorage.getDrive("test");
+        Item drive3 = transactionalItems.getDrive("test");
         assertNull(drive3);
         Transaction.Result r = transaction.applyChanges();
         Object drive2id = r.resolveId(drive2.getId());
         assertNotNull(drive2id);
         profiler.start("getDrive");
-        Node drive4 = transactionalStorage.getDrive("test");
+        Item drive4 = transactionalItems.getDrive("test");
         assertNotNull(drive4);
         assertEquals(drive2id, drive4.getId());
         assertEquals(drive2.getName(), drive4.getName());
@@ -165,18 +165,18 @@ public class TransactionalDriveTest {
     public void listDrives()
     {
         profiler.start("listDrives");
-        List<Node> drives1 = transactionalStorage.listDrives();
+        List<Item> drives1 = transactionalItems.listDrives();
         assertNotNull(drives1);
         assertTrue(drives1.isEmpty());
         profiler.start("createDrives");
-        Node drive1 = transactionalStorage.createDrive("test1");
+        Item drive1 = transactionalItems.createDrive("test1");
         assertNotNull(drive1);
-        Node drive2 = transactionalStorage.createDrive("test2");
+        Item drive2 = transactionalItems.createDrive("test2");
         assertNotNull(drive2);
         profiler.start("apply");
         transaction.applyChanges();
         profiler.start("listDrives");
-        List<Node> drives2 = transactionalStorage.listDrives();
+        List<Item> drives2 = transactionalItems.listDrives();
         assertNotNull(drives2);
         assertEquals(2, drives2.size());
         profiler.stop().log();

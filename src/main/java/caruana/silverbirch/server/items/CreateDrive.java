@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import java.util.List;
 import java.util.Map;
@@ -14,31 +14,31 @@ import datomic.Util;
 
 public class CreateDrive extends AbstractConnectionStatement
 {
-    private NodeData node;
+    private ItemData item;
     
     public CreateDrive(datomic.Connection conn, String name)
     {
         super(conn);
-        NodeName.validator.checkValid(name);
+        ItemName.validator.checkValid(name);
         UUID uuid = Peer.squuid();
         Object id = Peer.tempid(Schema.DB_PARTITION_USER);
-        node = new NodeData(uuid, id, id, id, name);
+        item = new ItemData(uuid, id, id, id, name);
     }
 
-    public NodeData getDrive()
+    public ItemData getDrive()
     {
-        return node;
+        return item;
     }
     
     @Override
     public List data()
     {
         Map m = Util.map(
-                    Schema.DB_ID, node.getId(),
-                    Schema.SYSTEM_UUID, node.getUniqueId(),
-                    Schema.SYSTEM_UNIQUE_NAME, node.getName(),
-                    Schema.NODE_NAME, node.getName(), 
-                    Schema.NODE_ROOT, node.getRootId()
+                    Schema.DB_ID, item.getId(),
+                    Schema.SYSTEM_UUID, item.getUniqueId(),
+                    Schema.SYSTEM_UNIQUE_NAME, item.getName(),
+                    Schema.ITEM_NAME, item.getName(), 
+                    Schema.ITEM_ROOT, item.getRootId()
                 );
         List d = Util.list(m);
         return d;

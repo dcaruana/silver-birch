@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -10,15 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import caruana.silverbirch.server.storage.CreateDrive;
+import caruana.silverbirch.server.items.CreateDrive;
 
 import datomic.Peer;
 
 public class CreateDriveTest {
 
-    private static Logger logger = LoggerFactory.getLogger(StorageImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -58,7 +58,7 @@ public class CreateDriveTest {
     {
         profiler.start("createDrive");
         CreateDrive statement = new CreateDrive(conn, "test");
-        Node drive = statement.getDrive();
+        Item drive = statement.getDrive();
         assertNotNull(drive);
         assertNotNull(drive.getUniqueId());
         assertNotNull(drive.getDriveId());

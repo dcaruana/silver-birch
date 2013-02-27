@@ -1,20 +1,20 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import com.google.inject.Inject;
 
-public class StorageStats
+public class Stats
 {
     private GetDriveCount getDriveCount;
-    private GetNodeCount getNodeCount;
+    private GetItemCount getItemCount;
     
     @Inject public void setGetDriveCount(GetDriveCount getDriveCount)
     {
         this.getDriveCount = getDriveCount;
     }
 
-    @Inject public void setGetNodeCount(GetNodeCount getNodeCount)
+    @Inject public void setGetItemCount(GetItemCount getItemCount)
     {
-        this.getNodeCount = getNodeCount;
+        this.getItemCount = getItemCount;
     }
 
     
@@ -23,9 +23,9 @@ public class StorageStats
         return getDriveCount.execute(conn);
     }
     
-    public int getNodeCount(datomic.Connection conn)
+    public int getItemCount(datomic.Connection conn)
     {
-        return getNodeCount.execute(conn);
+        return getItemCount.execute(conn);
     }
     
 }

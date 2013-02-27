@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,16 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
+import caruana.silverbirch.server.items.GetDrive;
 import caruana.silverbirch.server.schema.TestData;
-import caruana.silverbirch.server.storage.GetDrive;
 
 import datomic.Peer;
 
 public class GetDriveTest {
 
-    private static Logger logger = LoggerFactory.getLogger(StorageImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -51,7 +51,7 @@ public class GetDriveTest {
     public void getDriveNotExist()
     {
         profiler.start("getDrive");
-        Node drive = getDrive.execute(conn, "test" + System.currentTimeMillis());
+        Item drive = getDrive.execute(conn, "test" + System.currentTimeMillis());
         assertNull(drive);
         profiler.stop().log();
     }
@@ -60,7 +60,7 @@ public class GetDriveTest {
     public void getDrive()
     {
         profiler.start("getDrive");
-        Node drive = getDrive.execute(conn, "test");
+        Item drive = getDrive.execute(conn, "test");
         assertNotNull(drive);
         assertNotNull(drive.getId());
         assertEquals(drive.getUniqueId(), UUID.fromString("f81d4fae-7dec-11d0-a765-00a0c91e6bf6"));

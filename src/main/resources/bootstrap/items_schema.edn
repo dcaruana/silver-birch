@@ -22,33 +22,33 @@
         :db.install/_attribute :db.part/db
     }
 
-    ; ======= Node schema
+    ; ======= Item schema
 
     {
         :db/id #db/id[:db.part/db]
-        :db/ident :node/name
+        :db/ident :item/name
         :db/valueType :db.type/string
         :db/cardinality :db.cardinality/one
-        :db/doc "Name of node"
+        :db/doc "Name of item"
         :db/index true
         :db.install/_attribute :db.part/db
     }
 
     {
         :db/id #db/id[:db.part/db]
-        :db/ident :node/root
+        :db/ident :item/root
         :db/valueType :db.type/ref
         :db/cardinality :db.cardinality/one
-        :db/doc "Root (owner) of node"
+        :db/doc "Root (owner) of item"
         :db.install/_attribute :db.part/db
     }
 
     {
         :db/id #db/id[:db.part/db]
-        :db/ident :node/parents
+        :db/ident :item/parents
         :db/valueType :db.type/ref
         :db/cardinality :db.cardinality/many
-        :db/doc "Parents of node"
+        :db/doc "Parents of item"
         :db.install/_attribute :db.part/db
     }
     

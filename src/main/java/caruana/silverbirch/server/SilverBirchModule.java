@@ -2,9 +2,9 @@ package caruana.silverbirch.server;
 
 
 import caruana.silverbirch.SilverBirch;
-import caruana.silverbirch.server.storage.GetDrive;
-import caruana.silverbirch.server.storage.ListDrives;
-import caruana.silverbirch.server.storage.StorageImpl;
+import caruana.silverbirch.server.items.GetDrive;
+import caruana.silverbirch.server.items.ListDrives;
+import caruana.silverbirch.server.items.ItemsImpl;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
@@ -16,7 +16,7 @@ public class SilverBirchModule extends AbstractModule
     {
         // server
         bind(SilverBirch.class).to(SilverBirchImpl.class);
-        bind(StorageImpl.class).in(Singleton.class);
+        bind(ItemsImpl.class).in(Singleton.class);
         bind(Bootstrap.class).in(Singleton.class);
         
         // queries

@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -13,12 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.server.Bootstrap;
+import caruana.silverbirch.server.items.ListDrives;
+import caruana.silverbirch.server.items.ItemData;
 import caruana.silverbirch.server.schema.TestData;
 import datomic.Peer;
 
 public class ListDrivesTest {
 
-    private static Logger logger = LoggerFactory.getLogger(StorageImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -46,7 +48,7 @@ public class ListDrivesTest {
     public void listEmptyDrives()
     {
         profiler.start("listDrives");
-        List<NodeData> drives = listDrives.execute(conn);
+        List<ItemData> drives = listDrives.execute(conn);
         assertNotNull(drives);
         assertTrue(drives.isEmpty());
         profiler.stop().log();
@@ -59,7 +61,7 @@ public class ListDrivesTest {
         TestData data = new TestData();
         data.data(conn, "list_drives_data.edn");
         profiler.start("listDrives");
-        List<NodeData> drives = listDrives.execute(conn);
+        List<ItemData> drives = listDrives.execute(conn);
         assertNotNull(drives);
         assertEquals(3, drives.size());
         profiler.stop().log();

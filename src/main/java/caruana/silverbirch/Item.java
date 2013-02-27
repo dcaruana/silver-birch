@@ -2,7 +2,7 @@ package caruana.silverbirch;
 
 import java.util.UUID;
 
-public interface Node {
+public interface Item {
 
     UUID getUniqueId();
     

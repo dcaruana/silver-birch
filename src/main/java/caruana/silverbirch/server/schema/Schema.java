@@ -10,8 +10,8 @@ public interface Schema {
     public static final String SYSTEM_UUID = ":system/uuid";
     public static final String SYSTEM_UNIQUE_NAME = ":system/unique_name";
     
-    public static final String NODE_NAME = ":node/name";
-    public static final String NODE_ROOT = ":node/root";
-    public static final String NODE_PARENTS = ":node/parents";
+    public static final String ITEM_NAME = ":item/name";
+    public static final String ITEM_ROOT = ":item/root";
+    public static final String ITEM_PARENTS = ":item/parents";
 
 }

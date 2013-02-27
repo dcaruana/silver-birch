@@ -1,0 +1,45 @@
+[
+
+    ; some drives to count
+    
+    {
+        :db/id #db/id[:db.part/user -1]
+        :item/name "test1"
+        :item/root #db/id[:db.part/user -1]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -2]
+        :item/name "test2"
+        :item/root #db/id[:db.part/user -2]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -3]
+        :item/name "test3"
+        :item/root #db/id[:db.part/user -3]
+    }
+ 
+    ; some items to count
+    
+    {
+        :db/id #db/id[:db.part/user -4]
+        :item/name "test4"
+        :item/root #db/id[:db.part/user -1]
+    }
+ 
+    {
+        :db/id #db/id[:db.part/user -5]
+        :item/name "test5"
+        :item/parents #db/id[:db.part/user -4]
+        :item/root #db/id[:db.part/user -1]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -6]
+        :item/name "test6"
+        :item/parents #db/id[:db.part/user -5]
+        :item/root #db/id[:db.part/user -1]
+    }
+
+]

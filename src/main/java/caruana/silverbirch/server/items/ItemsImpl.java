@@ -1,17 +1,17 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 
 import java.util.List;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 
 import com.google.inject.Inject;
 
-public class StorageImpl
+public class ItemsImpl
 {
     private GetDrive getDrive;
     private ListDrives listDrives;
-    private ListNodeChildren listNodeChildren;
+    private ListItemChildren listItemChildren;
     
     @Inject public void setGetDrive(GetDrive query)
     {
@@ -23,9 +23,9 @@ public class StorageImpl
         this.listDrives = query;
     }
 
-    @Inject public void setListNodeChildren(ListNodeChildren query)
+    @Inject public void setListItemChildren(ListItemChildren query)
     {
-        this.listNodeChildren = query;
+        this.listItemChildren = query;
     }
 
     public CreateDrive createDrive(datomic.Connection conn, String name)
@@ -34,25 +34,25 @@ public class StorageImpl
         return statement;
     }
 
-    public Node getDrive(datomic.Connection conn, String name)
+    public Item getDrive(datomic.Connection conn, String name)
     {
         return getDrive.execute(conn, name);
     }
     
-    public List<Node> listDrives(datomic.Connection conn)
+    public List<Item> listDrives(datomic.Connection conn)
     {
         return (List)listDrives.execute(conn);
     }
 
-    public CreateNode createNode(datomic.Connection conn, Node parent, String name)
+    public CreateItem createItem(datomic.Connection conn, Item parent, String name)
     {
-        CreateNode statement = new CreateNode(conn, parent, name);
+        CreateItem statement = new CreateItem(conn, parent, name);
         return statement;
     }
 
-    public List<Node> listNodeChildren(datomic.Connection conn, Node parent)
+    public List<Item> listItemChildren(datomic.Connection conn, Item parent)
     {
-        return (List)listNodeChildren.execute(conn, parent);
+        return (List)listItemChildren.execute(conn, parent);
     }
 
 }

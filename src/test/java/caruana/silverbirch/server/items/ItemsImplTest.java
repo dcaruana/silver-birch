@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -12,9 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
+import caruana.silverbirch.server.items.CreateDrive;
+import caruana.silverbirch.server.items.CreateItem;
+import caruana.silverbirch.server.items.ItemData;
+import caruana.silverbirch.server.items.ItemsImpl;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -22,24 +26,24 @@ import com.google.inject.Injector;
 import datomic.Peer;
 
 
-public class StorageImplTest {
+public class ItemsImplTest {
     
-    private static Logger logger = LoggerFactory.getLogger(StorageImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private StorageImpl storage;
+    private ItemsImpl items;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("StorageImplTest");
+        profiler = new Profiler("ItemsImplTest");
         profiler.setLogger(logger);
     }
     
     @Before
-    public void initStorage()
+    public void initItems()
     {
         Peer.createDatabase(repo);
         conn = Peer.connect(repo);
@@ -47,46 +51,46 @@ public class StorageImplTest {
         bootstrap.bootstrap(conn);
         
         Injector injector = Guice.createInjector(new SilverBirchModule());
-        storage = injector.getInstance(StorageImpl.class);
+        items = injector.getInstance(ItemsImpl.class);
     }
 
     @Test
     public void createDrive()
     {
-        CreateDrive statement = storage.createDrive(conn, "test");
+        CreateDrive statement = items.createDrive(conn, "test");
         assertNotNull(statement);
     }
 
     @Test
     public void getDrive()
     {
-        Node drive = storage.getDrive(conn, "test");
+        Item drive = items.getDrive(conn, "test");
         assertNull(drive);
     }
 
     @Test
     public void listDrives()
     {
-        List<Node> drives = storage.listDrives(conn);
+        List<Item> drives = items.listDrives(conn);
         assertNotNull(drives);
         assertTrue(drives.isEmpty());
     }
 
     @Test
-    public void createNode()
+    public void createItem()
     {
-        CreateDrive driveStatement = storage.createDrive(conn, "test");
+        CreateDrive driveStatement = items.createDrive(conn, "test");
         assertNotNull(driveStatement);
-        CreateNode statement = storage.createNode(conn, driveStatement.getDrive(), "test");
+        CreateItem statement = items.createItem(conn, driveStatement.getDrive(), "test");
         assertNotNull(statement);
     }
     
     @Test
-    public void listNodeChildren()
+    public void listItemChildren()
     {
-        List<Node> nodes = storage.listNodeChildren(conn, new NodeData(null, null, null, 1234l, null));
-        assertNotNull(nodes);
-        assertTrue(nodes.isEmpty());
+        List<Item> children = items.listItemChildren(conn, new ItemData(null, null, null, 1234l, null));
+        assertNotNull(children);
+        assertTrue(children.isEmpty());
     }
 
 

@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,6 +10,7 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
+import caruana.silverbirch.server.items.Stats;
 import caruana.silverbirch.server.schema.TestData;
 
 import com.google.inject.Guice;
@@ -17,19 +18,19 @@ import com.google.inject.Injector;
 
 import datomic.Peer;
 
-public class StorageStatsTest {
+public class StatsTest {
 
-    private static Logger logger = LoggerFactory.getLogger(StorageImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private StorageStats storageStats;
+    private Stats stats;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("StorageStatsTest");
+        profiler = new Profiler("StatsTest");
         profiler.setLogger(logger);
     }
     
@@ -41,25 +42,25 @@ public class StorageStatsTest {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         TestData data = new TestData();
-        data.data(conn, "storage_stats.edn");
+        data.data(conn, "items_stats.edn");
         
         Injector injector = Guice.createInjector(new SilverBirchModule());
-        storageStats = injector.getInstance(StorageStats.class);
+        stats = injector.getInstance(Stats.class);
     }
 
     @Test
     public void getDriveCount()
     {
         profiler.start("getDriveCount");
-        int count = storageStats.getDriveCount(conn);
+        int count = stats.getDriveCount(conn);
         assertEquals(3, count);
     }
 
     @Test
-    public void getNodeCount()
+    public void getItemCount()
     {
-        profiler.start("getNodeCount");
-        int count = storageStats.getNodeCount(conn);
+        profiler.start("getItemCount");
+        int count = stats.getItemCount(conn);
         assertEquals(6, count);
     }
 

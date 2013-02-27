@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +19,7 @@ public class GetDrive {
         query = (List)Data.read("/queries/get_drive.edn").get(0);
     }
     
-    public NodeData execute(datomic.Connection connection, String name)
+    public ItemData execute(datomic.Connection connection, String name)
     {
         Collection<List<Object>> results = Datomic.query(query, connection, new Object[] {name});
         if (results.size() == 0)
@@ -27,6 +27,6 @@ public class GetDrive {
             return null;
         }
         List<Object> drive = results.iterator().next();
-        return new NodeData((UUID)drive.get(1), drive.get(0), drive.get(0), drive.get(0), (String)drive.get(2));
+        return new ItemData((UUID)drive.get(1), drive.get(0), drive.get(0), drive.get(0), (String)drive.get(2));
     }
 }

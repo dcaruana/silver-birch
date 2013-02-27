@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -10,16 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import caruana.silverbirch.Node;
+import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import caruana.silverbirch.server.storage.CreateDrive;
-import caruana.silverbirch.server.storage.CreateNode;
+import caruana.silverbirch.server.items.CreateDrive;
+import caruana.silverbirch.server.items.CreateItem;
 
 import datomic.Peer;
 
-public class CreateNodeTest {
+public class CreateItemTest {
 
-    private static Logger logger = LoggerFactory.getLogger(StorageImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -28,7 +28,7 @@ public class CreateNodeTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("CreateNodeTest");
+        profiler = new Profiler("CreateItemTest");
         profiler.setLogger(logger);
     }
     
@@ -40,15 +40,15 @@ public class CreateNodeTest {
     }
 
     @Test
-    public void invalidNodeName()
+    public void invalidItemName()
     {
         profiler.start("createDrive");
         CreateDrive driveStatement = new CreateDrive(conn, "test");
-        profiler.start("createInvalidNode");
+        profiler.start("createInvalidItem");
         try
         {
-            new CreateNode(conn, driveStatement.getDrive(), "/");
-            fail("Failed to catch invalid node name");
+            new CreateItem(conn, driveStatement.getDrive(), "/");
+            fail("Failed to catch invalid item name");
         }
         catch(SilverBirchValidatorException e)
         {
@@ -57,22 +57,22 @@ public class CreateNodeTest {
     }
     
     @Test
-    public void createNode()
+    public void createItem()
     {
         profiler.start("createDrive");
         CreateDrive driveStatement = new CreateDrive(conn, "test");
-        Node drive = driveStatement.getDrive();
+        Item drive = driveStatement.getDrive();
         assertNotNull(drive);
-        profiler.start("createNode");
-        CreateNode nodeStatement = new CreateNode(conn, driveStatement.getDrive(), "node1");
-        assertNotNull(nodeStatement);
-        Node node = nodeStatement.getNode();
-        assertNotNull(node);
-        assertNotNull(node.getUniqueId());
-        assertNotNull(node.getId());
-        assertEquals(drive.getDriveId(), node.getDriveId());
-        assertEquals(drive.getRootId(), node.getRootId());
-        assertEquals("node1", node.getName());
+        profiler.start("createItem");
+        CreateItem itemStatement = new CreateItem(conn, driveStatement.getDrive(), "item1");
+        assertNotNull(itemStatement);
+        Item item = itemStatement.getItem();
+        assertNotNull(item);
+        assertNotNull(item.getUniqueId());
+        assertNotNull(item.getId());
+        assertEquals(drive.getDriveId(), item.getDriveId());
+        assertEquals(drive.getRootId(), item.getRootId());
+        assertEquals("item1", item.getName());
         profiler.stop().log();
     }
  

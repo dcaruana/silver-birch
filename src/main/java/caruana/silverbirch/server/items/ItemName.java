@@ -1,4 +1,4 @@
-package caruana.silverbirch.server.storage;
+package caruana.silverbirch.server.items;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
 
 
-public class NodeName
+public class ItemName
 {
     public static final String separator = "/";
     
@@ -31,7 +31,7 @@ public class NodeName
         {
             if (!isValid(name))
             {
-                throw new SilverBirchValidatorException("Node name " + name + " is not valid");
+                throw new SilverBirchValidatorException("Item name " + name + " is not valid");
             }
         }
     }

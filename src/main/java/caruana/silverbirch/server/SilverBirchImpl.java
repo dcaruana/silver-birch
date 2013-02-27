@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import caruana.silverbirch.Connection;
 import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
-import caruana.silverbirch.server.storage.StorageImpl;
+import caruana.silverbirch.server.items.ItemsImpl;
 
 import com.google.inject.Inject;
 
@@ -19,11 +19,11 @@ public class SilverBirchImpl implements SilverBirch {
     private static String PROTOCOL = "datomic:";
 
     @Inject private Bootstrap bootstrap;
-    @Inject private StorageImpl storage;
+    @Inject private ItemsImpl items;
     
-    public StorageImpl getStorage()
+    public ItemsImpl getItems()
     {
-        return storage;
+        return items;
     }
 
     @Override
@@ -85,8 +85,8 @@ public class SilverBirchImpl implements SilverBirch {
         try
         {
             TransactionImpl transaction = createTransaction(repo);
-            TransactionalStorage connectionStorage = new TransactionalStorage(storage, transaction);
-            return new ConnectionImpl(connectionStorage, transaction);
+            TransactionalItems transactionalItems = new TransactionalItems(items, transaction);
+            return new ConnectionImpl(transactionalItems, transaction);
         }
         catch(clojure.lang.ExceptionInfo e)
         {

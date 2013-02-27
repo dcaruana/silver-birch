@@ -1,4 +1,4 @@
 [ 
  :find (count ?n) :in $ :where
-    [?n :node/name]
+    [?n :item/name]
 ]
