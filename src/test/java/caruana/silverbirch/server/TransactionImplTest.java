@@ -18,6 +18,7 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Transaction;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import caruana.silverbirch.server.TransactionImpl;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.schema.TestData;
 import caruana.silverbirch.server.statement.Statement;
@@ -30,7 +31,7 @@ public class TransactionImplTest {
     
     private static Logger logger = LoggerFactory.getLogger(TransactionImplTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private TransactionImpl transaction;
 
@@ -44,8 +45,9 @@ public class TransactionImplTest {
     @Before
     public void initTransaction()
     {
-        Peer.createDatabase(repo);
-        datomic.Connection conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        datomic.Connection conn = repoStore.connect(repo);
         TestData bootstrap = new TestData();
         bootstrap.bootstrap(conn);
         transaction = new TransactionImpl(conn);

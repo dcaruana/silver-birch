@@ -10,16 +10,13 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.SilverBirchException.SilverBirchFunctionException;
 import caruana.silverbirch.server.TransactionImpl;
-import caruana.silverbirch.server.schema.DefineFunction;
-import caruana.silverbirch.server.schema.EDN;
-
-import datomic.Peer;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 public class DefineFunctionTest {
 
     private static Logger logger = LoggerFactory.getLogger(DefineFunctionTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private TransactionImpl transaction;
 
@@ -33,8 +30,9 @@ public class DefineFunctionTest {
     @Before
     public void initTransaction()
     {
-        Peer.createDatabase(repo);
-        datomic.Connection conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        datomic.Connection conn = repoStore.connect(repo);
         TestData bootstrap = new TestData();
         bootstrap.bootstrap(conn);
         transaction = new TransactionImpl(conn);

@@ -7,24 +7,19 @@ import caruana.silverbirch.Connection;
 import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
 import caruana.silverbirch.server.items.ItemsImpl;
+import caruana.silverbirch.server.repo.RepoStore;
 
 import com.google.inject.Inject;
 
-import datomic.Peer;
 
 public class SilverBirchImpl implements SilverBirch {
 
     final Logger logger = LoggerFactory.getLogger(SilverBirchImpl.class);
     
-    private static String PROTOCOL = "datomic:";
-
+    @Inject private RepoStore repoStore;
     @Inject private Bootstrap bootstrap;
     @Inject private ItemsImpl items;
     
-    public ItemsImpl getItems()
-    {
-        return items;
-    }
 
     @Override
     public boolean createRepo(String repo)
@@ -32,10 +27,10 @@ public class SilverBirchImpl implements SilverBirch {
         if (logger.isDebugEnabled())
             logger.debug("Creating repository {}", repo);
         
-        boolean created = Peer.createDatabase(PROTOCOL + repo);
+        boolean created = repoStore.create(repo);
         if (created)
         {
-            datomic.Connection conn = Peer.connect(PROTOCOL + repo);
+            datomic.Connection conn = repoStore.connect(repo);
             bootstrap.bootstrap(conn);
             
             if (logger.isDebugEnabled())
@@ -66,7 +61,7 @@ public class SilverBirchImpl implements SilverBirch {
             if (logger.isDebugEnabled())
                 logger.debug("Creating transaction for {}", repo);
             
-            conn = Peer.connect(PROTOCOL + repo);
+            conn = repoStore.connect(repo);
             TransactionImpl transaction = new TransactionImpl(conn);
         
             if (logger.isDebugEnabled())

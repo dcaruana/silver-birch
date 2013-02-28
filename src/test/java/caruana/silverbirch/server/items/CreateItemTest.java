@@ -12,16 +12,13 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import caruana.silverbirch.server.items.CreateDrive;
-import caruana.silverbirch.server.items.CreateItem;
-
-import datomic.Peer;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 public class CreateItemTest {
 
     private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
 
@@ -35,8 +32,9 @@ public class CreateItemTest {
     @Before
     public void init()
     {
-        Peer.createDatabase(repo);
-        conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        conn = repoStore.connect(repo);
     }
 
     @Test

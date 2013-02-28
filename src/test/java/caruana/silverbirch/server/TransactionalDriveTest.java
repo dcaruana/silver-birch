@@ -19,16 +19,16 @@ import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import caruana.silverbirch.Transaction;
 import caruana.silverbirch.server.items.GetDrive;
-import caruana.silverbirch.server.items.ListDrives;
 import caruana.silverbirch.server.items.ItemsImpl;
-import datomic.Peer;
+import caruana.silverbirch.server.items.ListDrives;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 
 public class TransactionalDriveTest {
     
     private static Logger logger = LoggerFactory.getLogger(TransactionalDriveTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
     private TransactionImpl transaction;
@@ -44,8 +44,9 @@ public class TransactionalDriveTest {
     @Before
     public void init()
     {
-        Peer.createDatabase(repo);
-        conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();

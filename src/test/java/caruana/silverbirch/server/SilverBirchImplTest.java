@@ -21,7 +21,7 @@ public class SilverBirchImplTest {
     
     private static Logger logger = LoggerFactory.getLogger(SilverBirchImplTest.class);
 
-    private String repo = "mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private SilverBirch silverbirch;
     

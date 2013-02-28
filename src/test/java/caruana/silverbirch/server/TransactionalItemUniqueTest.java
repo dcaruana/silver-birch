@@ -12,20 +12,16 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
-import caruana.silverbirch.server.Bootstrap;
-import caruana.silverbirch.server.TransactionImpl;
-import caruana.silverbirch.server.TransactionalItems;
 import caruana.silverbirch.server.items.GetDrive;
 import caruana.silverbirch.server.items.ItemsImpl;
-
-import datomic.Peer;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 
 public class TransactionalItemUniqueTest {
     
     private static Logger logger = LoggerFactory.getLogger(TransactionalItemUniqueTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
     private TransactionImpl transaction;
@@ -41,8 +37,9 @@ public class TransactionalItemUniqueTest {
     @Before
     public void init()
     {
-        Peer.createDatabase(repo);
-        conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();

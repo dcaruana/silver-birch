@@ -7,14 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.server.Bootstrap;
-
-import datomic.Peer;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 public class BootstrapTest {
 
     private static Logger logger = LoggerFactory.getLogger(BootstrapTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
 
     @Before
@@ -27,9 +26,9 @@ public class BootstrapTest {
     @Test
     public void bootstrap()
     {
-        profiler.start("createDatabase");
-        Peer.createDatabase(repo);
-        datomic.Connection conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        datomic.Connection conn = repoStore.connect(repo);
         profiler.start("bootstrap");
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);

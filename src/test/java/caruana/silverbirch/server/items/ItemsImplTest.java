@@ -19,6 +19,7 @@ import caruana.silverbirch.server.items.CreateDrive;
 import caruana.silverbirch.server.items.CreateItem;
 import caruana.silverbirch.server.items.ItemData;
 import caruana.silverbirch.server.items.ItemsImpl;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -30,7 +31,7 @@ public class ItemsImplTest {
     
     private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
     private ItemsImpl items;
@@ -45,8 +46,9 @@ public class ItemsImplTest {
     @Before
     public void initItems()
     {
-        Peer.createDatabase(repo);
-        conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         

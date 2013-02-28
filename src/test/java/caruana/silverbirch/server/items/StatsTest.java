@@ -10,19 +10,17 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
-import caruana.silverbirch.server.items.Stats;
+import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import datomic.Peer;
-
 public class StatsTest {
 
     private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
-    private String repo = "datomic:mem://repo_" + System.currentTimeMillis();
+    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
     private Stats stats;
@@ -37,8 +35,9 @@ public class StatsTest {
     @Before
     public void init()
     {
-        Peer.createDatabase(repo);
-        conn = Peer.connect(repo);
+        InMemoryRepoStore repoStore = new InMemoryRepoStore();
+        repoStore.create(repo);
+        conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         TestData data = new TestData();
