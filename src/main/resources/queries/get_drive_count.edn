@@ -1,4 +1,4 @@
 [ 
  :find (count ?d) :in $ :where
-    [?d :item/root ?d]
+    [?d :sys.item/root ?d]
 ]

@@ -1,6 +1,6 @@
 [ 
  :find ?d ?uuid ?name :in $ ?name :where
-    [?d :item/name ?name]
-    [?d :system/uuid ?uuid]
-    [?d :item/root ?d]
+    [?d :sys.item/name ?name]
+    [?d :sys.core/uuid ?uuid]
+    [?d :sys.item/root ?d]
 ]

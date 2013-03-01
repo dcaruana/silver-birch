@@ -2,47 +2,47 @@
 
     {
         :db/id #db/id[:db.part/user -1]
-        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf1"
-        :item/name "drive1"
-        :item/root #db/id[:db.part/user -1]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf1"
+        :sys.item/name "drive1"
+        :sys.item/root #db/id[:db.part/user -1]
     }
 
     {
         :db/id #db/id[:db.part/user -2]
-        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf2"
-        :item/name "item1"
-        :item/root #db/id[:db.part/user -1]
-        :item/parents #db/id[:db.part/user -1]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf2"
+        :sys.item/name "item1"
+        :sys.item/root #db/id[:db.part/user -1]
+        :sys.item/parents #db/id[:db.part/user -1]
     }
 
     {
         :db/id #db/id[:db.part/user -3]
-        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf3"
-        :item/name "item2"
-        :item/root #db/id[:db.part/user -1]
-        :item/parents #db/id[:db.part/user -1]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf3"
+        :sys.item/name "item2"
+        :sys.item/root #db/id[:db.part/user -1]
+        :sys.item/parents #db/id[:db.part/user -1]
     }
 
     {
         :db/id #db/id[:db.part/user -4]
-        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf4"
-        :item/name "drive2"
-        :item/root #db/id[:db.part/user -4]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf4"
+        :sys.item/name "drive2"
+        :sys.item/root #db/id[:db.part/user -4]
     }
     
     {
         :db/id #db/id[:db.part/user -5]
-        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf5"
-        :item/name "drive3"
-        :item/root #db/id[:db.part/user -5]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf5"
+        :sys.item/name "drive3"
+        :sys.item/root #db/id[:db.part/user -5]
     }
 
     {
         :db/id #db/id[:db.part/user -6]
-        :system/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
-        :item/name "item1"
-        :item/root #db/id[:db.part/user -5]
-        :item/parents #db/id[:db.part/user -5]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
+        :sys.item/name "item1"
+        :sys.item/root #db/id[:db.part/user -5]
+        :sys.item/parents #db/id[:db.part/user -5]
     }
 
 ]

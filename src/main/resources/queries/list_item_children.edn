@@ -1,7 +1,7 @@
 [ 
  :find ?d ?uuid ?rootId ?name :in $ ?parentId :where
-    [?d :item/parents ?parentId]
-    [?d :system/uuid ?uuid]
-    [?d :item/root ?rootId]
-    [?d :item/name ?name]
+    [?d :sys.item/parents ?parentId]
+    [?d :sys.core/uuid ?uuid]
+    [?d :sys.item/root ?rootId]
+    [?d :sys.item/name ?name]
 ]
