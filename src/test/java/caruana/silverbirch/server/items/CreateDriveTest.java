@@ -64,6 +64,7 @@ public class CreateDriveTest {
         assertNotNull(drive.getId());
         assertEquals(drive.getDriveId(), drive.getId());
         assertEquals("test", drive.getName());
+        assertNotNull(statement.data());
         profiler.stop().log();
     }
 

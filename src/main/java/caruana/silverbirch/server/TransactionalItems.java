@@ -2,12 +2,14 @@ package caruana.silverbirch.server;
 
 
 import java.util.List;
+import java.util.Map;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.Items;
 import caruana.silverbirch.server.items.CreateDrive;
 import caruana.silverbirch.server.items.CreateItem;
 import caruana.silverbirch.server.items.ItemsImpl;
+import caruana.silverbirch.server.items.SetProperties;
 
 public class TransactionalItems implements Items
 {
@@ -52,6 +54,19 @@ public class TransactionalItems implements Items
     public List<Item> listChildren(Item item)
     {
         return items.listItemChildren(transaction.getConnection(), item);
+    }
+
+    @Override
+    public void setProperties(Item item, Map<String, Object> properties)
+    {
+        SetProperties statement = items.setProperties(transaction.getConnection(), item, properties);
+        transaction.addStatement(statement);
+    }
+
+    @Override
+    public Map<String, Object> getProperties(Item item)
+    {
+        return items.getProperties(transaction.getConnection(), item);
     }
 
 }

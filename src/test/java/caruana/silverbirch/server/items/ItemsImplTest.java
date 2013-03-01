@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +17,12 @@ import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
+import caruana.silverbirch.server.schema.TestData;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import datomic.Util;
 
 
 public class ItemsImplTest {
@@ -89,5 +93,23 @@ public class ItemsImplTest {
         assertTrue(children.isEmpty());
     }
 
-
+    @Test
+    public void setProperties()
+    {
+        CreateDrive createDrive = items.createDrive(conn, "test");
+        assertNotNull(createDrive);
+        Map props = Util.map(TestData.TEST_PROPERTY, "value1");
+        SetProperties setProperties = items.setProperties(conn, createDrive.getDrive(), props);
+        assertNotNull(setProperties);
+    }
+    
+    @Test
+    public void getProperties()
+    {
+        CreateDrive createDrive = items.createDrive(conn, "test");
+        assertNotNull(createDrive);
+        Map<String, Object> properties = items.getProperties(conn, createDrive.getDrive());
+        assertNotNull(properties);
+    }
+    
 }

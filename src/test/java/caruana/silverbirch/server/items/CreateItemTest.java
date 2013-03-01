@@ -71,6 +71,7 @@ public class CreateItemTest {
         assertEquals(drive.getDriveId(), item.getDriveId());
         assertEquals(drive.getRootId(), item.getRootId());
         assertEquals("item1", item.getName());
+        assertNotNull(itemStatement.data());
         profiler.stop().log();
     }
  

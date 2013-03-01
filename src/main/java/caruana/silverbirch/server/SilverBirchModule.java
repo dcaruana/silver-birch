@@ -7,6 +7,7 @@ import caruana.silverbirch.server.blobs.BlobsImpl;
 import caruana.silverbirch.server.blobs.GetBlob;
 import caruana.silverbirch.server.blobs.InMemoryBlobStore;
 import caruana.silverbirch.server.items.GetDrive;
+import caruana.silverbirch.server.items.GetProperties;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.items.ListDrives;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
@@ -31,7 +32,7 @@ public class SilverBirchModule extends AbstractModule
         // queries
         bind(GetDrive.class).in(Singleton.class);
         bind(ListDrives.class).in(Singleton.class);
-        
+        bind(GetProperties.class).in(Singleton.class);
         bind(GetBlob.class).in(Singleton.class);
     }
     

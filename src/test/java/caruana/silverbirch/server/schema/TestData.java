@@ -9,6 +9,7 @@ public class TestData
     private static final String DATA_EDN = "/data/";
     
     public static final String TEST_NAME = ":test/name";
+    public static final String TEST_PROPERTY = ":test/property";
 
     public void bootstrap(datomic.Connection conn)
     {

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,10 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
+import caruana.silverbirch.Transaction.Result;
 import caruana.silverbirch.server.items.GetDrive;
+import caruana.silverbirch.server.items.GetProperties;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.items.ListItemChildren;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
+import caruana.silverbirch.server.schema.TestData;
+import datomic.Util;
 
 
 public class TransactionalItemTest {
@@ -44,9 +49,12 @@ public class TransactionalItemTest {
         conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
+        TestData testData = new TestData();
+        testData.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
         items.setGetDrive(new GetDrive());
         items.setListItemChildren(new ListItemChildren());
+        items.setGetProperties(new GetProperties());
         transaction = new TransactionImpl(conn);
         transactionalItems = new TransactionalItems(items, transaction);
     }
@@ -96,4 +104,53 @@ public class TransactionalItemTest {
         assertEquals(2, items2.size());
         profiler.stop().log();
     }
+    
+    @Test
+    public void setPropertiesWithinTransaction()
+    {
+        profiler.start("createDrive");
+        Item drive1 = transactionalItems.createDrive("test");
+        assertNotNull(drive1);
+        profiler.start("setProperties");
+        Map m = Util.map(TestData.TEST_PROPERTY, "value1");
+        transactionalItems.setProperties(drive1, m);
+        transaction.applyChanges();
+        profiler.stop().log();
+    }
+
+    @Test
+    public void setPropertiesAcrossTransaction()
+    {
+        profiler.start("createDrive");
+        Item drive1 = transactionalItems.createDrive("test");
+        assertNotNull(drive1);
+        transaction.applyChanges();
+        profiler.start("setProperties");
+        Map m = Util.map(TestData.TEST_PROPERTY, "value1");
+        transactionalItems.setProperties(drive1, m);
+        assertTrue(transaction.hasChanges());
+        transaction.applyChanges();
+        profiler.stop().log();
+    }
+    
+    @Test
+    public void getProperties()
+    {
+        profiler.start("createDrive");
+        Item drive1 = transactionalItems.createDrive("test");
+        assertNotNull(drive1);
+        profiler.start("setProperties");
+        Map m = Util.map(TestData.TEST_PROPERTY, "value1");
+        transactionalItems.setProperties(drive1, m);
+        transaction.applyChanges();
+        Item drive2 = transactionalItems.getDrive("test");
+        assertNotNull(drive2);
+        Map<String, Object> properties = transactionalItems.getProperties(drive2);
+        assertNotNull(properties);
+        String value = (String)properties.get(TestData.TEST_PROPERTY);
+        assertNotNull(value);
+        assertEquals("value1", value);
+        profiler.stop().log();
+    }
+    
 }
