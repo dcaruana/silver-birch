@@ -15,16 +15,10 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
-import caruana.silverbirch.server.items.CreateDrive;
-import caruana.silverbirch.server.items.CreateItem;
-import caruana.silverbirch.server.items.ItemData;
-import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import datomic.Peer;
 
 
 public class ItemsImplTest {

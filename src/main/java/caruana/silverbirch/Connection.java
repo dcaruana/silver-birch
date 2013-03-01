@@ -5,5 +5,6 @@ public interface Connection {
     Transaction transaction();
 
     Items items();
-    
+ 
+    Blobs blobs();
 }

@@ -1,8 +1,8 @@
 package caruana.silverbirch.server.schema;
 
 
+import caruana.silverbirch.Transaction.Result;
 import caruana.silverbirch.server.TransactionImpl;
-import caruana.silverbirch.server.schema.EDN;
 
 public class TestData
 {
@@ -15,13 +15,13 @@ public class TestData
         data(conn, "test_schema.edn");
     }
     
-    public void data(datomic.Connection conn, String datafile)
+    public Result data(datomic.Connection conn, String datafile)
     {
         TransactionImpl transaction = new TransactionImpl(conn);
         
         EDN testSchema = new EDN(DATA_EDN + datafile);
         transaction.addStatement(testSchema);
 
-        transaction.applyChanges();
+        return transaction.applyChanges();
     }
 }

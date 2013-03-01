@@ -1,0 +1,23 @@
+[
+
+    ; ======= Blob schema
+
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :blob/length
+        :db/valueType :db.type/long
+        :db/cardinality :db.cardinality/one
+        :db/doc "Blob length"
+        :db.install/_attribute :db.part/db
+    }
+
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :blob/mimetype
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/one
+        :db/doc "Blob mimetype"
+        :db.install/_attribute :db.part/db
+    }
+    
+]

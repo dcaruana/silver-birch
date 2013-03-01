@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import caruana.silverbirch.Connection;
 import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
+import caruana.silverbirch.server.blobs.BlobsImpl;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.repo.RepoStore;
 
@@ -19,6 +20,7 @@ public class SilverBirchImpl implements SilverBirch {
     @Inject private RepoStore repoStore;
     @Inject private Bootstrap bootstrap;
     @Inject private ItemsImpl items;
+    @Inject private BlobsImpl blobs;
     
 
     @Override
@@ -81,7 +83,8 @@ public class SilverBirchImpl implements SilverBirch {
         {
             TransactionImpl transaction = createTransaction(repo);
             TransactionalItems transactionalItems = new TransactionalItems(items, transaction);
-            return new ConnectionImpl(transactionalItems, transaction);
+            TransactionalBlobs transactionalBlobs = new TransactionalBlobs(blobs, transaction);
+            return new ConnectionImpl(transactionalItems, transactionalBlobs, transaction);
         }
         catch(clojure.lang.ExceptionInfo e)
         {

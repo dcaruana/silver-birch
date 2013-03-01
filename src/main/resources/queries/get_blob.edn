@@ -1,0 +1,6 @@
+[ 
+ :find ?id ?uuid ?length ?mimetype :in $ ?id :where
+    [?id :system/uuid ?uuid]
+    [?id :blob/length ?length]
+    [?id :blob/mimetype ?mimetype]
+]

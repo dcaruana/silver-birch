@@ -14,4 +14,6 @@ public interface Schema {
     public static final String ITEM_ROOT = ":item/root";
     public static final String ITEM_PARENTS = ":item/parents";
 
+    public static final String BLOB_LENGTH = ":blob/length";
+    public static final String BLOB_MIMETYPE = ":blob/mimetype";
 }
