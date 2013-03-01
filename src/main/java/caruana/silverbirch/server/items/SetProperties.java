@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import caruana.silverbirch.Blob;
 import caruana.silverbirch.Item;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.statement.AbstractConnectionStatement;
@@ -27,8 +28,18 @@ public class SetProperties extends AbstractConnectionStatement
     public List data()
     {
         Map<String, Object> m = new HashMap<String, Object>();
+        
         // TODO: validate against item schema
-        m.putAll(properties);
+        for (Map.Entry<String, Object> entry : properties.entrySet())
+        {
+            Object val = entry.getValue();
+            if (val instanceof Blob)
+            {
+                val = ((Blob)val).getId();
+            }
+            m.put(entry.getKey(), val);
+        }
+
         // NOTE: for now, add item id last, in case provided in custom properties map
         m.put(Schema.DB_ID, item.getId());
         List d = Util.list(m);

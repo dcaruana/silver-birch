@@ -21,4 +21,7 @@ public interface Schema
     public static final String BLOB_LENGTH = ":" + SYS_NS + ".blob/length";
     public static final String BLOB_MIMETYPE = ":" + SYS_NS + ".blob/mimetype";
     
+    
+    // TODO: temporary while lacking user model support
+    public static final String ITEM_CONTENT = ":" + USR_NS + ".item/content";
 }

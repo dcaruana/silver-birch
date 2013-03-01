@@ -3,8 +3,23 @@
     {
         :db/id #db/id[:db.part/user 1]
         :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
-        :sys.item/name "test"
+        :sys.item/name "test1"
         :test/property "value1"
     }
+
+    {
+        :db/id #db/id[:db.part/user 2]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf5"
+        :sys.blob/length 100
+        :sys.blob/mimetype "text/plain"
+    }
     
+    {
+        :db/id #db/id[:db.part/user 3]
+        :sys.core/uuid #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf7"
+        :sys.item/name "test2"
+        :usr.item/content #db/id[:db.part/user 2]
+        :test/property "value2"
+    }
+
 ]

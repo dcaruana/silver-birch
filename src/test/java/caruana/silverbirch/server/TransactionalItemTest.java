@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
-import caruana.silverbirch.Transaction.Result;
 import caruana.silverbirch.server.items.GetDrive;
 import caruana.silverbirch.server.items.GetProperties;
 import caruana.silverbirch.server.items.ItemsImpl;

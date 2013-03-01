@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
+import caruana.silverbirch.Blob;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
@@ -62,12 +63,27 @@ public class GetPropertiesTest {
     public void getProperties()
     {
         profiler.start("getProperties");
-        Object notExist = Peer.tempid(Schema.DB_PARTITION_USER, 1);
-        Map<String, Object> properties = getProperties.execute(conn, notExist);
+        Object exist = Peer.tempid(Schema.DB_PARTITION_USER, 1);
+        Map<String, Object> properties = getProperties.execute(conn, exist);
         assertNotNull(properties);
         String value = (String)properties.get(TestData.TEST_PROPERTY);
         assertNotNull(value);
         assertEquals("value1", value);
+        profiler.stop().log();
+    }
+
+    @Test
+    public void getBlob()
+    {
+        profiler.start("getProperties");
+        Object exist = Peer.tempid(Schema.DB_PARTITION_USER, 3);
+        Map<String, Object> properties = getProperties.execute(conn, exist);
+        assertNotNull(properties);
+        Blob value = (Blob)properties.get(Schema.ITEM_CONTENT);
+        assertNotNull(value);
+        assertNotNull(value.getStreamId());
+        assertEquals(100, value.getLength());
+        assertEquals("text/plain", value.getMimetype());
         profiler.stop().log();
     }
 

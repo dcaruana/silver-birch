@@ -30,4 +30,16 @@
         :db.install/_attribute :db.part/db
     }
     
+    ; ======= Blob (property type)
+    ; TODO: here for now to support blob connection to items (need to move to user model)
+    
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :usr.item/content
+        :db/valueType :db.type/ref
+        :db/cardinality :db.cardinality/one
+        :db/doc "Item Content"
+        :db.install/_attribute :db.part/db
+    }
+    
 ]
