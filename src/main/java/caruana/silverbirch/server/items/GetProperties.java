@@ -10,7 +10,6 @@ import caruana.silverbirch.SilverBirchException.SilverBirchItemException;
 import caruana.silverbirch.server.blobs.BlobData;
 import caruana.silverbirch.server.schema.Schema;
 import datomic.Entity;
-import datomic.query.EntityMap;
 
 
 public class GetProperties {
@@ -47,8 +46,8 @@ public class GetProperties {
         {
             throw new SilverBirchItemException("Cannot convert value " + value + " to blob");
         }
-        // TODO: this should be Entity, but id is not available
-        EntityMap e = (EntityMap)value;
-        return new BlobData(e.eid, (UUID)e.get(Schema.SYSTEM_UUID), (Long)e.get(Schema.BLOB_LENGTH), (String)e.get(Schema.BLOB_MIMETYPE));
+        Entity e = (Entity)value;
+        Object id = e.get("db/id");
+        return new BlobData(id, (UUID)e.get(Schema.SYSTEM_UUID), (Long)e.get(Schema.BLOB_LENGTH), (String)e.get(Schema.BLOB_MIMETYPE));
     }
 }
