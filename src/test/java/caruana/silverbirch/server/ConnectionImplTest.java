@@ -26,13 +26,11 @@ public class ConnectionImplTest {
     private Profiler profiler;
     private ConnectionImpl connection;
     private TransactionImpl transaction;
-    private TransactionalItems transactionalItems;
-    private TransactionalBlobs transactionalBlobs;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ConnectionImplTest");
+        profiler = new Profiler(ConnectionImplTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

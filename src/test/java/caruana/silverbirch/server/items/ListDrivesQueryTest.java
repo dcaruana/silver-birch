@@ -28,7 +28,7 @@ public class ListDrivesQueryTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ListDrivesTest");
+        profiler = new Profiler(ListDrivesQueryTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

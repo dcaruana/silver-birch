@@ -33,7 +33,7 @@ public class GetBlobQueryTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("GetBlobTest");
+        profiler = new Profiler(GetBlobQueryTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

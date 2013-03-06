@@ -19,7 +19,7 @@ import caruana.silverbirch.server.schema.TestData;
 
 public class GetDriveQueryTest {
 
-    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(GetDriveQueryTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -29,7 +29,7 @@ public class GetDriveQueryTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("GetDriveTest");
+        profiler = new Profiler(GetDriveQueryTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

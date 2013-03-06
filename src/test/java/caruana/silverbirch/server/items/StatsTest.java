@@ -18,7 +18,7 @@ import com.google.inject.Injector;
 
 public class StatsTest {
 
-    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(StatsTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -28,7 +28,7 @@ public class StatsTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("StatsTest");
+        profiler = new Profiler(StatsTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     
@@ -53,6 +53,7 @@ public class StatsTest {
         profiler.start("getDriveCount");
         int count = stats.getDriveCount(conn);
         assertEquals(3, count);
+        profiler.stop().log();
     }
 
     @Test
@@ -61,6 +62,7 @@ public class StatsTest {
         profiler.start("getItemCount");
         int count = stats.getItemCount(conn);
         assertEquals(6, count);
+        profiler.stop().log();
     }
 
 }

@@ -47,7 +47,7 @@ public class ItemsChangeLogTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ItemsChangeLogTest");
+        profiler = new Profiler(ItemsChangeLogTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

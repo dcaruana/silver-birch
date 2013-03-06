@@ -25,7 +25,7 @@ public class CreateDriveTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("CreateDriveTest");
+        profiler = new Profiler(CreateDriveTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

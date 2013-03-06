@@ -30,7 +30,7 @@ public class InMemoryBlobStoreTest
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("InMemoryContentStoreTest");
+        profiler = new Profiler(InMemoryBlobStoreTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

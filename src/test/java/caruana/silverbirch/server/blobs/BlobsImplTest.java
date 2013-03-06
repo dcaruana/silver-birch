@@ -39,7 +39,7 @@ public class BlobsImplTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("BlobsImplTest");
+        profiler = new Profiler(BlobsImplTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

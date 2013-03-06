@@ -33,7 +33,7 @@ public class TransactionalChangeLogTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("TransactionalChangeLogTest");
+        profiler = new Profiler(TransactionalChangeLogTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

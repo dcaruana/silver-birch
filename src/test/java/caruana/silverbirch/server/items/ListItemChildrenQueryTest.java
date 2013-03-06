@@ -29,7 +29,7 @@ public class ListItemChildrenQueryTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ListItemChildrenQueryTest");
+        profiler = new Profiler(ListItemChildrenQueryTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

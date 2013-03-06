@@ -37,7 +37,7 @@ public class TransactionalDriveTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("TransactionalDriveTest");
+        profiler = new Profiler(TransactionalDriveTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

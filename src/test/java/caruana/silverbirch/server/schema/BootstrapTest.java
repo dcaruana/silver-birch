@@ -19,7 +19,7 @@ public class BootstrapTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("BootstrapTest");
+        profiler = new Profiler(BootstrapTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

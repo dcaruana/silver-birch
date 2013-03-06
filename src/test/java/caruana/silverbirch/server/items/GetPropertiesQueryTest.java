@@ -30,7 +30,7 @@ public class GetPropertiesQueryTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("GetPropertiesTest");
+        profiler = new Profiler(GetPropertiesQueryTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

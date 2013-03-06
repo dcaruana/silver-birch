@@ -37,7 +37,7 @@ public class GetChangeLogQueryTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler(GetChangeLogQueryTest.class.getName());
+        profiler = new Profiler(GetChangeLogQueryTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

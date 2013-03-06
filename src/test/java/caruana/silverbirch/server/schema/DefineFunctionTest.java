@@ -23,7 +23,7 @@ public class DefineFunctionTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("DefineFunctionTest");
+        profiler = new Profiler(DefineFunctionTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

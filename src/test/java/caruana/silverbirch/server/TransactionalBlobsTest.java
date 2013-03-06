@@ -40,7 +40,7 @@ public class TransactionalBlobsTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("TransactionalBlobTest");
+        profiler = new Profiler(TransactionalBlobsTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

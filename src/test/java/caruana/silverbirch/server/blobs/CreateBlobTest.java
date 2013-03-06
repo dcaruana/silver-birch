@@ -27,7 +27,7 @@ public class CreateBlobTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("CreateBlobTest");
+        profiler = new Profiler(CreateBlobTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

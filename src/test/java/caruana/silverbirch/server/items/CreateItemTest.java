@@ -16,7 +16,7 @@ import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 public class CreateItemTest {
 
-    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(CreateItemTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
@@ -25,7 +25,7 @@ public class CreateItemTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("CreateItemTest");
+        profiler = new Profiler(CreateItemTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

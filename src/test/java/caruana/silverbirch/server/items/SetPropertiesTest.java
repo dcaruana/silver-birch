@@ -28,7 +28,7 @@ public class SetPropertiesTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("SetPropertiesTest");
+        profiler = new Profiler(SetPropertiesTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

@@ -28,7 +28,7 @@ public class SilverBirchImplTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("SilverBirchImplTest");
+        profiler = new Profiler(SilverBirchImplTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

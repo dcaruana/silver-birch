@@ -30,7 +30,7 @@ public class TransactionalItemUniqueTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("TransactionalItemUniqueTest");
+        profiler = new Profiler(TransactionalItemUniqueTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

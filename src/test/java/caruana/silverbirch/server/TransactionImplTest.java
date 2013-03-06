@@ -37,7 +37,7 @@ public class TransactionImplTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("TransactionImplTest");
+        profiler = new Profiler(TransactionImplTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     

@@ -37,7 +37,7 @@ public class ItemsImplTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ItemsImplTest");
+        profiler = new Profiler(ItemsImplTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     
