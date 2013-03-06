@@ -1,0 +1,41 @@
+[
+
+    ; ======= Log schema
+
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :sys.log/statement
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/one
+        :db/doc "Log statement"
+        :db.install/_attribute :db.part/db
+    }
+
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :sys.log/subject
+        :db/valueType :db.type/ref
+        :db/cardinality :db.cardinality/one
+        :db/doc "Log statement subject"
+        :db.install/_attribute :db.part/db
+    }
+
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :sys.log/attrs.entity
+        :db/valueType :db.type/ref
+        :db/cardinality :db.cardinality/one
+        :db/doc "Entity holding log attributes"
+        :db.install/_attribute :db.part/db
+    }
+
+    {
+        :db/id #db/id[:db.part/db]
+        :db/ident :sys.log/attrs
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/many
+        :db/doc "Attributes to log"
+        :db.install/_attribute :db.part/db
+    }
+
+]

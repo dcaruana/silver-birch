@@ -20,4 +20,10 @@ public class EDN implements Statement
     {
         return data;
     }
+    
+    @Override
+    public List log()
+    {
+        return null;
+    }
 }

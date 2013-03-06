@@ -2,9 +2,7 @@ package caruana.silverbirch.server.blobs;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import caruana.silverbirch.server.items.ItemData;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.statement.AbstractConnectionStatement;
 import datomic.Peer;
@@ -38,6 +36,12 @@ public class CreateBlob  extends AbstractConnectionStatement
                 );
         List d = Util.list(m);
         return d;
+    }
+
+    @Override
+    public List log()
+    {
+        return null;
     }
     
 }

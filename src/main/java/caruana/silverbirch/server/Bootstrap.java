@@ -14,6 +14,9 @@ public class Bootstrap
         EDN systemSchema = new EDN(BOOTSTRAP_EDN + "system_schema.edn");
         transaction.addStatement(systemSchema);
 
+        EDN logSchema = new EDN(BOOTSTRAP_EDN + "log_schema.edn");
+        transaction.addStatement(logSchema);
+
         EDN itemsSchema = new EDN(BOOTSTRAP_EDN + "items_schema.edn");
         transaction.addStatement(itemsSchema);
 

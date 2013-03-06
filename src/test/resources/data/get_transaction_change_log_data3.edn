@@ -1,0 +1,26 @@
+[
+
+    {
+        :db/id #db/id[:db.part/user 3]
+        :test/property "value3"
+        :test/name "name3"
+    }
+
+    {
+        :db/id #db/id[:db.part/user -103]
+        :sys.log/statement "test_statement3"
+        :sys.log/subject #db/id[:db.part/user 3]
+        :sys.log/attrs.entity #db/id[:db.part/user 3]
+        :sys.log/attrs [ ":test/property" ]
+    }
+
+    {
+        :db/id #db/id[:db.part/user -104]
+        :sys.log/statement "test_statement3"
+        :sys.log/subject #db/id[:db.part/user 3]
+        :sys.log/attrs.entity #db/id[:db.part/user -104]
+        :sys.log/attrs [ ":test.log/property" ]
+        :test.log/property "customvalue3"
+    }
+    
+]

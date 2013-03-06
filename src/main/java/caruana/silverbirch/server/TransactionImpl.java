@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-
-import caruana.silverbirch.Transaction;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
+import caruana.silverbirch.Transaction;
 import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 import caruana.silverbirch.server.statement.Statement;
-
 import datomic.Connection;
 import datomic.Database;
+import datomic.Datom;
 import datomic.ListenableFuture;
 import datomic.Peer;
 
@@ -57,7 +56,15 @@ public class TransactionImpl implements Transaction
         for (Statement statement : statements)
         {
             List data = statement.data();
-            transaction.addAll(data);
+            if (data != null)
+            {
+                transaction.addAll(data);
+            }
+            List log = statement.log();
+            if (log != null)
+            {
+                transaction.addAll(log);
+            }
         }
         try
         {
@@ -88,12 +95,20 @@ public class TransactionImpl implements Transaction
             this.db = db;
             this.result = result;
         }
-        
+
+        @Override
+        public Object getTransactionId()
+        {
+            List<Datom> datoms = (List<Datom>)result.get(Connection.TX_DATA);
+            // TODO: assume there's always one
+            return datoms.get(0).tx();
+        }
+
         @Override
         public Object resolveId(Object tempId)
         {
             return Peer.resolveTempid(db, result.get(Connection.TEMPIDS), tempId);
         }
-        
+
     }
 }

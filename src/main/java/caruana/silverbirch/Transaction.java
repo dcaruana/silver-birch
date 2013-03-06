@@ -14,6 +14,8 @@ public interface Transaction {
     
     public interface Result
     {
+        Object getTransactionId();
+        
         Object resolveId(Object tempId);
     }
 }

@@ -8,6 +8,7 @@ import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.SilverBirchException.SilverBirchConnectionException;
 import caruana.silverbirch.server.blobs.BlobsImpl;
 import caruana.silverbirch.server.items.ItemsImpl;
+import caruana.silverbirch.server.log.ChangeLogImpl;
 import caruana.silverbirch.server.repo.RepoStore;
 
 import com.google.inject.Inject;
@@ -21,6 +22,7 @@ public class SilverBirchImpl implements SilverBirch {
     @Inject private Bootstrap bootstrap;
     @Inject private ItemsImpl items;
     @Inject private BlobsImpl blobs;
+    @Inject private ChangeLogImpl log;
     
 
     @Override
@@ -82,9 +84,11 @@ public class SilverBirchImpl implements SilverBirch {
         try
         {
             TransactionImpl transaction = createTransaction(repo);
-            TransactionalItems transactionalItems = new TransactionalItems(items, transaction);
-            TransactionalBlobs transactionalBlobs = new TransactionalBlobs(blobs, transaction);
-            return new ConnectionImpl(transactionalItems, transactionalBlobs, transaction);
+            ConnectionImpl connection = new ConnectionImpl(transaction);
+            connection.setTransactionalItems(new TransactionalItems(items, transaction));
+            connection.setTransactionalBlobs(new TransactionalBlobs(blobs, transaction));
+            connection.setTransactionalChangeLog(new TransactionalChangeLog(log, transaction));
+            return connection;
         }
         catch(clojure.lang.ExceptionInfo e)
         {

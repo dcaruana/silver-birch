@@ -1,6 +1,7 @@
 package caruana.silverbirch.server;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -15,14 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
-import caruana.silverbirch.Transaction;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
-import caruana.silverbirch.server.TransactionImpl;
+import caruana.silverbirch.Transaction;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.schema.TestData;
 import caruana.silverbirch.server.statement.Statement;
-
 import datomic.Peer;
 import datomic.Util;
 
@@ -121,6 +120,30 @@ public class TransactionImplTest {
         profiler.stop().log();
     }
 
+    @Test
+    public void transactionId()
+    {
+        profiler.start("newCommand");
+        NewCommand cmd = new NewCommand();
+        transaction.addStatement(cmd);
+        Transaction.Result r = transaction.applyChanges();
+        profiler.start("transactionId");
+        Object trxId1 = r.getTransactionId();
+        assertNotNull(trxId1);
+        assertTrue(Long.class.isInstance(trxId1));
+        profiler.start("newCommand2");
+        NewCommand cmd2 = new NewCommand();
+        transaction.addStatement(cmd2);
+        Transaction.Result r2 = transaction.applyChanges();
+        profiler.start("transactionId2");
+        Object trxId2 = r2.getTransactionId();
+        assertNotNull(trxId2);
+        assertTrue(Long.class.isInstance(trxId2));
+        assertNotEquals(trxId1, trxId2);
+        profiler.stop().log();
+    }
+    
+    
     private static class NewCommand implements Statement
     {
         private Object id;
@@ -141,6 +164,12 @@ public class TransactionImplTest {
             Map m = Util.map(Schema.DB_ID, id, TestData.TEST_NAME, "test");
             return Util.list(m);
         }
+        
+        @Override
+        public List log()
+        {
+            return null;
+        }
     }
 
     private static class BadCommand implements Statement
@@ -149,6 +178,12 @@ public class TransactionImplTest {
         public List data()
         {
             return Util.list(Util.map(":test/invalid", "test"));
+        }
+        
+        @Override
+        public List log()
+        {
+            return null;
         }
     }
 

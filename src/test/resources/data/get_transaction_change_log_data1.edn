@@ -1,0 +1,17 @@
+[
+
+    {
+        :db/id #db/id[:db.part/user 1]
+        :test/property "value1"
+        :test/name "name1"
+    }
+
+    {
+        :db/id #db/id[:db.part/user -101]
+        :sys.log/statement "test_statement1"
+        :sys.log/subject #db/id[:db.part/user 1]
+        :sys.log/attrs.entity #db/id[:db.part/user 1]
+        :sys.log/attrs ":test/property"
+    }
+    
+]

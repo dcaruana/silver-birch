@@ -27,9 +27,9 @@ import caruana.silverbirch.server.schema.Schema;
 import datomic.Peer;
 
 
-public class TransactionalBlobTest {
+public class TransactionalBlobsTest {
     
-    private static Logger logger = LoggerFactory.getLogger(TransactionalBlobTest.class);
+    private static Logger logger = LoggerFactory.getLogger(TransactionalBlobsTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;

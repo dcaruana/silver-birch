@@ -1,0 +1,18 @@
+[
+ :find ?statement ?subject ?attr ?v ?added :in $ ?tx :where
+    [?l :sys.log/attrs.entity ?ae ?tx]
+    [?l :sys.log/subject ?subject]
+    [?l :sys.log/attrs ?attr]
+    [?a :db/ident ?attr]
+    [?l :sys.log/statement ?statement]
+    [?ae ?a ?v ?tx ?added]
+]
+
+;[
+; :find ?statement ?e ?attr ?v ?added :in $ ?tx :where
+;    [?l :sys.log/entity ?e ?tx]
+;    [?l :sys.log/attrs ?attr]
+;    [?a :db/ident ?attr]
+;    [?l :sys.log/statement ?statement]
+;    [?e ?a ?v ?tx ?added]
+;]

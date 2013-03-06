@@ -83,6 +83,12 @@ public class DefineFunction implements Statement
         return Util.list(m);
     }
 
+    @Override
+    public List log()
+    {
+        return null;
+    }
+
     private void forceCompile(Fn func)
         throws CompileException
     {
@@ -111,5 +117,5 @@ public class DefineFunction implements Statement
         else if (size == 10)
             ((Fn10)func).invoke(p, p, p, p, p, p, p, p, p, p);
     }
-    
+
 }

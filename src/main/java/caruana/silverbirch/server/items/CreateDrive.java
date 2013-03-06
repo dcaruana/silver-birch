@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
+import caruana.silverbirch.ChangeLog;
+import caruana.silverbirch.server.log.ChangeLogImpl;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.statement.AbstractConnectionStatement;
-
 import datomic.Peer;
 import datomic.Util;
 
@@ -33,15 +33,22 @@ public class CreateDrive extends AbstractConnectionStatement
     @Override
     public List data()
     {
-        Map m = Util.map(
+        // entity
+        Map e = Util.map(
                     Schema.DB_ID, item.getId(),
                     Schema.SYSTEM_UUID, item.getUniqueId(),
                     Schema.SYSTEM_UNIQUE_NAME, item.getName(),
                     Schema.ITEM_NAME, item.getName(), 
                     Schema.ITEM_ROOT, item.getRootId()
                 );
-        List d = Util.list(m);
-        return d;
+        
+        return Util.list(e);
     }
-    
+
+    @Override
+    public List log()
+    {
+        List attrs = Util.list(Schema.ITEM_NAME, Schema.ITEM_ROOT);
+        return ChangeLogImpl.createEntry(ChangeLog.CREATE_DRIVE, item.getId(), attrs);
+    }
 }

@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 
 
+import caruana.silverbirch.ChangeLog;
 import caruana.silverbirch.Item;
+import caruana.silverbirch.server.log.ChangeLogImpl;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.statement.AbstractConnectionStatement;
 
@@ -36,7 +38,7 @@ public class CreateItem extends AbstractConnectionStatement
     @Override
     public List data()
     {
-        Map m = Util.map(
+        Map e = Util.map(
                 Schema.DB_ID, item.getId(),
                 Schema.SYSTEM_UUID, item.getUniqueId(),
                 Schema.SYSTEM_UNIQUE_NAME, item.getName() + ItemName.separator + parent.getUniqueId(),
@@ -44,8 +46,15 @@ public class CreateItem extends AbstractConnectionStatement
                 Schema.ITEM_ROOT, item.getRootId(),
                 Schema.ITEM_PARENTS, parent.getId()
             );
-        List d = Util.list(m);
-        return d;
+        
+        return Util.list(e);
+    }
+
+    @Override
+    public List log()
+    {
+        List attrs = Util.list(Schema.ITEM_NAME, Schema.ITEM_ROOT, Schema.ITEM_PARENTS);
+        return ChangeLogImpl.createEntry(ChangeLog.CREATE_ITEM, item.getId(), attrs);
     }
     
 }

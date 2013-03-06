@@ -14,6 +14,11 @@ public interface Schema
     public static final String SYSTEM_UUID = ":" + SYS_NS + ".core/uuid";
     public static final String SYSTEM_UNIQUE_NAME = ":" + SYS_NS + ".core/unique_name";
     
+    public static final String LOG_STATEMENT = ":" + SYS_NS + ".log/statement";
+    public static final String LOG_SUBJECT = ":" + SYS_NS + ".log/subject";
+    public static final String LOG_ATTRIBUTES_ENTITY = ":" + SYS_NS + ".log/attrs.entity";
+    public static final String LOG_ATTRIBUTES = ":" + SYS_NS + ".log/attrs";
+    
     public static final String ITEM_NAME = ":" + SYS_NS + ".item/name";
     public static final String ITEM_ROOT = ":" + SYS_NS + ".item/root";
     public static final String ITEM_PARENTS = ":" + SYS_NS + ".item/parents";

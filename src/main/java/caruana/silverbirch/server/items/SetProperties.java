@@ -1,11 +1,14 @@
 package caruana.silverbirch.server.items;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import caruana.silverbirch.Blob;
+import caruana.silverbirch.ChangeLog;
 import caruana.silverbirch.Item;
+import caruana.silverbirch.server.log.ChangeLogImpl;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.statement.AbstractConnectionStatement;
 import datomic.Util;
@@ -44,6 +47,12 @@ public class SetProperties extends AbstractConnectionStatement
         m.put(Schema.DB_ID, item.getId());
         List d = Util.list(m);
         return d;
+    }
+    
+    @Override
+    public List log()
+    {
+        return ChangeLogImpl.createEntry(ChangeLog.SET_PROPERTIES, item.getId(), new ArrayList<String>(properties.keySet()));
     }
     
 }

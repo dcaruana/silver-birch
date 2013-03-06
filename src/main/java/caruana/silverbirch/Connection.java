@@ -7,4 +7,6 @@ public interface Connection {
     Items items();
  
     Blobs blobs();
+    
+    ChangeLog changelog();
 }

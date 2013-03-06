@@ -10,6 +10,7 @@ public class TestData
     
     public static final String TEST_NAME = ":test/name";
     public static final String TEST_PROPERTY = ":test/property";
+    public static final String TEST_LOG_PROPERTY = ":test.log/property";
 
     public void bootstrap(datomic.Connection conn)
     {
