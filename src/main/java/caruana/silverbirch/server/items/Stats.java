@@ -4,15 +4,15 @@ import com.google.inject.Inject;
 
 public class Stats
 {
-    private GetDriveCount getDriveCount;
-    private GetItemCount getItemCount;
+    private GetDriveCountQuery getDriveCount;
+    private GetItemCountQuery getItemCount;
     
-    @Inject public void setGetDriveCount(GetDriveCount getDriveCount)
+    @Inject public void setGetDriveCount(GetDriveCountQuery getDriveCount)
     {
         this.getDriveCount = getDriveCount;
     }
 
-    @Inject public void setGetItemCount(GetItemCount getItemCount)
+    @Inject public void setGetItemCount(GetItemCountQuery getItemCount)
     {
         this.getItemCount = getItemCount;
     }

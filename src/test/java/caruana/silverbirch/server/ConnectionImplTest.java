@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.server.blobs.BlobsImpl;
-import caruana.silverbirch.server.blobs.GetBlob;
+import caruana.silverbirch.server.blobs.GetBlobQuery;
 import caruana.silverbirch.server.blobs.InMemoryBlobStore;
-import caruana.silverbirch.server.items.GetDrive;
+import caruana.silverbirch.server.items.GetDriveQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.log.ChangeLogImpl;
-import caruana.silverbirch.server.log.GetTransactionChangeLog;
+import caruana.silverbirch.server.log.GetChangeLogQuery;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 
@@ -43,12 +43,12 @@ public class ConnectionImplTest {
         repoStore.create(repo);
         datomic.Connection conn = repoStore.connect(repo);
         ItemsImpl items = new ItemsImpl();
-        items.setGetDrive(new GetDrive());
+        items.setGetDrive(new GetDriveQuery());
         BlobsImpl blobs = new BlobsImpl();
-        blobs.setGetBlob(new GetBlob());
+        blobs.setGetBlob(new GetBlobQuery());
         blobs.setBlobStore(new InMemoryBlobStore());
         ChangeLogImpl log = new ChangeLogImpl();
-        log.setGetTransactionChangeLog(new GetTransactionChangeLog());
+        log.setGetTransactionChangeLog(new GetChangeLogQuery());
         transaction = new TransactionImpl(conn);
         connection = new ConnectionImpl(transaction);
         connection.setTransactionalItems(new TransactionalItems(items, transaction));

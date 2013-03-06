@@ -20,7 +20,7 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Blob;
 import caruana.silverbirch.Transaction.Result;
 import caruana.silverbirch.server.blobs.BlobsImpl;
-import caruana.silverbirch.server.blobs.GetBlob;
+import caruana.silverbirch.server.blobs.GetBlobQuery;
 import caruana.silverbirch.server.blobs.InMemoryBlobStore;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
@@ -53,7 +53,7 @@ public class TransactionalBlobsTest {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         BlobsImpl blobs = new BlobsImpl();
-        blobs.setGetBlob(new GetBlob());
+        blobs.setGetBlob(new GetBlobQuery());
         blobs.setBlobStore(new InMemoryBlobStore());
         transaction = new TransactionImpl(conn);
         transactionalBlobs = new TransactionalBlobs(blobs, transaction);

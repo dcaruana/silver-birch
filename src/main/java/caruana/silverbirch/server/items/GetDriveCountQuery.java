@@ -7,13 +7,13 @@ import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 
 
-public class GetDriveCount {
+public class GetDriveCountQuery {
 
     private List query;
     
-    public GetDriveCount()
+    public GetDriveCountQuery()
     {
-        query = (List)Data.read("/queries/get_drive_count.edn").get(0);
+        query = (List)Data.read("/queries/get_drive_count_q.edn").get(0);
     }
     
     public int execute(datomic.Connection connection)

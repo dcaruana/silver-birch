@@ -12,7 +12,7 @@ import caruana.silverbirch.server.schema.Schema;
 import datomic.Entity;
 
 
-public class GetProperties {
+public class GetPropertiesQuery {
 
     public Map<String, Object> execute(datomic.Connection connection, Object entityId)
     {

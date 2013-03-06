@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
-import caruana.silverbirch.server.items.GetDrive;
-import caruana.silverbirch.server.items.GetProperties;
+import caruana.silverbirch.server.items.GetDriveQuery;
+import caruana.silverbirch.server.items.GetPropertiesQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
-import caruana.silverbirch.server.items.ListItemChildren;
+import caruana.silverbirch.server.items.ListItemChildrenQuery;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 import datomic.Util;
@@ -51,9 +51,9 @@ public class TransactionalItemTest {
         TestData testData = new TestData();
         testData.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
-        items.setGetDrive(new GetDrive());
-        items.setListItemChildren(new ListItemChildren());
-        items.setGetProperties(new GetProperties());
+        items.setGetDrive(new GetDriveQuery());
+        items.setListItemChildren(new ListItemChildrenQuery());
+        items.setGetProperties(new GetPropertiesQuery());
         transaction = new TransactionImpl(conn);
         transactionalItems = new TransactionalItems(items, transaction);
     }

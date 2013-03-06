@@ -18,14 +18,14 @@ import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.schema.TestData;
 import datomic.Peer;
 
-public class GetPropertiesTest {
+public class GetPropertiesQueryTest {
 
-    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(GetPropertiesQueryTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private GetProperties getProperties;
+    private GetPropertiesQuery getProperties;
 
     @Before
     public void initProfiler()
@@ -45,7 +45,7 @@ public class GetPropertiesTest {
         TestData testData = new TestData();
         testData.bootstrap(conn);
         testData.data(conn, "get_properties_data.edn");
-        getProperties = new GetProperties();
+        getProperties = new GetPropertiesQuery();
     }
 
     @Test

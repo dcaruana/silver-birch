@@ -16,20 +16,20 @@ import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 
-public class ListItemChildrenTest {
+public class ListItemChildrenQueryTest {
 
-    private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ListItemChildrenQueryTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private GetDrive getDrive;
-    private ListItemChildren listItemChildren;
+    private GetDriveQuery getDrive;
+    private ListItemChildrenQuery listItemChildren;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ListItemChildrenTest");
+        profiler = new Profiler("ListItemChildrenQueryTest");
         profiler.setLogger(logger);
     }
     
@@ -41,8 +41,8 @@ public class ListItemChildrenTest {
         conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
-        getDrive = new GetDrive();
-        listItemChildren = new ListItemChildren();
+        getDrive = new GetDriveQuery();
+        listItemChildren = new ListItemChildrenQuery();
     }
 
     @Test

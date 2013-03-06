@@ -10,13 +10,13 @@ import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 
 
-public class GetDrive {
+public class GetDriveQuery {
 
     private List query;
     
-    public GetDrive()
+    public GetDriveQuery()
     {
-        query = (List)Data.read("/queries/get_drive.edn").get(0);
+        query = (List)Data.read("/queries/get_drive_q.edn").get(0);
     }
     
     public ItemData execute(datomic.Connection connection, String name)

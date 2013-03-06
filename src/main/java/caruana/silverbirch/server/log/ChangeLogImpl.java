@@ -16,10 +16,10 @@ import datomic.Util;
 
 public class ChangeLogImpl
 {
-    private GetTransactionChangeLog getChangeLog;
+    private GetChangeLogQuery getChangeLog;
     
     
-    @Inject public void setGetTransactionChangeLog(GetTransactionChangeLog query)
+    @Inject public void setGetTransactionChangeLog(GetChangeLogQuery query)
     {
         this.getChangeLog = query;
     }

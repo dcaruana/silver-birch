@@ -7,13 +7,13 @@ import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 
 
-public class GetItemCount {
+public class GetItemCountQuery {
 
     private List query;
     
-    public GetItemCount()
+    public GetItemCountQuery()
     {
-        query = (List)Data.read("/queries/get_item_count.edn").get(0);
+        query = (List)Data.read("/queries/get_item_count_q.edn").get(0);
     }
     
     public int execute(datomic.Connection connection)

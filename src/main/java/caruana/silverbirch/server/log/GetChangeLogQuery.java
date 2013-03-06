@@ -8,14 +8,14 @@ import caruana.silverbirch.datomic.Datomic;
 import datomic.Database;
 
 
-public class GetTransactionChangeLog
+public class GetChangeLogQuery
 {
 
     private List query;
     
-    public GetTransactionChangeLog()
+    public GetChangeLogQuery()
     {
-        query = (List)Data.read("/queries/get_transaction_change_log.edn").get(0);
+        query = (List)Data.read("/queries/get_change_log_q.edn").get(0);
     }
     
     public Collection<List<Object>> execute(datomic.Connection connection, Object transactionId)

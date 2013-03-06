@@ -4,14 +4,14 @@ package caruana.silverbirch.server;
 import caruana.silverbirch.SilverBirch;
 import caruana.silverbirch.server.blobs.BlobStore;
 import caruana.silverbirch.server.blobs.BlobsImpl;
-import caruana.silverbirch.server.blobs.GetBlob;
+import caruana.silverbirch.server.blobs.GetBlobQuery;
 import caruana.silverbirch.server.blobs.InMemoryBlobStore;
-import caruana.silverbirch.server.items.GetDrive;
-import caruana.silverbirch.server.items.GetProperties;
+import caruana.silverbirch.server.items.GetDriveQuery;
+import caruana.silverbirch.server.items.GetPropertiesQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
-import caruana.silverbirch.server.items.ListDrives;
+import caruana.silverbirch.server.items.ListDrivesQuery;
 import caruana.silverbirch.server.log.ChangeLogImpl;
-import caruana.silverbirch.server.log.GetTransactionChangeLog;
+import caruana.silverbirch.server.log.GetChangeLogQuery;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.repo.RepoStore;
 
@@ -33,11 +33,11 @@ public class SilverBirchModule extends AbstractModule
         bind(ChangeLogImpl.class).in(Singleton.class);
         
         // queries
-        bind(GetDrive.class).in(Singleton.class);
-        bind(ListDrives.class).in(Singleton.class);
-        bind(GetProperties.class).in(Singleton.class);
-        bind(GetBlob.class).in(Singleton.class);
-        bind(GetTransactionChangeLog.class).in(Singleton.class);
+        bind(GetDriveQuery.class).in(Singleton.class);
+        bind(ListDrivesQuery.class).in(Singleton.class);
+        bind(GetPropertiesQuery.class).in(Singleton.class);
+        bind(GetBlobQuery.class).in(Singleton.class);
+        bind(GetChangeLogQuery.class).in(Singleton.class);
     }
     
 }

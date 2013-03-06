@@ -22,10 +22,10 @@ import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.TransactionImpl;
 import caruana.silverbirch.server.TransactionalChangeLog;
 import caruana.silverbirch.server.TransactionalItems;
-import caruana.silverbirch.server.items.GetDrive;
-import caruana.silverbirch.server.items.GetProperties;
+import caruana.silverbirch.server.items.GetDriveQuery;
+import caruana.silverbirch.server.items.GetPropertiesQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
-import caruana.silverbirch.server.items.ListItemChildren;
+import caruana.silverbirch.server.items.ListItemChildrenQuery;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.schema.TestData;
@@ -62,13 +62,13 @@ public class ItemsChangeLogTest {
         TestData data = new TestData();
         data.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
-        items.setGetDrive(new GetDrive());
-        items.setListItemChildren(new ListItemChildren());
-        items.setGetProperties(new GetProperties());
+        items.setGetDrive(new GetDriveQuery());
+        items.setListItemChildren(new ListItemChildrenQuery());
+        items.setGetProperties(new GetPropertiesQuery());
         transaction = new TransactionImpl(conn);
         transactionalItems = new TransactionalItems(items, transaction);
         ChangeLogImpl log = new ChangeLogImpl();
-        log.setGetTransactionChangeLog(new GetTransactionChangeLog());
+        log.setGetTransactionChangeLog(new GetChangeLogQuery());
         transactionalLog = new TransactionalChangeLog(log, transaction);
     }
 

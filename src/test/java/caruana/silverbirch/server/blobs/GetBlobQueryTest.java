@@ -20,14 +20,14 @@ import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.schema.TestData;
 import datomic.Peer;
 
-public class GetBlobTest {
+public class GetBlobQueryTest {
 
-    private static Logger logger = LoggerFactory.getLogger(GetBlobTest.class);
+    private static Logger logger = LoggerFactory.getLogger(GetBlobQueryTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private GetBlob getBlob;
+    private GetBlobQuery getBlob;
     private Object blobId;
 
     @Before
@@ -48,7 +48,7 @@ public class GetBlobTest {
         TestData data = new TestData();
         Result result = data.data(conn, "get_blob_data.edn");
         blobId = result.resolveId(Peer.tempid(Schema.DB_PARTITION_USER, -1));
-        getBlob = new GetBlob();
+        getBlob = new GetBlobQuery();
     }
 
     @Test

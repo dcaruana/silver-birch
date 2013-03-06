@@ -2,9 +2,9 @@ package caruana.silverbirch.server.items;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
-import java.util.List;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,23 +12,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
+import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 
-public class ListDrivesTest {
+public class GetDriveQueryTest {
 
     private static Logger logger = LoggerFactory.getLogger(ItemsImplTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private ListDrives listDrives;
+    private GetDriveQuery getDrive;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("ListDrivesTest");
+        profiler = new Profiler("GetDriveTest");
         profiler.setLogger(logger);
     }
     
@@ -40,29 +41,31 @@ public class ListDrivesTest {
         conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
-        listDrives = new ListDrives();
+        TestData data = new TestData();
+        data.data(conn, "get_drive_data.edn");
+        getDrive = new GetDriveQuery();
     }
 
     @Test
-    public void listEmptyDrives()
+    public void getDriveNotExist()
     {
-        profiler.start("listDrives");
-        List<ItemData> drives = listDrives.execute(conn);
-        assertNotNull(drives);
-        assertTrue(drives.isEmpty());
+        profiler.start("getDrive");
+        Item drive = getDrive.execute(conn, "test" + System.currentTimeMillis());
+        assertNull(drive);
         profiler.stop().log();
     }
     
     @Test
-    public void listDrives()
+    public void getDrive()
     {
-        profiler.start("createDrives");
-        TestData data = new TestData();
-        data.data(conn, "list_drives_data.edn");
-        profiler.start("listDrives");
-        List<ItemData> drives = listDrives.execute(conn);
-        assertNotNull(drives);
-        assertEquals(3, drives.size());
+        profiler.start("getDrive");
+        Item drive = getDrive.execute(conn, "test");
+        assertNotNull(drive);
+        assertNotNull(drive.getId());
+        assertEquals(drive.getUniqueId(), UUID.fromString("f81d4fae-7dec-11d0-a765-00a0c91e6bf6"));
+        assertEquals(drive.getName(), "test");
+        assertEquals(drive.getDriveId(), drive.getId());
+        assertEquals(drive.getRootId(), drive.getId());
         profiler.stop().log();
     }
     

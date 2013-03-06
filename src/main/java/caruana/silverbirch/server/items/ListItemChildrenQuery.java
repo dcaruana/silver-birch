@@ -11,13 +11,13 @@ import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 
 
-public class ListItemChildren {
+public class ListItemChildrenQuery {
 
     private List query;
     
-    public ListItemChildren()
+    public ListItemChildrenQuery()
     {
-        query = (List)Data.read("/queries/list_item_children.edn").get(0);
+        query = (List)Data.read("/queries/list_item_children_q.edn").get(0);
     }
     
     public List<ItemData> execute(datomic.Connection connection, Item parent)

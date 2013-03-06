@@ -11,14 +11,14 @@ import com.google.inject.Inject;
 public class BlobsImpl
 {
     private BlobStore store;
-    private GetBlob getBlob;
+    private GetBlobQuery getBlob;
 
     @Inject public void setBlobStore(BlobStore store)
     {
         this.store = store;
     }
     
-    @Inject public void setGetBlob(GetBlob query)
+    @Inject public void setGetBlob(GetBlobQuery query)
     {
         this.getBlob = query;
     }

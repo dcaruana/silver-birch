@@ -14,7 +14,7 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Change;
 import caruana.silverbirch.Transaction.Result;
 import caruana.silverbirch.server.log.ChangeLogImpl;
-import caruana.silverbirch.server.log.GetTransactionChangeLog;
+import caruana.silverbirch.server.log.GetChangeLogQuery;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 
@@ -49,7 +49,7 @@ public class TransactionalChangeLogTest {
         testData.bootstrap(conn);
         t1 = testData.data(conn, "get_transaction_change_log_data1.edn");
         ChangeLogImpl log = new ChangeLogImpl();
-        log.setGetTransactionChangeLog(new GetTransactionChangeLog());
+        log.setGetTransactionChangeLog(new GetChangeLogQuery());
         transaction = new TransactionImpl(conn);
         transactionalLog = new TransactionalChangeLog(log, transaction);
     }

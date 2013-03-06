@@ -8,13 +8,13 @@ import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.datomic.Datomic;
 
 
-public class GetBlob {
+public class GetBlobQuery {
 
     private List query;
     
-    public GetBlob()
+    public GetBlobQuery()
     {
-        query = (List)Data.read("/queries/get_blob.edn").get(0);
+        query = (List)Data.read("/queries/get_blob_q.edn").get(0);
     }
     
     public BlobData execute(datomic.Connection connection, Object id)

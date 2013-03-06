@@ -20,14 +20,14 @@ import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 import datomic.Util;
 
-public class GetTransactionChangeLogTest {
+public class GetChangeLogQueryTest {
 
-    private static Logger logger = LoggerFactory.getLogger(GetTransactionChangeLogTest.class);
+    private static Logger logger = LoggerFactory.getLogger(GetChangeLogQueryTest.class);
 
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
-    private GetTransactionChangeLog getLog;
+    private GetChangeLogQuery getLog;
     private Result t1;
     private Result t2;
     private Result t3;
@@ -37,7 +37,7 @@ public class GetTransactionChangeLogTest {
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler("GetTransactionChangeLogTest");
+        profiler = new Profiler(GetChangeLogQueryTest.class.getName());
         profiler.setLogger(logger);
     }
     
@@ -55,7 +55,7 @@ public class GetTransactionChangeLogTest {
         t2 = data.data(conn, "get_transaction_change_log_data2.edn");
         t3 = data.data(conn, "get_transaction_change_log_data3.edn");
         t4 = data.data(conn, "get_transaction_change_log_data4.edn");
-        getLog = new GetTransactionChangeLog();
+        getLog = new GetChangeLogQuery();
     }
 
     @Test

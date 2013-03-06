@@ -10,27 +10,27 @@ import com.google.inject.Inject;
 
 public class ItemsImpl
 {
-    private GetDrive getDrive;
-    private ListDrives listDrives;
-    private ListItemChildren listItemChildren;
-    private GetProperties getProperties;
+    private GetDriveQuery getDrive;
+    private ListDrivesQuery listDrives;
+    private ListItemChildrenQuery listItemChildren;
+    private GetPropertiesQuery getProperties;
     
-    @Inject public void setGetDrive(GetDrive query)
+    @Inject public void setGetDrive(GetDriveQuery query)
     {
         this.getDrive = query;
     }
 
-    @Inject public void setListDrives(ListDrives query)
+    @Inject public void setListDrives(ListDrivesQuery query)
     {
         this.listDrives = query;
     }
 
-    @Inject public void setListItemChildren(ListItemChildren query)
+    @Inject public void setListItemChildren(ListItemChildrenQuery query)
     {
         this.listItemChildren = query;
     }
     
-    @Inject public void setGetProperties(GetProperties query)
+    @Inject public void setGetProperties(GetPropertiesQuery query)
     {
         this.getProperties = query;
     }
