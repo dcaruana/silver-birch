@@ -16,6 +16,7 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
+import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 

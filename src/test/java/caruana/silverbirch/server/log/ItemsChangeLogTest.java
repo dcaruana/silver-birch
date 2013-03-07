@@ -22,6 +22,7 @@ import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.TransactionImpl;
 import caruana.silverbirch.server.TransactionalChangeLog;
 import caruana.silverbirch.server.TransactionalItems;
+import caruana.silverbirch.server.items.CreateDriveStatement;
 import caruana.silverbirch.server.items.GetDriveQuery;
 import caruana.silverbirch.server.items.GetPropertiesQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
@@ -62,6 +63,7 @@ public class ItemsChangeLogTest {
         TestData data = new TestData();
         data.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
+        items.setCreateDrive(new CreateDriveStatement());
         items.setGetDrive(new GetDriveQuery());
         items.setListItemChildren(new ListItemChildrenQuery());
         items.setGetProperties(new GetPropertiesQuery());

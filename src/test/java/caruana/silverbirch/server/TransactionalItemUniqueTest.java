@@ -12,6 +12,7 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
+import caruana.silverbirch.server.items.CreateDriveStatement;
 import caruana.silverbirch.server.items.GetDriveQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
@@ -43,6 +44,7 @@ public class TransactionalItemUniqueTest {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
+        items.setCreateDrive(new CreateDriveStatement());
         items.setGetDrive(new GetDriveQuery());
         transaction = new TransactionImpl(conn);
         transactionalItems = new TransactionalItems(items, transaction);

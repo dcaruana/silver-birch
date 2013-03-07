@@ -5,15 +5,22 @@ import java.util.List;
 import java.util.Map;
 
 import caruana.silverbirch.Item;
+import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
 
 import com.google.inject.Inject;
 
 public class ItemsImpl
 {
+    private CreateDriveStatement createDrive;
     private GetDriveQuery getDrive;
     private ListDrivesQuery listDrives;
     private ListItemChildrenQuery listItemChildren;
     private GetPropertiesQuery getProperties;
+    
+    @Inject public void setCreateDrive(CreateDriveStatement statement)
+    {
+        this.createDrive = statement;
+    }
     
     @Inject public void setGetDrive(GetDriveQuery query)
     {
@@ -38,7 +45,7 @@ public class ItemsImpl
     
     public CreateDrive createDrive(datomic.Connection conn, String name)
     {
-        CreateDrive statement = new CreateDrive(conn, name);
+        CreateDrive statement = createDrive.statement(name);
         return statement;
     }
 

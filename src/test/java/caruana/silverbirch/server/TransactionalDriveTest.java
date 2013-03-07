@@ -18,6 +18,7 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
 import caruana.silverbirch.Transaction;
+import caruana.silverbirch.server.items.CreateDriveStatement;
 import caruana.silverbirch.server.items.GetDriveQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.items.ListDrivesQuery;
@@ -50,6 +51,7 @@ public class TransactionalDriveTest {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
+        items.setCreateDrive(new CreateDriveStatement());
         items.setGetDrive(new GetDriveQuery());
         items.setListDrives(new ListDrivesQuery());
         transaction = new TransactionImpl(conn);

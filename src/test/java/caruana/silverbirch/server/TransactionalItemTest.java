@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
+import caruana.silverbirch.server.items.CreateDriveStatement;
 import caruana.silverbirch.server.items.GetDriveQuery;
 import caruana.silverbirch.server.items.GetPropertiesQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
@@ -51,6 +52,7 @@ public class TransactionalItemTest {
         TestData testData = new TestData();
         testData.bootstrap(conn);
         ItemsImpl items = new ItemsImpl();
+        items.setCreateDrive(new CreateDriveStatement());
         items.setGetDrive(new GetDriveQuery());
         items.setListItemChildren(new ListItemChildrenQuery());
         items.setGetProperties(new GetPropertiesQuery());

@@ -12,6 +12,7 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
+import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 
 public class CreateItemTest {
@@ -21,6 +22,7 @@ public class CreateItemTest {
     private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
     private datomic.Connection conn;
+    private CreateDriveStatement createDrive;
 
     @Before
     public void initProfiler()
@@ -35,13 +37,14 @@ public class CreateItemTest {
         InMemoryRepoStore repoStore = new InMemoryRepoStore();
         repoStore.create(repo);
         conn = repoStore.connect(repo);
+        createDrive = new CreateDriveStatement();
     }
 
     @Test
     public void invalidItemName()
     {
         profiler.start("createDrive");
-        CreateDrive driveStatement = new CreateDrive(conn, "test");
+        CreateDrive driveStatement = createDrive.statement("test");
         profiler.start("createInvalidItem");
         try
         {
@@ -58,11 +61,11 @@ public class CreateItemTest {
     public void createItem()
     {
         profiler.start("createDrive");
-        CreateDrive driveStatement = new CreateDrive(conn, "test");
+        CreateDrive driveStatement = createDrive.statement("test");
         Item drive = driveStatement.getDrive();
         assertNotNull(drive);
         profiler.start("createItem");
-        CreateItem itemStatement = new CreateItem(conn, driveStatement.getDrive(), "item1");
+        CreateItem itemStatement = new CreateItem(conn, drive, "item1");
         assertNotNull(itemStatement);
         Item item = itemStatement.getItem();
         assertNotNull(item);

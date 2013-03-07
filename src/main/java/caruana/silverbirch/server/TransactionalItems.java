@@ -6,7 +6,7 @@ import java.util.Map;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.Items;
-import caruana.silverbirch.server.items.CreateDrive;
+import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
 import caruana.silverbirch.server.items.CreateItem;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.items.SetProperties;

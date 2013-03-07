@@ -12,29 +12,28 @@ import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchValidatorException;
-import caruana.silverbirch.server.repo.InMemoryRepoStore;
+import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
+import caruana.silverbirch.server.log.ChangeLogImpl;
 
-public class CreateDriveTest {
+public class CreateDriveStatementTest {
 
-    private static Logger logger = LoggerFactory.getLogger(CreateDriveTest.class);
+    private static Logger logger = LoggerFactory.getLogger(CreateDriveStatementTest.class);
 
-    private String repo = "repo_" + System.currentTimeMillis();
     private Profiler profiler;
-    private datomic.Connection conn;
+    private CreateDriveStatement createDrive;
 
     @Before
     public void initProfiler()
     {
-        profiler = new Profiler(CreateDriveTest.class.getSimpleName());
+        profiler = new Profiler(CreateDriveStatementTest.class.getSimpleName());
         profiler.setLogger(logger);
     }
     
     @Before
     public void init()
     {
-        InMemoryRepoStore repoStore = new InMemoryRepoStore();
-        repoStore.create(repo);
-        conn = repoStore.connect(repo);
+        createDrive = new CreateDriveStatement();
+        createDrive.setChangeLog(new ChangeLogImpl());
     }
 
     @Test
@@ -43,7 +42,7 @@ public class CreateDriveTest {
         profiler.start("createInvalidDrive");
         try
         {
-            new CreateDrive(conn, "/");
+            createDrive.statement("/");
             fail("Failed to catch invalid drive name");
         }
         catch(SilverBirchValidatorException e)
@@ -56,7 +55,7 @@ public class CreateDriveTest {
     public void createDrive()
     {
         profiler.start("createDrive");
-        CreateDrive statement = new CreateDrive(conn, "test");
+        CreateDrive statement = createDrive.statement("test");
         Item drive = statement.getDrive();
         assertNotNull(drive);
         assertNotNull(drive.getUniqueId());
