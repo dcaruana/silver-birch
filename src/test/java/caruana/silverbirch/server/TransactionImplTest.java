@@ -70,7 +70,7 @@ public class TransactionImplTest {
         profiler.start("hasChanges");
         assertFalse(transaction.hasChanges());
         profiler.start("addCommand");
-        transaction.addStatement(new BadCommand());
+        transaction.addStatement(new BadCommandStatement());
         profiler.start("hasChanges");
         assertTrue(transaction.hasChanges());
         profiler.start("applyChanges");
@@ -93,7 +93,7 @@ public class TransactionImplTest {
         profiler.start("hasChanges");
         assertFalse(transaction.hasChanges());
         profiler.start("addCommand");
-        transaction.addStatement(new NewCommand());
+        transaction.addStatement(new NewCommandStatement());
         profiler.start("hasChanges");
         assertTrue(transaction.hasChanges());
         profiler.start("applyChanges");
@@ -107,7 +107,7 @@ public class TransactionImplTest {
     public void resolveTempId()
     {
         profiler.start("newCommand");
-        NewCommand cmd = new NewCommand();
+        NewCommandStatement cmd = new NewCommandStatement();
         Object tempId = cmd.getId();
         transaction.addStatement(cmd);
         Transaction.Result r = transaction.applyChanges();
@@ -124,7 +124,7 @@ public class TransactionImplTest {
     public void transactionId()
     {
         profiler.start("newCommand");
-        NewCommand cmd = new NewCommand();
+        NewCommandStatement cmd = new NewCommandStatement();
         transaction.addStatement(cmd);
         Transaction.Result r = transaction.applyChanges();
         profiler.start("transactionId");
@@ -132,7 +132,7 @@ public class TransactionImplTest {
         assertNotNull(trxId1);
         assertTrue(Long.class.isInstance(trxId1));
         profiler.start("newCommand2");
-        NewCommand cmd2 = new NewCommand();
+        NewCommandStatement cmd2 = new NewCommandStatement();
         transaction.addStatement(cmd2);
         Transaction.Result r2 = transaction.applyChanges();
         profiler.start("transactionId2");
@@ -144,11 +144,11 @@ public class TransactionImplTest {
     }
     
     
-    private static class NewCommand implements Statement
+    private static class NewCommandStatement implements Statement
     {
         private Object id;
         
-        public NewCommand()
+        public NewCommandStatement()
         {
             id = Peer.tempid(Schema.DB_PARTITION_USER);
         }
@@ -172,7 +172,7 @@ public class TransactionImplTest {
         }
     }
 
-    private static class BadCommand implements Statement
+    private static class BadCommandStatement implements Statement
     {
         @Override
         public List data()

@@ -6,11 +6,11 @@ import java.util.List;
 import caruana.silverbirch.datomic.Data;
 import caruana.silverbirch.server.statement.Statement;
 
-public class EDN implements Statement
+public class EDNStatement implements Statement
 {
     private List data;
     
-    public EDN(String ednResource)
+    public EDNStatement(String ednResource)
     {
         data = (List)Data.read(ednResource).get(0);
     }

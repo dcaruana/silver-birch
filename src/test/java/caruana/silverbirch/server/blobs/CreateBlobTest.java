@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
 import caruana.silverbirch.Blob;
+import caruana.silverbirch.server.blobs.CreateBlobStatementFactory.CreateBlobStatement;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import datomic.Peer;
 
@@ -47,7 +48,8 @@ public class CreateBlobTest {
         long length = 100;
         String mimetype = "text/plain";
         Stream stream = new Stream(uuid, length);
-        CreateBlob statement = new CreateBlob(conn, stream, mimetype);
+        CreateBlobStatementFactory createBlob = new CreateBlobStatementFactory();
+        CreateBlobStatement statement = createBlob.statement(stream, mimetype);
         Blob blob = statement.getBlob();
         assertNotNull(blob);
         assertNotNull(blob.getId());

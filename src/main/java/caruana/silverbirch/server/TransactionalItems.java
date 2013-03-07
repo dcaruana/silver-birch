@@ -6,10 +6,10 @@ import java.util.Map;
 
 import caruana.silverbirch.Item;
 import caruana.silverbirch.Items;
-import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
-import caruana.silverbirch.server.items.CreateItem;
+import caruana.silverbirch.server.items.CreateDriveStatementFactory.CreateDriveStatement;
+import caruana.silverbirch.server.items.CreateItemStatementFactory.CreateItemStatement;
 import caruana.silverbirch.server.items.ItemsImpl;
-import caruana.silverbirch.server.items.SetProperties;
+import caruana.silverbirch.server.items.SetPropertiesStatementFactory.SetPropertiesStatement;
 
 public class TransactionalItems implements Items
 {
@@ -25,7 +25,7 @@ public class TransactionalItems implements Items
     @Override
     public Item createDrive(String name)
     {
-        CreateDrive statement = items.createDrive(transaction.getConnection(), name);
+        CreateDriveStatement statement = items.createDrive(transaction.getConnection(), name);
         transaction.addStatement(statement);
         return statement.getDrive();
     }
@@ -45,7 +45,7 @@ public class TransactionalItems implements Items
     @Override
     public Item createItem(Item parent, String name)
     {
-        CreateItem statement = items.createItem(transaction.getConnection(), parent, name);
+        CreateItemStatement statement = items.createItem(transaction.getConnection(), parent, name);
         transaction.addStatement(statement);
         return statement.getItem();
     }
@@ -59,7 +59,7 @@ public class TransactionalItems implements Items
     @Override
     public void setProperties(Item item, Map<String, Object> properties)
     {
-        SetProperties statement = items.setProperties(transaction.getConnection(), item, properties);
+        SetPropertiesStatement statement = items.setProperties(transaction.getConnection(), item, properties);
         transaction.addStatement(statement);
     }
 

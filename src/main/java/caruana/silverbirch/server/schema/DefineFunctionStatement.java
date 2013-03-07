@@ -28,18 +28,18 @@ import datomic.functions.Fn8;
 import datomic.functions.Fn9;
 
 
-public class DefineFunction implements Statement
+public class DefineFunctionStatement implements Statement
 {
     private String name;
     private String[] params;
     private String code;
     
-    public DefineFunction(String name, String[] params, String codeResource)
+    public DefineFunctionStatement(String name, String[] params, String codeResource)
     {
         this.name = name;
         this.params = params;
                 
-        InputStream stream = DefineFunction.class.getResourceAsStream(codeResource);
+        InputStream stream = DefineFunctionStatement.class.getResourceAsStream(codeResource);
         if (stream == null)
             throw new SilverBirchException("File not found: " + codeResource);
 

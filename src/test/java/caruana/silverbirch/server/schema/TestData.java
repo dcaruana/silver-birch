@@ -21,7 +21,7 @@ public class TestData
     {
         TransactionImpl transaction = new TransactionImpl(conn);
         
-        EDN testSchema = new EDN(DATA_EDN + datafile);
+        EDNStatement testSchema = new EDNStatement(DATA_EDN + datafile);
         transaction.addStatement(testSchema);
 
         return transaction.applyChanges();

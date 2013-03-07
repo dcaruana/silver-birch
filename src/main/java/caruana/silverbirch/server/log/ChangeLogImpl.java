@@ -65,19 +65,17 @@ public class ChangeLogImpl
     }
     
     
-    // TODO: make createEntry methods non-static - convert when statement state is sorted i.e. conn
-    
-    public static List createEntry(String statement, Object subject, List<String> attrs)
+    public List createEntry(String statement, Object subject, List<String> attrs)
     {
         return Util.list(createLog(statement, subject, attrs));
     }
 
-    public static List createEntry(String statement, Object subject, List<String> attrs, Map<String, Object> customAttrs)
+    public List createEntry(String statement, Object subject, List<String> attrs, Map<String, Object> customAttrs)
     {
         return Util.list(createLog(statement, subject, attrs), createLog(statement, subject, customAttrs));
     }
 
-    public static Map createLog(String statement, Object subject, List<String> attrs)
+    public Map createLog(String statement, Object subject, List<String> attrs)
     {
         // TODO: think about separate partition
         // allocate id for log entry
@@ -93,7 +91,7 @@ public class ChangeLogImpl
         return l;
     }
     
-    public static Map createLog(String statement, Object subject, Map<String, Object> customAttrs)
+    public Map createLog(String statement, Object subject, Map<String, Object> customAttrs)
     {
         Map l = createLog(statement, subject, new ArrayList<String>(customAttrs.keySet()));
         l.put(Schema.LOG_ATTRIBUTES_ENTITY, l.get(Schema.DB_ID));

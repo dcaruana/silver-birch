@@ -15,25 +15,25 @@ import datomic.Peer;
 import datomic.Util;
 
 
-public class CreateDriveStatement
+public class CreateDriveStatementFactory
 {
     private ChangeLogImpl changeLog;
     
-    @Inject void setChangeLog(ChangeLogImpl changeLog)
+    @Inject public void setChangeLog(ChangeLogImpl changeLog)
     {
         this.changeLog = changeLog;
     }
     
-    public CreateDrive statement(String name)
+    public CreateDriveStatement statement(String name)
     {
-        return new CreateDrive(name);
+        return new CreateDriveStatement(name);
     }
 
-    public class CreateDrive implements Statement
+    public class CreateDriveStatement implements Statement
     {
         private ItemData item;
         
-        public CreateDrive(String name)
+        public CreateDriveStatement(String name)
         {
             ItemName.validator.checkValid(name);
             UUID uuid = Peer.squuid();

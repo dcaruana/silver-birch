@@ -5,23 +5,33 @@ import java.util.List;
 import java.util.Map;
 
 import caruana.silverbirch.Item;
-import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
+import caruana.silverbirch.server.items.CreateDriveStatementFactory.CreateDriveStatement;
+import caruana.silverbirch.server.items.CreateItemStatementFactory.CreateItemStatement;
+import caruana.silverbirch.server.items.SetPropertiesStatementFactory.SetPropertiesStatement;
 
 import com.google.inject.Inject;
 
 public class ItemsImpl
 {
-    private CreateDriveStatement createDrive;
+    private CreateDriveStatementFactory createDrive;
+    private CreateItemStatementFactory createItem;
     private GetDriveQuery getDrive;
     private ListDrivesQuery listDrives;
     private ListItemChildrenQuery listItemChildren;
     private GetPropertiesQuery getProperties;
+    private SetPropertiesStatementFactory setProperties;
     
-    @Inject public void setCreateDrive(CreateDriveStatement statement)
+    
+    @Inject public void setCreateDrive(CreateDriveStatementFactory statement)
     {
         this.createDrive = statement;
     }
-    
+
+    @Inject public void setCreateItem(CreateItemStatementFactory statement)
+    {
+        this.createItem = statement;
+    }
+
     @Inject public void setGetDrive(GetDriveQuery query)
     {
         this.getDrive = query;
@@ -42,10 +52,15 @@ public class ItemsImpl
         this.getProperties = query;
     }
 
-    
-    public CreateDrive createDrive(datomic.Connection conn, String name)
+    @Inject public void setSetProperties(SetPropertiesStatementFactory statement)
     {
-        CreateDrive statement = createDrive.statement(name);
+        this.setProperties = statement;
+    }
+
+    
+    public CreateDriveStatement createDrive(datomic.Connection conn, String name)
+    {
+        CreateDriveStatement statement = createDrive.statement(name);
         return statement;
     }
 
@@ -59,9 +74,9 @@ public class ItemsImpl
         return (List)listDrives.execute(conn);
     }
 
-    public CreateItem createItem(datomic.Connection conn, Item parent, String name)
+    public CreateItemStatement createItem(datomic.Connection conn, Item parent, String name)
     {
-        CreateItem statement = new CreateItem(conn, parent, name);
+        CreateItemStatement statement = createItem.statement(parent, name);
         return statement;
     }
 
@@ -70,9 +85,9 @@ public class ItemsImpl
         return (List)listItemChildren.execute(conn, parent);
     }
 
-    public SetProperties setProperties(datomic.Connection conn, Item item, Map<String, Object> properties)
+    public SetPropertiesStatement setProperties(datomic.Connection conn, Item item, Map<String, Object> properties)
     {
-        SetProperties statement = new SetProperties(conn, item, properties);
+        SetPropertiesStatement statement = setProperties.statement(item, properties);
         return statement;
     }
     

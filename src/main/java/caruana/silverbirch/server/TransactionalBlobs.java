@@ -7,7 +7,7 @@ import java.util.UUID;
 import caruana.silverbirch.Blob;
 import caruana.silverbirch.Blobs;
 import caruana.silverbirch.server.blobs.BlobsImpl;
-import caruana.silverbirch.server.blobs.CreateBlob;
+import caruana.silverbirch.server.blobs.CreateBlobStatementFactory.CreateBlobStatement;
 
 public class TransactionalBlobs implements Blobs
 {
@@ -23,7 +23,7 @@ public class TransactionalBlobs implements Blobs
     @Override
     public Blob create(InputStream stream, String mimetype)
     {
-        CreateBlob statement = blobs.create(transaction.getConnection(), stream, mimetype);
+        CreateBlobStatement statement = blobs.create(stream, mimetype);
         transaction.addStatement(statement);
         return statement.getBlob();
     }

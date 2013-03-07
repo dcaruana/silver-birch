@@ -19,17 +19,18 @@ import caruana.silverbirch.ChangeLog;
 import caruana.silverbirch.Item;
 import caruana.silverbirch.Transaction.Result;
 import caruana.silverbirch.server.Bootstrap;
+import caruana.silverbirch.server.SilverBirchModule;
 import caruana.silverbirch.server.TransactionImpl;
 import caruana.silverbirch.server.TransactionalChangeLog;
 import caruana.silverbirch.server.TransactionalItems;
-import caruana.silverbirch.server.items.CreateDriveStatement;
-import caruana.silverbirch.server.items.GetDriveQuery;
-import caruana.silverbirch.server.items.GetPropertiesQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
-import caruana.silverbirch.server.items.ListItemChildrenQuery;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
 import caruana.silverbirch.server.schema.TestData;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import datomic.Util;
 
 
@@ -62,15 +63,11 @@ public class ItemsChangeLogTest {
         bootstrap.bootstrap(conn);
         TestData data = new TestData();
         data.bootstrap(conn);
-        ItemsImpl items = new ItemsImpl();
-        items.setCreateDrive(new CreateDriveStatement());
-        items.setGetDrive(new GetDriveQuery());
-        items.setListItemChildren(new ListItemChildrenQuery());
-        items.setGetProperties(new GetPropertiesQuery());
+        Injector injector = Guice.createInjector(new SilverBirchModule());
+        ChangeLogImpl log = injector.getInstance(ChangeLogImpl.class);
+        ItemsImpl items = injector.getInstance(ItemsImpl.class);
         transaction = new TransactionImpl(conn);
         transactionalItems = new TransactionalItems(items, transaction);
-        ChangeLogImpl log = new ChangeLogImpl();
-        log.setGetTransactionChangeLog(new GetChangeLogQuery());
         transactionalLog = new TransactionalChangeLog(log, transaction);
     }
 

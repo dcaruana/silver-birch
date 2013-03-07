@@ -42,12 +42,12 @@ public class DefineFunctionTest {
     public void defineFunction()
     {
         profiler.start("createFunction");
-        DefineFunction fn = new DefineFunction("test", new String[] {"db", "name"}, "/statements/test_fn.edn");
+        DefineFunctionStatement fn = new DefineFunctionStatement("test", new String[] {"db", "name"}, "/statements/test_fn.edn");
         transaction.addStatement(fn);
         profiler.start("applyChanges");
         transaction.applyChanges();
         profiler.start("createInvoke");
-        EDN invoke = new EDN("/statements/test_fn_invoke.edn");
+        EDNStatement invoke = new EDNStatement("/statements/test_fn_invoke.edn");
         transaction.addStatement(invoke);
         profiler.start("applyChanges");
         transaction.applyChanges();
@@ -63,7 +63,7 @@ public class DefineFunctionTest {
         try
         {
             profiler.start("createFunction");
-            DefineFunction fn = new DefineFunction("test", new String[] {"db", "name"}, "/statements/test_invalid_fn.edn");
+            DefineFunctionStatement fn = new DefineFunctionStatement("test", new String[] {"db", "name"}, "/statements/test_invalid_fn.edn");
             transaction.addStatement(fn);
             profiler.start("applyChanges");
             transaction.applyChanges();

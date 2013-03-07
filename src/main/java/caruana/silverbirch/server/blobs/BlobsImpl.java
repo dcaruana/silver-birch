@@ -5,29 +5,37 @@ import java.io.InputStream;
 import java.util.UUID;
 
 import caruana.silverbirch.Blob;
+import caruana.silverbirch.server.blobs.CreateBlobStatementFactory.CreateBlobStatement;
 
 import com.google.inject.Inject;
 
 public class BlobsImpl
 {
     private BlobStore store;
+    
+    private CreateBlobStatementFactory createBlob;
     private GetBlobQuery getBlob;
 
     @Inject public void setBlobStore(BlobStore store)
     {
         this.store = store;
     }
-    
+
+    @Inject public void setCreateBlob(CreateBlobStatementFactory statement)
+    {
+        this.createBlob = statement;
+    }
+
     @Inject public void setGetBlob(GetBlobQuery query)
     {
         this.getBlob = query;
     }
 
     
-    public CreateBlob create(datomic.Connection conn, InputStream stream, String mimetype)
+    public CreateBlobStatement create(InputStream stream, String mimetype)
     {
         Stream s = store.write(stream);
-        CreateBlob statement = new CreateBlob(conn, s, mimetype);
+        CreateBlobStatement statement = createBlob.statement(s, mimetype);
         return statement;
     }
 

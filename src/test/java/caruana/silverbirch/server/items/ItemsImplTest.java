@@ -16,7 +16,9 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Item;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
-import caruana.silverbirch.server.items.CreateDriveStatement.CreateDrive;
+import caruana.silverbirch.server.items.CreateDriveStatementFactory.CreateDriveStatement;
+import caruana.silverbirch.server.items.CreateItemStatementFactory.CreateItemStatement;
+import caruana.silverbirch.server.items.SetPropertiesStatementFactory.SetPropertiesStatement;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.TestData;
 
@@ -58,7 +60,7 @@ public class ItemsImplTest {
     @Test
     public void createDrive()
     {
-        CreateDrive statement = items.createDrive(conn, "test");
+        CreateDriveStatement statement = items.createDrive(conn, "test");
         assertNotNull(statement);
     }
 
@@ -80,10 +82,10 @@ public class ItemsImplTest {
     @Test
     public void createItem()
     {
-        CreateDrive driveStatement = items.createDrive(conn, "test");
+        CreateDriveStatement driveStatement = items.createDrive(conn, "test");
         assertNotNull(driveStatement);
-        CreateItem statement = items.createItem(conn, driveStatement.getDrive(), "test");
-        assertNotNull(statement);
+        CreateItemStatement itemStatement = items.createItem(conn, driveStatement.getDrive(), "test");
+        assertNotNull(itemStatement);
     }
     
     @Test
@@ -97,17 +99,17 @@ public class ItemsImplTest {
     @Test
     public void setProperties()
     {
-        CreateDrive createDrive = items.createDrive(conn, "test");
+        CreateDriveStatement createDrive = items.createDrive(conn, "test");
         assertNotNull(createDrive);
         Map props = Util.map(TestData.TEST_PROPERTY, "value1");
-        SetProperties setProperties = items.setProperties(conn, createDrive.getDrive(), props);
+        SetPropertiesStatement setProperties = items.setProperties(conn, createDrive.getDrive(), props);
         assertNotNull(setProperties);
     }
     
     @Test
     public void getProperties()
     {
-        CreateDrive createDrive = items.createDrive(conn, "test");
+        CreateDriveStatement createDrive = items.createDrive(conn, "test");
         assertNotNull(createDrive);
         Map<String, Object> properties = items.getProperties(conn, createDrive.getDrive());
         assertNotNull(properties);

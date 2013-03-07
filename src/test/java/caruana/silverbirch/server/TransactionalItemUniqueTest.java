@@ -10,9 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.profiler.Profiler;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import caruana.silverbirch.Item;
 import caruana.silverbirch.SilverBirchException.SilverBirchTransactionException;
-import caruana.silverbirch.server.items.CreateDriveStatement;
+import caruana.silverbirch.server.items.CreateDriveStatementFactory;
+import caruana.silverbirch.server.items.CreateItemStatementFactory;
 import caruana.silverbirch.server.items.GetDriveQuery;
 import caruana.silverbirch.server.items.ItemsImpl;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
@@ -43,9 +47,8 @@ public class TransactionalItemUniqueTest {
         conn = repoStore.connect(repo);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.bootstrap(conn);
-        ItemsImpl items = new ItemsImpl();
-        items.setCreateDrive(new CreateDriveStatement());
-        items.setGetDrive(new GetDriveQuery());
+        Injector injector = Guice.createInjector(new SilverBirchModule());
+        ItemsImpl items = injector.getInstance(ItemsImpl.class);
         transaction = new TransactionImpl(conn);
         transactionalItems = new TransactionalItems(items, transaction);
     }

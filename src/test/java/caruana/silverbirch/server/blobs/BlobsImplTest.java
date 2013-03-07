@@ -18,6 +18,7 @@ import org.slf4j.profiler.Profiler;
 import caruana.silverbirch.Blob;
 import caruana.silverbirch.server.Bootstrap;
 import caruana.silverbirch.server.SilverBirchModule;
+import caruana.silverbirch.server.blobs.CreateBlobStatementFactory.CreateBlobStatement;
 import caruana.silverbirch.server.repo.InMemoryRepoStore;
 import caruana.silverbirch.server.schema.Schema;
 
@@ -61,7 +62,7 @@ public class BlobsImplTest {
         throws IOException
     {
         byte[] streambytes = IOUtils.toByteArray(new StringReader("stream"), "UTF-8");
-        CreateBlob statement = blobs.create(conn, new ByteArrayInputStream(streambytes), "text/plain");
+        CreateBlobStatement statement = blobs.create(new ByteArrayInputStream(streambytes), "text/plain");
         assertNotNull(statement);
     }
 
