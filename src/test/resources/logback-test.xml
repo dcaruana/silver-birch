@@ -44,7 +44,7 @@
   <logger name="org.hornetq.core.client.impl" level="INFO"/>
   <logger name="org.apache.tomcat.jdbc.pool" level="INFO"/>
 
-  <logger name="org.caruana" level="DEBUG"/>
+  <logger name="caruana" level="DEBUG"/>
 
   <root level="debug">
     <appender-ref ref="MAIN"/>
