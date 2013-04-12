@@ -1,7 +1,7 @@
 silver-birch
 ============
 
-Playing with Shiny Baubles.
+Research into simple repository (hierarchical nodes and blobs).
 
 Experimenting with:
 
